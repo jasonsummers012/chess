@@ -11,19 +11,12 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessPiece {
-    private ChessGame.TeamColor color;
-    private ChessPiece.PieceType type;
+    private final ChessGame.TeamColor color;
+    private final ChessPiece.PieceType type;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.color = pieceColor;
         this.type = type;
-    }
-
-    public boolean OutOfBounds(int row, int col) {
-        if (row < 1 || row > 8 || col < 1 || col > 8) {
-            return true;
-        }
-        return false;
     }
 
 
@@ -61,27 +54,45 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        int currentRow = myPosition.getRow();
-        int currentCol = myPosition.getColumn();
         Collection<ChessMove> possibleMoves = new ArrayList<>();
-
         switch (type) {
             case KING:
-                for (int row = currentRow - 1; row <= currentRow + 1; row ++) {
-                    for (int col = currentCol - 1; col <= currentCol + 1; col ++) {
-                        if (row == currentRow && col == currentCol) {
-                            continue;
-                        } if (OutOfBounds(row, col)) {
-                            continue;
-                        }
-                        ChessPosition endPosition = new ChessPosition(row, col);
-                        ChessMove move = new ChessMove(myPosition, endPosition, null);
-                        possibleMoves.add(move);
-                    }
-                }
+                possibleMoves = getKingMoves(board, myPosition);
                 break;
         }
         return possibleMoves;
+    }
+
+    public Collection<ChessMove> getKingMoves(ChessBoard board, ChessPosition currentPosition) {
+        int currentRow = currentPosition.getRow();
+        int currentCol = currentPosition.getColumn();
+        Collection<ChessMove> possibleMoves = new ArrayList<>();
+
+        for (int row = currentRow - 1; row <= currentRow + 1; row ++) {
+            for (int col = currentCol - 1; col <= currentCol + 1; col ++) {
+                if (row == currentRow && col == currentCol) {
+                    continue;
+                } if (OutOfBounds(row, col)) {
+                    continue;
+                }
+                ChessPosition endPosition = new ChessPosition(row, col);
+                ChessPiece blockingPiece = board.getPiece(endPosition);
+                if (pieceBlocking(this, blockingPiece)) {
+                    continue;
+                }
+                ChessMove move = new ChessMove(currentPosition, endPosition, null);
+                possibleMoves.add(move);
+            }
+        }
+        return possibleMoves;
+    }
+
+    public boolean OutOfBounds(int row, int col) {
+        return row < 1 || row > 8 || col < 1 || col > 8;
+    }
+
+    boolean pieceBlocking(ChessPiece currentPiece, ChessPiece blockingPiece) {
+        return blockingPiece != null && currentPiece.getTeamColor() == blockingPiece.getTeamColor();
     }
 
     @Override
