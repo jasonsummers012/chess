@@ -63,6 +63,21 @@ public class ChessPiece {
             case ROOK:
                 possibleMoves = getRookMoves(board, myPosition);
                 break;
+
+            case BISHOP:
+                possibleMoves = getBishopMoves(board, myPosition);
+                break;
+
+            case QUEEN:
+                possibleMoves = getRookMoves(board, myPosition);
+                Collection<ChessMove> possibleMoves2 = new ArrayList<>();
+                possibleMoves2 = getBishopMoves(board, myPosition);
+                possibleMoves.addAll(possibleMoves2);
+                break;
+
+            case KNIGHT:
+                possibleMoves = getKnightMoves(board, myPosition);
+                break;
         }
         return possibleMoves;
     }
@@ -171,6 +186,157 @@ public class ChessPiece {
             }
             ChessMove move = new ChessMove(currentPosition, endPosition, null);
             possibleMoves.add(move);
+        }
+        return possibleMoves;
+    }
+
+    public Collection<ChessMove> getBishopMoves (ChessBoard board, ChessPosition currentPosition) {
+        int currentRow = currentPosition.getRow();
+        int currentCol = currentPosition.getColumn();
+        Collection<ChessMove> possibleMoves = new ArrayList<>();
+
+        for (int steps = 1; steps <= 8; steps ++) {
+            if (OutOfBounds(currentRow + steps, currentCol + steps)) {
+                break;
+            }
+            ChessPosition endPosition = new ChessPosition(currentRow + steps, currentCol + steps);
+            ChessPiece otherPiece = board.getPiece(endPosition);
+            if (pieceBlocking(this, otherPiece)) {
+                break;
+            }
+            if (pieceCaptured(this, otherPiece)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition, null);
+                possibleMoves.add(move);
+                break;
+            }
+            ChessMove move = new ChessMove(currentPosition, endPosition, null);
+            possibleMoves.add(move);
+        }
+
+        for (int steps = 1; steps <= 8; steps ++) {
+            if (OutOfBounds(currentRow + steps, currentCol - steps)) {
+                break;
+            }
+            ChessPosition endPosition = new ChessPosition(currentRow + steps, currentCol - steps);
+            ChessPiece otherPiece = board.getPiece(endPosition);
+            if (pieceBlocking(this, otherPiece)) {
+                break;
+            }
+            if (pieceCaptured(this, otherPiece)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition, null);
+                possibleMoves.add(move);
+                break;
+            }
+            ChessMove move = new ChessMove(currentPosition, endPosition, null);
+            possibleMoves.add(move);
+        }
+
+        for (int steps = 1; steps <= 8; steps ++) {
+            if (OutOfBounds(currentRow - steps, currentCol - steps)) {
+                break;
+            }
+            ChessPosition endPosition = new ChessPosition(currentRow - steps, currentCol - steps);
+            ChessPiece otherPiece = board.getPiece(endPosition);
+            if (pieceBlocking(this, otherPiece)) {
+                break;
+            }
+            if (pieceCaptured(this, otherPiece)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition, null);
+                possibleMoves.add(move);
+                break;
+            }
+            ChessMove move = new ChessMove(currentPosition, endPosition, null);
+            possibleMoves.add(move);
+        }
+
+        for (int steps = 1; steps <= 8; steps ++) {
+            if (OutOfBounds(currentRow - steps, currentCol + steps)) {
+                break;
+            }
+            ChessPosition endPosition = new ChessPosition(currentRow - steps, currentCol + steps);
+            ChessPiece otherPiece = board.getPiece(endPosition);
+            if (pieceBlocking(this, otherPiece)) {
+                break;
+            }
+            if (pieceCaptured(this, otherPiece)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition, null);
+                possibleMoves.add(move);
+                break;
+            }
+            ChessMove move = new ChessMove(currentPosition, endPosition, null);
+            possibleMoves.add(move);
+        }
+        return possibleMoves;
+    }
+
+    public Collection<ChessMove> getKnightMoves (ChessBoard board, ChessPosition currentPosition) {
+        int currentRow = currentPosition.getRow();
+        int currentCol = currentPosition.getColumn();
+        Collection<ChessMove> possibleMoves = new ArrayList<>();
+
+        ChessPosition endPosition1 = new ChessPosition(currentRow + 2, currentCol + 1);
+        if (!OutOfBounds(currentRow + 2, currentCol + 1)) {
+            ChessPiece otherPiece1 = board.getPiece(endPosition1);
+            if (!pieceBlocking(this, otherPiece1)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition1, null);
+                possibleMoves.add(move);
+            }
+        }
+        ChessPosition endPosition2 = new ChessPosition(currentRow + 1, currentCol + 2);
+        if (!OutOfBounds(currentRow + 1, currentCol + 2)) {
+            ChessPiece otherPiece2 = board.getPiece(endPosition2);
+            if (!pieceBlocking(this, otherPiece2)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition2, null);
+                possibleMoves.add(move);
+            }
+        }
+        ChessPosition endPosition3 = new ChessPosition(currentRow - 1, currentCol + 2);
+        if (!OutOfBounds(currentRow - 1, currentCol + 2)) {
+            ChessPiece otherPiece3 = board.getPiece(endPosition3);
+            if (!pieceBlocking(this, otherPiece3)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition3, null);
+                possibleMoves.add(move);
+            }
+        }
+        ChessPosition endPosition4 = new ChessPosition(currentRow - 2, currentCol + 1);
+        if (!OutOfBounds(currentRow - 2, currentCol + 1)) {
+            ChessPiece otherPiece4 = board.getPiece(endPosition4);
+            if (!pieceBlocking(this, otherPiece4)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition4, null);
+                possibleMoves.add(move);
+            }
+        }
+        ChessPosition endPosition5 = new ChessPosition(currentRow - 2, currentCol - 1);
+        if (!OutOfBounds(currentRow - 2, currentCol - 1)) {
+            ChessPiece otherPiece5 = board.getPiece(endPosition5);
+             if (!pieceBlocking(this, otherPiece5)) {
+                 ChessMove move = new ChessMove(currentPosition, endPosition5, null);
+                 possibleMoves.add(move);
+             }
+        }
+        ChessPosition endPosition6 = new ChessPosition(currentRow - 1, currentCol - 2);
+        if (!OutOfBounds(currentRow - 1, currentCol - 2)) {
+            ChessPiece otherPiece6 = board.getPiece(endPosition6);
+            if (!pieceBlocking(this, otherPiece6)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition6, null);
+                possibleMoves.add(move);
+            }
+        }
+        ChessPosition endPosition7 = new ChessPosition(currentRow + 1, currentCol - 2);
+        if (!OutOfBounds(currentRow + 1, currentCol - 2)) {
+            ChessPiece otherPiece7 = board.getPiece(endPosition7);
+            if (!pieceBlocking(this, otherPiece7)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition7, null);
+                possibleMoves.add(move);
+            }
+        }
+        ChessPosition endPosition8 = new ChessPosition(currentRow + 2, currentCol - 1);
+        if (!OutOfBounds(currentRow + 2, currentCol - 1 )) {
+            ChessPiece otherPiece8 = board.getPiece(endPosition8);
+            if (!pieceBlocking(this, otherPiece8)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition8, null);
+                possibleMoves.add(move);
+            }
         }
         return possibleMoves;
     }
