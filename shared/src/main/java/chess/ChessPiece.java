@@ -59,6 +59,10 @@ public class ChessPiece {
             case KING:
                 possibleMoves = getKingMoves(board, myPosition);
                 break;
+
+            case ROOK:
+                possibleMoves = getRookMoves(board, myPosition);
+                break;
         }
         return possibleMoves;
     }
@@ -87,12 +91,100 @@ public class ChessPiece {
         return possibleMoves;
     }
 
+    public Collection<ChessMove> getRookMoves(ChessBoard board, ChessPosition currentPosition) {
+        int currentRow = currentPosition.getRow();
+        int currentCol = currentPosition.getColumn();
+        Collection<ChessMove> possibleMoves = new ArrayList<>();
+
+        for (int row = currentRow; row <= 8; row ++) {
+            if (row == currentRow) {
+                continue;
+            } if (OutOfBounds(row, currentCol)) {
+                continue;
+            }
+            ChessPosition endPosition = new ChessPosition(row, currentCol);
+            ChessPiece otherPiece = board.getPiece(endPosition);
+            if (pieceBlocking(this, otherPiece)) {
+                break;
+            }
+            if (pieceCaptured(this, otherPiece)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition, null);
+                possibleMoves.add(move);
+                break;
+            }
+            ChessMove move = new ChessMove(currentPosition, endPosition, null);
+            possibleMoves.add(move);
+        }
+        for (int row = currentRow; row >= 1; row --) {
+            if (row == currentRow) {
+                continue;
+            } if (OutOfBounds(row, currentCol)) {
+                continue;
+            }
+            ChessPosition endPosition = new ChessPosition(row, currentCol);
+            ChessPiece otherPiece = board.getPiece(endPosition);
+            if (pieceBlocking(this, otherPiece)) {
+                break;
+            }
+            if (pieceCaptured(this, otherPiece)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition, null);
+                possibleMoves.add(move);
+                break;
+            }
+            ChessMove move = new ChessMove(currentPosition, endPosition, null);
+            possibleMoves.add(move);
+        }
+        for (int col = currentCol; col <= 8; col ++) {
+            if (col == currentCol) {
+                continue;
+            } if (OutOfBounds(currentRow, col)) {
+                continue;
+            }
+            ChessPosition endPosition = new ChessPosition(currentRow, col);
+            ChessPiece otherPiece = board.getPiece(endPosition);
+            if (pieceBlocking(this, otherPiece)) {
+                break;
+            }
+            if (pieceCaptured(this, otherPiece)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition, null);
+                possibleMoves.add(move);
+                break;
+            }
+            ChessMove move = new ChessMove(currentPosition, endPosition, null);
+            possibleMoves.add(move);
+        }
+        for (int col = currentCol; col >= 1; col --) {
+            if (col == currentCol) {
+                continue;
+            } if (OutOfBounds(currentRow, col)) {
+                continue;
+            }
+            ChessPosition endPosition = new ChessPosition(currentRow, col);
+            ChessPiece otherPiece = board.getPiece(endPosition);
+            if (pieceBlocking(this, otherPiece)) {
+                break;
+            }
+            if (pieceCaptured(this, otherPiece)) {
+                ChessMove move = new ChessMove(currentPosition, endPosition, null);
+                possibleMoves.add(move);
+                break;
+            }
+            ChessMove move = new ChessMove(currentPosition, endPosition, null);
+            possibleMoves.add(move);
+        }
+        return possibleMoves;
+    }
+
     public boolean OutOfBounds(int row, int col) {
         return row < 1 || row > 8 || col < 1 || col > 8;
     }
 
-    boolean pieceBlocking(ChessPiece currentPiece, ChessPiece blockingPiece) {
+    public boolean pieceBlocking(ChessPiece currentPiece, ChessPiece blockingPiece) {
         return blockingPiece != null && currentPiece.getTeamColor() == blockingPiece.getTeamColor();
+    }
+
+    public boolean pieceCaptured(ChessPiece currentPiece, ChessPiece capturedPiece) {
+        return capturedPiece != null && currentPiece.getTeamColor() != capturedPiece.getTeamColor();
     }
 
     @Override
