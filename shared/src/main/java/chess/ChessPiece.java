@@ -78,6 +78,10 @@ public class ChessPiece {
             case KNIGHT:
                 possibleMoves = getKnightMoves(board, myPosition);
                 break;
+
+            case PAWN:
+                possibleMoves = getPawnMoves(board, myPosition);
+                break;
         }
         return possibleMoves;
     }
@@ -336,6 +340,44 @@ public class ChessPiece {
             if (!pieceBlocking(this, otherPiece8)) {
                 ChessMove move = new ChessMove(currentPosition, endPosition8, null);
                 possibleMoves.add(move);
+            }
+        }
+        return possibleMoves;
+    }
+
+    Collection<ChessMove> getPawnMoves (ChessBoard board, ChessPosition currentPosition) {
+        int currentRow = currentPosition.getRow();
+        int currentCol = currentPosition.getColumn();
+        Collection<ChessMove> possibleMoves = new ArrayList<>();
+
+        if (color == ChessGame.TeamColor.WHITE) {
+            if (currentRow == 2) {
+                ChessPosition doubleMove = new ChessPosition(4, currentCol);
+                ChessPiece otherPiece = board.getPiece(doubleMove);
+                if (!pieceBlocking(this, otherPiece) || !pieceCaptured(this, otherPiece)) {
+                    ChessMove move = new ChessMove(currentPosition, doubleMove, null);
+                    possibleMoves.add(move);
+                }
+            }
+            if (currentRow < 7) {
+                ChessPosition endPosition = new ChessPosition(currentRow + 1, currentCol);
+                ChessPiece otherPiece = board.getPiece(endPosition);
+                if (!pieceBlocking(this, otherPiece) || !pieceCaptured(this, otherPiece)) {
+                    ChessMove move = new ChessMove(currentPosition, endPosition, null);
+                    possibleMoves.add(move);
+                }
+                ChessPosition diagonal1 = new ChessPosition(currentRow + 1, currentCol + 1);
+                ChessPosition diagonal2 = new ChessPosition(currentRow + 1, currentCol - 1);
+                ChessPiece otherPiece1 = board.getPiece(diagonal1);
+                ChessPiece otherPiece2 = board.getPiece(diagonal2);
+                if (pieceCaptured(this, otherPiece1)) {
+                    ChessMove move = new ChessMove(currentPosition, diagonal1, null);
+                    possibleMoves.add(move);
+                }
+                if (pieceCaptured(this, otherPiece2)) {
+                    ChessMove move = new ChessMove(currentPosition, diagonal2, null);
+                    possibleMoves.add(move);
+                }
             }
         }
         return possibleMoves;
