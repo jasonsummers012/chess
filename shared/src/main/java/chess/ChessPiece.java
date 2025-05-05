@@ -351,32 +351,136 @@ public class ChessPiece {
         Collection<ChessMove> possibleMoves = new ArrayList<>();
 
         if (color == ChessGame.TeamColor.WHITE) {
-            if (currentRow == 2) {
-                ChessPosition doubleMove = new ChessPosition(4, currentCol);
-                ChessPiece otherPiece = board.getPiece(doubleMove);
-                if (!pieceBlocking(this, otherPiece) || !pieceCaptured(this, otherPiece)) {
-                    ChessMove move = new ChessMove(currentPosition, doubleMove, null);
-                    possibleMoves.add(move);
-                }
-            }
-            if (currentRow < 7) {
+            if (currentRow <= 7) {
                 ChessPosition endPosition = new ChessPosition(currentRow + 1, currentCol);
                 ChessPiece otherPiece = board.getPiece(endPosition);
-                if (!pieceBlocking(this, otherPiece) || !pieceCaptured(this, otherPiece)) {
-                    ChessMove move = new ChessMove(currentPosition, endPosition, null);
-                    possibleMoves.add(move);
+                if (!pieceBlocking(this, otherPiece) && !pieceCaptured(this, otherPiece)) {
+                    if (currentRow != 7) {
+                        if (currentRow == 2) {
+                            ChessPosition doubleMove = new ChessPosition(4, currentCol);
+                            ChessPiece otherPiece2 = board.getPiece(doubleMove);
+                            if (!pieceBlocking(this, otherPiece2) && !pieceCaptured(this, otherPiece2)) {
+                                ChessMove move = new ChessMove(currentPosition, doubleMove, null);
+                                possibleMoves.add(move);
+                            }
+                        }
+                        ChessMove move = new ChessMove(currentPosition, endPosition, null);
+                        possibleMoves.add(move);
+                    } else {
+                        ChessMove moveQ = new ChessMove(currentPosition, endPosition, PieceType.QUEEN);
+                        ChessMove moveR = new ChessMove(currentPosition, endPosition, PieceType.ROOK);
+                        ChessMove moveB = new ChessMove(currentPosition, endPosition, PieceType.BISHOP);
+                        ChessMove moveN = new ChessMove(currentPosition, endPosition, PieceType.KNIGHT);
+                        possibleMoves.add(moveQ);
+                        possibleMoves.add(moveR);
+                        possibleMoves.add(moveB);
+                        possibleMoves.add(moveN);
+                    }
                 }
-                ChessPosition diagonal1 = new ChessPosition(currentRow + 1, currentCol + 1);
+                if (!OutOfBounds(currentRow + 1, currentCol + 1)) {
+                    ChessPosition diagonal1 = new ChessPosition(currentRow + 1, currentCol + 1);
+                    ChessPiece otherPiece1 = board.getPiece(diagonal1);
+                    if (pieceCaptured(this, otherPiece1)) {
+                        if (currentRow != 7) {
+                            ChessMove move = new ChessMove(currentPosition, diagonal1, null);
+                            possibleMoves.add(move);
+                        } else {
+                            ChessMove moveQ = new ChessMove(currentPosition, diagonal1, PieceType.QUEEN);
+                            ChessMove moveR = new ChessMove(currentPosition, diagonal1, PieceType.ROOK);
+                            ChessMove moveB = new ChessMove(currentPosition, diagonal1, PieceType.BISHOP);
+                            ChessMove moveN = new ChessMove(currentPosition, diagonal1, PieceType.KNIGHT);
+                            possibleMoves.add(moveQ);
+                            possibleMoves.add(moveR);
+                            possibleMoves.add(moveB);
+                            possibleMoves.add(moveN);
+                        }
+                    }
+                }
+                if (!OutOfBounds(currentRow + 1, currentCol - 1)) {
                 ChessPosition diagonal2 = new ChessPosition(currentRow + 1, currentCol - 1);
-                ChessPiece otherPiece1 = board.getPiece(diagonal1);
-                ChessPiece otherPiece2 = board.getPiece(diagonal2);
-                if (pieceCaptured(this, otherPiece1)) {
-                    ChessMove move = new ChessMove(currentPosition, diagonal1, null);
-                    possibleMoves.add(move);
+                    ChessPiece otherPiece2 = board.getPiece(diagonal2);
+                    if (pieceCaptured(this, otherPiece2)) {
+                        if (currentRow != 7){
+                            ChessMove move = new ChessMove(currentPosition, diagonal2, null);
+                            possibleMoves.add(move);
+                        } else {
+                            ChessMove moveQ = new ChessMove(currentPosition, diagonal2, PieceType.QUEEN);
+                            ChessMove moveR = new ChessMove(currentPosition, diagonal2, PieceType.ROOK);
+                            ChessMove moveB = new ChessMove(currentPosition, diagonal2, PieceType.BISHOP);
+                            ChessMove moveN = new ChessMove(currentPosition, diagonal2, PieceType.KNIGHT);
+                            possibleMoves.add(moveQ);
+                            possibleMoves.add(moveR);
+                            possibleMoves.add(moveB);
+                            possibleMoves.add(moveN);
+                        }
+                    }
                 }
-                if (pieceCaptured(this, otherPiece2)) {
-                    ChessMove move = new ChessMove(currentPosition, diagonal2, null);
-                    possibleMoves.add(move);
+            }
+        }
+        else {
+            if (currentRow >= 2) {
+                ChessPosition endPosition = new ChessPosition(currentRow - 1, currentCol);
+                ChessPiece otherPiece = board.getPiece(endPosition);
+                if (!pieceBlocking(this, otherPiece) && !pieceCaptured(this, otherPiece)) {
+                    if (currentRow != 2) {
+                        if (currentRow == 7) {
+                            ChessPosition doubleMove = new ChessPosition(5, currentCol);
+                            ChessPiece otherPiece2 = board.getPiece(doubleMove);
+                            if (!pieceBlocking(this, otherPiece2) && !pieceCaptured(this, otherPiece2)) {
+                                ChessMove move = new ChessMove(currentPosition, doubleMove, null);
+                                possibleMoves.add(move);
+                            }
+                        }
+                        ChessMove move = new ChessMove(currentPosition, endPosition, null);
+                        possibleMoves.add(move);
+                    } else {
+                        ChessMove moveQ = new ChessMove(currentPosition, endPosition, PieceType.QUEEN);
+                        ChessMove moveR = new ChessMove(currentPosition, endPosition, PieceType.ROOK);
+                        ChessMove moveB = new ChessMove(currentPosition, endPosition, PieceType.BISHOP);
+                        ChessMove moveN = new ChessMove(currentPosition, endPosition, PieceType.KNIGHT);
+                        possibleMoves.add(moveQ);
+                        possibleMoves.add(moveR);
+                        possibleMoves.add(moveB);
+                        possibleMoves.add(moveN);
+                    }
+                }
+                if (!OutOfBounds(currentRow - 1, currentCol + 1)) {
+                    ChessPosition diagonal1 = new ChessPosition(currentRow - 1, currentCol + 1);
+                    ChessPiece otherPiece1 = board.getPiece(diagonal1);
+                    if (pieceCaptured(this, otherPiece1)) {
+                        if (currentRow != 2) {
+                            ChessMove move = new ChessMove(currentPosition, diagonal1, null);
+                            possibleMoves.add(move);
+                        } else {
+                            ChessMove moveQ = new ChessMove(currentPosition, diagonal1, PieceType.QUEEN);
+                            ChessMove moveR = new ChessMove(currentPosition, diagonal1, PieceType.ROOK);
+                            ChessMove moveB = new ChessMove(currentPosition, diagonal1, PieceType.BISHOP);
+                            ChessMove moveN = new ChessMove(currentPosition, diagonal1, PieceType.KNIGHT);
+                            possibleMoves.add(moveQ);
+                            possibleMoves.add(moveR);
+                            possibleMoves.add(moveB);
+                            possibleMoves.add(moveN);
+                        }
+                    }
+                }
+                if (!OutOfBounds(currentRow - 1, currentCol - 1)) {
+                    ChessPosition diagonal2 = new ChessPosition(currentRow - 1, currentCol - 1);
+                    ChessPiece otherPiece2 = board.getPiece(diagonal2);
+                    if (pieceCaptured(this, otherPiece2)) {
+                        if (currentRow != 2){
+                            ChessMove move = new ChessMove(currentPosition, diagonal2, null);
+                            possibleMoves.add(move);
+                        } else {
+                            ChessMove moveQ = new ChessMove(currentPosition, diagonal2, PieceType.QUEEN);
+                            ChessMove moveR = new ChessMove(currentPosition, diagonal2, PieceType.ROOK);
+                            ChessMove moveB = new ChessMove(currentPosition, diagonal2, PieceType.BISHOP);
+                            ChessMove moveN = new ChessMove(currentPosition, diagonal2, PieceType.KNIGHT);
+                            possibleMoves.add(moveQ);
+                            possibleMoves.add(moveR);
+                            possibleMoves.add(moveB);
+                            possibleMoves.add(moveN);
+                        }
+                    }
                 }
             }
         }
