@@ -9,16 +9,15 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessMove {
-
     private final ChessPosition start;
     private final ChessPosition end;
-    private final ChessPiece.PieceType promotion;
+    private final ChessPiece.PieceType promote;
 
     public ChessMove(ChessPosition startPosition, ChessPosition endPosition,
                      ChessPiece.PieceType promotionPiece) {
         this.start = startPosition;
         this.end = endPosition;
-        this.promotion = promotionPiece;
+        this.promote = promotionPiece;
     }
 
     /**
@@ -42,15 +41,7 @@ public class ChessMove {
      * @return Type of piece to promote a pawn to, or null if no promotion
      */
     public ChessPiece.PieceType getPromotionPiece() {
-        return promotion;
-    }
-
-    @Override
-    public String toString() {
-        return "ChessMove{" +
-                "end=" + end +
-                ", start=" + start +
-                '}';
+        return promote;
     }
 
     @Override
@@ -58,11 +49,11 @@ public class ChessMove {
         if (!(o instanceof ChessMove chessMove)) {
             return false;
         }
-        return Objects.equals(start, chessMove.start) && Objects.equals(end, chessMove.end) && promotion == chessMove.promotion;
+        return Objects.equals(start, chessMove.start) && Objects.equals(end, chessMove.end) && promote == chessMove.promote;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(start, end, promotion);
+        return Objects.hash(start, end, promote);
     }
 }
