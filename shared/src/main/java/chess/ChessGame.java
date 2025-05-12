@@ -68,8 +68,12 @@ public class ChessGame {
         ChessPosition endPosition = move.getEndPosition();
         ChessPiece piece = board.getPiece(startPosition);
 
-        board.addPiece(endPosition, piece);
-        board.addPiece(startPosition, null);
+        if (validMoves(startPosition).contains(move)) {
+            throw new InvalidMoveException("Invalid move");
+        } else {
+            board.addPiece(endPosition, piece);
+            board.addPiece(startPosition, null);
+        }
     }
 
     /**
@@ -103,8 +107,11 @@ public class ChessGame {
      * @param teamColor which team to check for checkmate
      * @return True if the specified team is in checkmate
      */
-    public boolean isInCheckmate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+    public boolean isInCheckmate(TeamColor teamColor) throws InvalidMoveException {
+        if (!isInCheck(teamColor)) {
+            return false;
+        }
+        return noValidMoves(teamColor);
     }
 
     /**
@@ -114,8 +121,11 @@ public class ChessGame {
      * @param teamColor which team to check for stalemate
      * @return True if the specified team is in stalemate, otherwise false
      */
-    public boolean isInStalemate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+    public boolean isInStalemate(TeamColor teamColor) throws InvalidMoveException{
+        if (isInCheck(teamColor)) {
+            return false;
+        }
+        return noValidMoves(teamColor);
     }
 
     /**
@@ -136,7 +146,7 @@ public class ChessGame {
         return board;
     }
 
-    ChessPosition getKingPosition(TeamColor color) {
+    public ChessPosition getKingPosition(TeamColor color) {
         ChessPosition kingPosition = null;
         for (int row = 0; row <= 8; row ++) {
             for (int col = 0; col <= 8; col ++) {
@@ -151,7 +161,7 @@ public class ChessGame {
         return kingPosition;
     }
 
-    Collection<ChessMove> getAllMoves(TeamColor color) {
+    public Collection<ChessMove> getAllMoves(TeamColor color) {
         Collection<ChessMove> allMoves = new ArrayList<>();
         for (int row = 1; row <= 8; row ++) {
             for (int col = 1; col <= 8; col ++) {
@@ -164,5 +174,28 @@ public class ChessGame {
             }
         }
         return allMoves;
+    }
+
+    public void reverseMove(ChessMove move, ChessPiece capturedPiece) throws InvalidMoveException {
+        ChessPosition startPosition = move.getEndPosition();
+        ChessPosition endPosition = move.getStartPosition();
+        ChessMove reverse = new ChessMove(startPosition, endPosition, null);
+
+        makeMove(reverse);
+        board.addPiece(startPosition, capturedPiece);
+    }
+
+    public boolean noValidMoves(TeamColor color) throws InvalidMoveException {
+        Collection<ChessMove> allMoves = getAllMoves(color);
+        for (ChessMove move : allMoves) {
+            ChessPosition endPosition = move.getEndPosition();
+            ChessPiece capturedPiece = board.getPiece(endPosition);
+            makeMove(move);
+            if (!isInCheck(color)) {
+                return false;
+            }
+            reverseMove(move, capturedPiece);
+        }
+        return true;
     }
 }
