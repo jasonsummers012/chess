@@ -52,7 +52,7 @@ public class ChessPiece {
      *
      * @return Collection of valid moves
      */
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) throws InvalidMoveException {
         Collection<ChessMove> possibleMoves = new ArrayList<>();
         switch (type) {
             case KING:

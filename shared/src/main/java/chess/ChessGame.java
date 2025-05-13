@@ -49,7 +49,7 @@ public class ChessGame {
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
      */
-    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
+    public Collection<ChessMove> validMoves(ChessPosition startPosition) throws InvalidMoveException{
         ChessPiece piece = board.getPiece(startPosition);
         if (piece == null) {
             return null;
@@ -82,7 +82,7 @@ public class ChessGame {
      * @param teamColor which team to check for check
      * @return True if the specified team is in check
      */
-    public boolean isInCheck(TeamColor teamColor) {
+    public boolean isInCheck(TeamColor teamColor) throws InvalidMoveException {
         TeamColor color;
         if (teamColor == TeamColor.WHITE) {
             color = TeamColor.BLACK;
@@ -146,7 +146,7 @@ public class ChessGame {
         return board;
     }
 
-    public ChessPosition getKingPosition(TeamColor color) {
+    public ChessPosition getKingPosition(TeamColor color) throws InvalidMoveException{
         ChessPosition kingPosition = null;
         for (int row = 0; row <= 8; row ++) {
             for (int col = 0; col <= 8; col ++) {
@@ -161,7 +161,7 @@ public class ChessGame {
         return kingPosition;
     }
 
-    public Collection<ChessMove> getAllMoves(TeamColor color) {
+    public Collection<ChessMove> getAllMoves(TeamColor color) throws InvalidMoveException {
         Collection<ChessMove> allMoves = new ArrayList<>();
         for (int row = 1; row <= 8; row ++) {
             for (int col = 1; col <= 8; col ++) {
