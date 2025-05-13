@@ -77,6 +77,14 @@ public class ChessBoard {
         squares[6][7] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
     }
 
+    public void movePiece(ChessMove move) {
+        ChessPosition startPosition = move.getStartPosition();
+        ChessPosition endPosition = move.getEndPosition();
+        ChessPiece piece = getPiece(startPosition);
+        addPiece(endPosition, piece);
+        addPiece(startPosition, null);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof ChessBoard that)) {

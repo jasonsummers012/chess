@@ -52,10 +52,7 @@ public class ChessPiece {
      *
      * @return Collection of valid moves
      */
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) throws InvalidMoveException {
-        if (board == null || myPosition == null) {
-            throw new InvalidMoveException("Board or position is null");
-        }
+    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> possibleMoves = new ArrayList<>();
         switch (type) {
             case KING:
