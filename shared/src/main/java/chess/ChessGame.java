@@ -72,9 +72,23 @@ public class ChessGame {
         if (piece == null || !validMoves.contains(move)) {
             throw new InvalidMoveException("Invalid move");
         }
-
-        board.addPiece(endPosition, piece);
+        if (piece.getTeamColor() != getTeamTurn()) {
+            throw new InvalidMoveException("Wrong color moved");
+        }
+        ChessPiece capturedPiece = board.getPiece(endPosition);
+        ChessPiece.PieceType promote = move.getPromotionPiece();
+        if (promote == null) {
+            board.addPiece(endPosition, piece);
+        } else {
+            ChessPiece newPiece = new ChessPiece(piece.getTeamColor(), promote);
+            board.addPiece(endPosition, newPiece);
+        }
         board.addPiece(startPosition, null);
+        if (isInCheck(color)) {
+            reverseMove(move, capturedPiece);
+            throw new InvalidMoveException("Invalid move: King is in check");
+        }
+        nextTurn();
     }
 
     /**
@@ -199,5 +213,13 @@ public class ChessGame {
             reverseMove(move, capturedPiece);
         }
         return true;
+    }
+
+    public void nextTurn() {
+        if (color == TeamColor.WHITE) {
+            color = TeamColor.BLACK;
+        } else {
+            color = TeamColor.WHITE;
+        }
     }
 }
