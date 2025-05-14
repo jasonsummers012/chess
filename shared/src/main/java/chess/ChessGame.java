@@ -13,11 +13,13 @@ import java.util.Objects;
 public class ChessGame {
     private TeamColor color;
     private ChessBoard board;
+    private ChessMove mostRecentMove;
 
     public ChessGame() {
         color = TeamColor.WHITE;
         board = new ChessBoard();
         board.resetBoard();
+        mostRecentMove = null;
     }
 
     /**
@@ -102,6 +104,7 @@ public class ChessGame {
             reverseMove(move, capturedPiece);
             throw new InvalidMoveException("Invalid move: King is in check");
         }
+        mostRecentMove = move;
         nextTurn();
     }
 
@@ -264,6 +267,10 @@ public class ChessGame {
             }
         }
         return false;
+    }
+
+    public ChessMove getMostRecentMove() {
+        return mostRecentMove;
     }
 
     @Override
