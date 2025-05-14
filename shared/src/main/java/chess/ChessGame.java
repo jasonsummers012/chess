@@ -98,18 +98,13 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        TeamColor color;
-        if (teamColor == TeamColor.WHITE) {
-            color = TeamColor.BLACK;
-        } else {
-            color = TeamColor.WHITE;
-        }
-        ChessPosition kingPosition = getKingPosition(color);
-        Collection<ChessMove> allMoves = getAllMoves(color);
+        ChessPosition kingPosition = getKingPosition(teamColor);
+        TeamColor opponentColor = (teamColor == TeamColor.WHITE) ? TeamColor.BLACK : TeamColor.WHITE;
+        Collection<ChessMove> opponentMoves = getAllMoves(opponentColor);
 
-        for (ChessMove move : allMoves) {
+        for (ChessMove move : opponentMoves) {
             ChessPosition endPosition = move.getEndPosition();
-            if (endPosition == kingPosition) {
+            if (endPosition.equals(kingPosition)) {
                 return true;
             }
         }
@@ -163,17 +158,18 @@ public class ChessGame {
 
     public ChessPosition getKingPosition(TeamColor color) {
         ChessPosition kingPosition = null;
-        for (int row = 0; row <= 8; row++) {
-            for (int col = 0; col <= 8; col++) {
+        for (int row = 1; row <= 8; row++) {
+            for (int col = 1; col <= 8; col++) {
                 ChessPosition currentPosition = new ChessPosition(row, col);
                 ChessPiece currentPiece = board.getPiece(currentPosition);
-                if (currentPiece.getPieceType() == ChessPiece.PieceType.KING && currentPiece.getTeamColor() == color) {
+                if (currentPiece != null && currentPiece.getPieceType() == ChessPiece.PieceType.KING && currentPiece.getTeamColor() == color) {
                     kingPosition = currentPosition;
+                    return kingPosition;
                 }
 
             }
         }
-        return kingPosition;
+        return null;
     }
 
     public Collection<ChessMove> getAllMoves(TeamColor color) {
