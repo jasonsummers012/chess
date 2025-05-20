@@ -1,6 +1,9 @@
 package service;
 
 import dataaccess.AuthDAO;
+import dataaccess.DataAccessException;
+import handler.request.LogoutRequest;
+import handler.result.LogoutResult;
 import model.AuthData;
 import java.util.UUID;
 
@@ -15,5 +18,15 @@ public class AuthService {
         AuthData auth = new AuthData(username, authToken);
         authDAO.createAuth(auth);
         return authToken;
+    }
+
+    public LogoutResult logout(LogoutRequest request) throws DataAccessException {
+        AuthData auth = authDAO.getAuth(request.authToken());
+        if (auth == null) {
+            throw new DataAccessException("Error: auth token doesn't exist");
+        }
+
+        authDAO.deleteAuth(request.authToken());
+        return new LogoutResult();
     }
 }

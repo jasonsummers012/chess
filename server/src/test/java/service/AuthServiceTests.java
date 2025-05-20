@@ -3,9 +3,8 @@ package service;
 import dataaccess.AuthDAO;
 import dataaccess.DataAccessException;
 import dataaccess.UserDAO;
-import handler.request.LoginRequest;
-import handler.request.RegisterRequest;
-import handler.result.RegisterResult;
+import handler.request.*;
+import handler.result.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,9 +26,29 @@ public class AuthServiceTests {
 
     @Test
     public void testGenerateToken() throws DataAccessException {
-        RegisterRequest testRequest = new RegisterRequest("Jeremy", "12345", "jeremy@email.com");
-        RegisterResult testResult = userService.register(testRequest);
-        assertNotNull(testResult);
-        assertEquals(testResult.authToken(), authDAO.getAuth(testResult.authToken()).authToken());
+        RegisterRequest registerRequest = new RegisterRequest("Jeremy", "12345", "jeremy@email.com");
+        RegisterResult registerResult = userService.register(registerRequest);
+
+        assertNotNull(registerResult);
+        assertEquals(registerResult.authToken(), authDAO.getAuth(registerResult.authToken()).authToken());
+    }
+
+    @Test
+    public void testLogoutSuccessful() throws DataAccessException {
+        RegisterRequest registerRequest = new RegisterRequest("Elliot", "010101", "elliot@yahoo.com");
+        userService.register(registerRequest);
+
+        LoginRequest loginRequest = new LoginRequest("Elliot", "010101");
+        LoginResult loginResult = userService.login(loginRequest);
+        String authToken = loginResult.authToken();
+
+        assertNotNull(authDAO.getAuth(authToken));
+        assertEquals("Elliot", authDAO.getAuth(authToken).username());
+
+        LogoutRequest logoutRequest = new LogoutRequest(authToken);
+        LogoutResult logoutResult = authService.logout(logoutRequest);
+
+        assertNotNull(logoutResult);
+        assertNull(authDAO.getAuth(authToken));
     }
 }

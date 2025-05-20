@@ -38,6 +38,6 @@ public class UserService {
         }
 
         String authToken = authService.generateAuthToken(request.username());
-        return new LoginResult(request.username(), request.username());
+        return new LoginResult(request.username(), authToken);
     }
 }

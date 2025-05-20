@@ -14,4 +14,8 @@ public class AuthDAO {
     public AuthData getAuth(String authToken) {
         return data.get(authToken);
     }
+
+    public void deleteAuth(String authToken) {
+        data.remove(authToken);
+    }
 }

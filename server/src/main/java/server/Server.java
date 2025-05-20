@@ -11,12 +11,14 @@ import spark.*;
 public class Server {
     RegisterHandler registerHandler;
     LoginHandler loginHandler;
+    LogoutHandler logoutHandler;
     UserService userService;
     AuthService authService;
 
     public Server() {
         registerHandler = new RegisterHandler();
         loginHandler = new LoginHandler();
+        logoutHandler = new LogoutHandler();
         authService = new AuthService(new AuthDAO());
         userService = new UserService(new UserDAO(), authService);
     }
@@ -55,6 +57,16 @@ public class Server {
             LoginRequest request = loginHandler.generateLoginRequest(json);
             LoginResult result = userService.login(request);
             return loginHandler.processLoginResult(result);
+        } catch (DataAccessException e) {
+            return "error";
+        }
+    }
+
+    public String logout(String json) {
+        try {
+            LogoutRequest request = logoutHandler.generateLogoutRequest(json);
+            LogoutResult result = authService.logout(request);
+            return logoutHandler.processLogoutResult(result);
         } catch (DataAccessException e) {
             return "error";
         }
