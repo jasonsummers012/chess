@@ -1,5 +1,11 @@
 package server;
 
+import dataaccess.DataAccessException;
+import dataaccess.UserDAO;
+import handler.RegisterHandler;
+import handler.request.RegisterRequest;
+import handler.result.RegisterResult;
+import service.UserService;
 import spark.*;
 
 public class Server {
@@ -21,5 +27,18 @@ public class Server {
     public void stop() {
         Spark.stop();
         Spark.awaitStop();
+    }
+
+    public String register(String json) {
+        RegisterHandler handler = new RegisterHandler();
+        UserService userService = new UserService(new UserDAO());
+
+        try {
+            RegisterRequest request = handler.generateRegisterRequest(json);
+            RegisterResult result = userService.register(request);
+            return handler.processRegisterResult(result);
+        } catch (DataAccessException e) {
+            return "error";
+        }
     }
 }

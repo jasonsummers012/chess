@@ -15,7 +15,7 @@ public class RegisterHandler {
         return gson.fromJson(json, RegisterRequest.class);
     }
 
-    public RegisterResult generateRegisterResult(String json) {
-        return gson.fromJson(json, RegisterResult.class);
+    public String processRegisterResult(RegisterResult result) {
+        return gson.toJson(result);
     }
 }
