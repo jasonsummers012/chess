@@ -9,6 +9,13 @@ import service.UserService;
 import spark.*;
 
 public class Server {
+    RegisterHandler registerHandler;
+    UserService userService;
+
+    public Server() {
+        registerHandler = new RegisterHandler();
+        userService = new UserService(new UserDAO());
+    }
 
     public int run(int desiredPort) {
         Spark.port(desiredPort);
@@ -30,13 +37,10 @@ public class Server {
     }
 
     public String register(String json) {
-        RegisterHandler handler = new RegisterHandler();
-        UserService userService = new UserService(new UserDAO());
-
         try {
-            RegisterRequest request = handler.generateRegisterRequest(json);
+            RegisterRequest request = registerHandler.generateRegisterRequest(json);
             RegisterResult result = userService.register(request);
-            return handler.processRegisterResult(result);
+            return registerHandler.processRegisterResult(result);
         } catch (DataAccessException e) {
             return "error";
         }
