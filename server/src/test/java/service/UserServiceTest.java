@@ -1,5 +1,6 @@
 package service;
 
+import dataaccess.AuthDAO;
 import dataaccess.DataAccessException;
 import dataaccess.UserDAO;
 import handler.request.RegisterRequest;
@@ -11,13 +12,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UserServiceTest {
-    private UserDAO testDAO;
+    private UserDAO userDAO;
+    private AuthDAO authDAO;
     private UserService userService;
+    private AuthService authService;
 
     @BeforeEach
     public void setup() {
-        testDAO = new UserDAO();
-        userService = new UserService(testDAO);
+        userDAO = new UserDAO();
+        authDAO = new AuthDAO();
+        authService = new AuthService(authDAO);
+        userService = new UserService(userDAO, authService);
+
     }
 
     @Test

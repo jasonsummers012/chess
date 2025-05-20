@@ -1,10 +1,12 @@
 package server;
 
+import dataaccess.AuthDAO;
 import dataaccess.DataAccessException;
 import dataaccess.UserDAO;
 import handler.RegisterHandler;
 import handler.request.RegisterRequest;
 import handler.result.RegisterResult;
+import service.AuthService;
 import service.UserService;
 import spark.*;
 
@@ -14,7 +16,7 @@ public class Server {
 
     public Server() {
         registerHandler = new RegisterHandler();
-        userService = new UserService(new UserDAO());
+        userService = new UserService(new UserDAO(), new AuthService(new AuthDAO()));
     }
 
     public int run(int desiredPort) {

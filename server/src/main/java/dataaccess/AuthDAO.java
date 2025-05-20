@@ -1,9 +1,17 @@
 package dataaccess;
 
-import java.util.UUID;
+import model.AuthData;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AuthDAO {
-    public static String generateToken() {
-        return UUID.randomUUID().toString();
+    private final Map <String, AuthData> data = new HashMap<>();
+
+    public void createAuth(AuthData auth) {
+        data.put(auth.authToken(), auth);
+    }
+
+    public AuthData getAuth(String authToken) {
+        return data.get(authToken);
     }
 }

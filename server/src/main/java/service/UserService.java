@@ -1,17 +1,18 @@
 package service;
 
-import dataaccess.AuthDAO;
-import handler.request.RegisterRequest;
-import handler.result.RegisterResult;
+import handler.request.*;
+import handler.result.*;
 import dataaccess.UserDAO;
 import dataaccess.DataAccessException;
 import model.UserData;
 
 public class UserService {
     private final UserDAO userDAO;
+    private final AuthService authService;
 
-    public UserService(UserDAO userDAO) {
+    public UserService(UserDAO userDAO, AuthService authService) {
         this.userDAO = userDAO;
+        this.authService = authService;
     }
 
     public RegisterResult register(RegisterRequest request) throws DataAccessException {
@@ -22,6 +23,21 @@ public class UserService {
         UserData user = new UserData(request.username(), request.password(), request.email());
         userDAO.createUser(user);
 
-        return new RegisterResult(request.username(), AuthDAO.generateToken());
+        String authToken = authService.generateAuthToken(request.username());
+        return new RegisterResult(request.username(), authToken);
+    }
+
+    public LoginResult login(LoginRequest request) throws DataAccessException {
+        UserData user = userDAO.getUser(request.username());
+        if (user == null) {
+            throw new DataAccessException("Error: user doesn't exist");
+        }
+
+        if (!request.password().equals(user.password())) {
+            throw new DataAccessException("Error: incorrect password");
+        }
+
+        String authToken = authService.generateAuthToken(request.username());
+        return new LoginResult(request.username(), request.username());
     }
 }
