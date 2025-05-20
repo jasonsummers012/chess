@@ -1,22 +1,24 @@
 package server;
 
 import dataaccess.AuthDAO;
-import dataaccess.DataAccessException;
-import dataaccess.UserDAO;
-import handler.RegisterHandler;
-import handler.request.RegisterRequest;
-import handler.result.RegisterResult;
-import service.AuthService;
-import service.UserService;
+import dataaccess.*;
+import handler.*;
+import handler.request.*;
+import handler.result.*;
+import service.*;
 import spark.*;
 
 public class Server {
     RegisterHandler registerHandler;
+    LoginHandler loginHandler;
     UserService userService;
+    AuthService authService;
 
     public Server() {
         registerHandler = new RegisterHandler();
-        userService = new UserService(new UserDAO(), new AuthService(new AuthDAO()));
+        loginHandler = new LoginHandler();
+        authService = new AuthService(new AuthDAO());
+        userService = new UserService(new UserDAO(), authService);
     }
 
     public int run(int desiredPort) {
@@ -43,6 +45,16 @@ public class Server {
             RegisterRequest request = registerHandler.generateRegisterRequest(json);
             RegisterResult result = userService.register(request);
             return registerHandler.processRegisterResult(result);
+        } catch (DataAccessException e) {
+            return "error";
+        }
+    }
+
+    public String login(String json) {
+        try {
+            LoginRequest request = loginHandler.generateLoginRequest(json);
+            LoginResult result = userService.login(request);
+            return loginHandler.processLoginResult(result);
         } catch (DataAccessException e) {
             return "error";
         }
