@@ -24,13 +24,13 @@ public class AuthService {
         return (authToken != null && authDAO.getAuth(authToken) != null);
     }
 
-    public LogoutResult logout(LogoutRequest request) throws DataAccessException {
-        AuthData auth = authDAO.getAuth(request.authToken());
+    public LogoutResult logout(String authToken) throws DataAccessException {
+        AuthData auth = authDAO.getAuth(authToken);
         if (auth == null) {
             throw new DataAccessException("Error: auth token doesn't exist");
         }
 
-        authDAO.deleteAuth(request.authToken());
+        authDAO.deleteAuth(authToken);
         return new LogoutResult();
     }
 }

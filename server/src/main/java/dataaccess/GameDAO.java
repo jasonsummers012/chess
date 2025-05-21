@@ -1,7 +1,10 @@
 package dataaccess;
 
 import model.GameData;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GameDAO {
@@ -18,5 +21,13 @@ public class GameDAO {
             }
         }
         return null;
+    }
+
+    public List<GameData> getAllGames() {
+        List<GameData> allGames = new ArrayList<>();
+        for (GameData game : games.values()) {
+            allGames.add(game);
+        }
+        return allGames;
     }
 }

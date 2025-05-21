@@ -1,5 +1,6 @@
 package service;
 
+import dataaccess.AlreadyExistsException;
 import dataaccess.AuthDAO;
 import dataaccess.DataAccessException;
 import dataaccess.UserDAO;
@@ -45,10 +46,26 @@ public class AuthServiceTests {
         assertNotNull(authDAO.getAuth(authToken));
         assertEquals("Elliot", authDAO.getAuth(authToken).username());
 
-        LogoutRequest logoutRequest = new LogoutRequest(authToken);
-        LogoutResult logoutResult = authService.logout(logoutRequest);
+        LogoutResult logoutResult = authService.logout(authToken);
 
         assertNotNull(logoutResult);
         assertNull(authDAO.getAuth(authToken));
+    }
+
+    @Test
+    public void testLogoutFailure() throws DataAccessException {
+        RegisterRequest registerRequest = new RegisterRequest("Elliot", "010101", "elliot@yahoo.com");
+        userService.register(registerRequest);
+
+        LoginRequest loginRequest = new LoginRequest("Elliot", "010101");
+        LoginResult loginResult = userService.login(loginRequest);
+        String authToken = loginResult.authToken();
+
+        assertNotNull(authDAO.getAuth(authToken));
+        assertEquals("Elliot", authDAO.getAuth(authToken).username());
+
+        assertThrows(DataAccessException.class, () -> {
+            authService.logout("0");
+        });
     }
 }

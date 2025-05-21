@@ -5,8 +5,13 @@ import dataaccess.AlreadyExistsException;
 import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
 import handler.request.CreateGameRequest;
+import handler.request.ListGamesRequest;
 import handler.result.CreateGameResult;
+import handler.result.ListGamesResult;
 import model.GameData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameService {
     private final GameDAO gameDAO;
@@ -30,5 +35,10 @@ public class GameService {
 
         int gameID = game.gameID();
         return new CreateGameResult(gameID);
+    }
+
+    public ListGamesResult listGames(ListGamesRequest request) {
+        List<GameData> games = gameDAO.getAllGames();
+        return new ListGamesResult(games);
     }
 }

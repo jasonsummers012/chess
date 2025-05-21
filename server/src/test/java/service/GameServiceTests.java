@@ -8,6 +8,9 @@ import dataaccess.UserDAO;
 import handler.request.*;
 import handler.result.*;
 import model.GameData;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,5 +45,25 @@ public class GameServiceTests {
         assertThrows(AlreadyExistsException.class, () -> {
             gameService.createGame(repeatGameRequest);
         });
+    }
+
+    @Test
+    public void testListGames() throws DataAccessException {
+        CreateGameRequest request1 = new CreateGameRequest("Shrek");
+        gameService.createGame(request1);
+        GameData game1 = gameDAO.getGame("Shrek");
+
+        CreateGameRequest request2 = new CreateGameRequest("Donkey");
+        gameService.createGame(request2);
+        GameData game2 = gameDAO.getGame("Donkey");
+
+        List<GameData> games = new ArrayList<>();
+        games.add(game1);
+        games.add(game2);
+
+        ListGamesRequest listGamesRequest = new ListGamesRequest();
+
+        assertEquals(gameService.listGames(listGamesRequest).games(), games);
+
     }
 }
