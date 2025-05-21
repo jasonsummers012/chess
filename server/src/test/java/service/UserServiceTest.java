@@ -37,13 +37,13 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testRegisterRepeatUser() throws DataAccessException {
+    public void testRegisterRepeatUser() throws AlreadyExistsException {
         RegisterRequest testRequest = new RegisterRequest("Jeremy", "12345", "jeremy@email.com");
         userService.register(testRequest);
 
         RegisterRequest repeatRequest = new RegisterRequest("Jeremy", "12345", "jeremy@email.com");
 
-        assertThrows(DataAccessException.class, () -> {
+        assertThrows(AlreadyExistsException.class, () -> {
             userService.register(repeatRequest);
         });
     }

@@ -20,6 +20,10 @@ public class AuthService {
         return authToken;
     }
 
+    public boolean checkValidAuthToken(String authToken) {
+        return (authToken != null && authDAO.getAuth(authToken) != null);
+    }
+
     public LogoutResult logout(LogoutRequest request) throws DataAccessException {
         AuthData auth = authDAO.getAuth(request.authToken());
         if (auth == null) {
