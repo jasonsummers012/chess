@@ -2,6 +2,7 @@ package handler;
 
 import com.google.gson.Gson;
 import dataaccess.DataAccessException;
+import dataaccess.UnauthorizedException;
 import handler.request.CreateGameRequest;
 import handler.request.ListGamesRequest;
 import handler.result.CreateGameResult;
@@ -22,11 +23,9 @@ public class ListGamesHandler implements Route{
     }
 
     @Override
-    public Object handle(Request request, Response response) throws DataAccessException {
+    public Object handle(Request request, Response response) throws UnauthorizedException {
         String authToken = request.headers("authorization");
-        if (!authService.checkValidAuthToken(authToken)) {
-            throw new DataAccessException("Error: invalid auth token");
-        }
+        authService.checkValidAuthToken(authToken);
 
         ListGamesRequest listGamesRequest = generateListGamesRequest(request.body());
         ListGamesResult listGamesResult = gameService.listGames(listGamesRequest);

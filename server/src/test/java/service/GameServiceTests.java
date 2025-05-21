@@ -31,17 +31,17 @@ public class GameServiceTests {
         gameService.createGame(testRequest);
 
         assertNotNull(gameDAO.getGame("Boog"));
-        assertEquals(0, gameDAO.getGame("Boog").gameID());
+        assertEquals(1, gameDAO.getGame("Boog").gameID());
     }
 
     @Test
-    public void testCreateRepeatGame() throws AlreadyExistsException {
+    public void testCreateRepeatGame() throws AlreadyTakenException {
         CreateGameRequest testRequest = new CreateGameRequest("Boog");
         gameService.createGame(testRequest);
 
         CreateGameRequest repeatGameRequest = new CreateGameRequest("Boog");
 
-        assertThrows(AlreadyExistsException.class, () -> {
+        assertThrows(AlreadyTakenException.class, () -> {
             gameService.createGame(repeatGameRequest);
         });
     }
@@ -66,7 +66,7 @@ public class GameServiceTests {
     }
 
     @Test
-    public void testJoinGame() throws DataAccessException, AlreadyExistsException {
+    public void testJoinGame() throws DataAccessException, AlreadyTakenException {
         CreateGameRequest request1 = new CreateGameRequest("Wright");
         gameService.createGame(request1);
         GameData game1 = gameDAO.getGame("Wright");
@@ -79,7 +79,7 @@ public class GameServiceTests {
         games.add(game1);
         games.add(game2);
 
-        JoinGameRequest joinGameRequest = new JoinGameRequest("WHITE", 0);
+        JoinGameRequest joinGameRequest = new JoinGameRequest("WHITE", 1);
         AuthData data = new AuthData("Oldbag", "12");
         authDAO.createAuth(data);
         gameService.joinGame(joinGameRequest, "12");
@@ -89,7 +89,7 @@ public class GameServiceTests {
     }
 
     @Test
-    public void testJoinOccupiedGame() throws AlreadyExistsException, DataAccessException {
+    public void testJoinOccupiedGame() throws AlreadyTakenException, DataAccessException {
         CreateGameRequest request1 = new CreateGameRequest("Wright");
         gameService.createGame(request1);
         GameData game1 = gameDAO.getGame("Wright");
@@ -102,16 +102,16 @@ public class GameServiceTests {
         games.add(game1);
         games.add(game2);
 
-        JoinGameRequest joinGameRequest1 = new JoinGameRequest("WHITE", 0);
+        JoinGameRequest joinGameRequest1 = new JoinGameRequest("WHITE", 1);
         AuthData data1 = new AuthData("Oldbag", "12");
         authDAO.createAuth(data1);
         gameService.joinGame(joinGameRequest1, "12");
 
-        JoinGameRequest joinGameRequest2 = new JoinGameRequest("WHITE", 0);
+        JoinGameRequest joinGameRequest2 = new JoinGameRequest("WHITE", 1);
         AuthData data2 = new AuthData("Godot", "13");
         authDAO.createAuth(data2);
 
-        assertThrows(AlreadyExistsException.class, () ->{
+        assertThrows(AlreadyTakenException.class, () ->{
             gameService.joinGame(joinGameRequest2, "13");
         });
     }

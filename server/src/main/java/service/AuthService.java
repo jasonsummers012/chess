@@ -1,7 +1,9 @@
 package service;
 
 import dataaccess.AuthDAO;
+import dataaccess.BadRequestException;
 import dataaccess.DataAccessException;
+import dataaccess.UnauthorizedException;
 import handler.request.LogoutRequest;
 import handler.result.LogoutResult;
 import model.AuthData;
@@ -20,14 +22,21 @@ public class AuthService {
         return authToken;
     }
 
-    public boolean checkValidAuthToken(String authToken) {
-        return (authToken != null && authDAO.getAuth(authToken) != null);
+    public String checkValidAuthToken(String authToken) throws UnauthorizedException{
+        if (authToken == null || authDAO.getAuth(authToken) == null) {
+            throw new UnauthorizedException("Error: unauthorized");
+        }
+        return authDAO.getAuth(authToken).username();
     }
 
-    public LogoutResult logout(String authToken) throws DataAccessException {
+    public LogoutResult logout(String authToken) throws BadRequestException, UnauthorizedException {
+        if (authToken == null) {
+            throw new BadRequestException("Error: bad request");
+        }
+
         AuthData auth = authDAO.getAuth(authToken);
         if (auth == null) {
-            throw new DataAccessException("Error: auth token doesn't exist");
+            throw new UnauthorizedException("Error: unauthorized");
         }
 
         authDAO.deleteAuth(authToken);

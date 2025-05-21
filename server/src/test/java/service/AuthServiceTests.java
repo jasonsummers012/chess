@@ -1,9 +1,6 @@
 package service;
 
-import dataaccess.AlreadyExistsException;
-import dataaccess.AuthDAO;
-import dataaccess.DataAccessException;
-import dataaccess.UserDAO;
+import dataaccess.*;
 import handler.request.*;
 import handler.result.*;
 import model.AuthData;
@@ -54,7 +51,7 @@ public class AuthServiceTests {
     }
 
     @Test
-    public void testLogoutFailure() throws DataAccessException {
+    public void testLogoutFailure() throws UnauthorizedException {
         RegisterRequest registerRequest = new RegisterRequest("Elliot", "010101", "elliot@yahoo.com");
         userService.register(registerRequest);
 
@@ -65,7 +62,7 @@ public class AuthServiceTests {
         assertNotNull(authDAO.getAuth(authToken));
         assertEquals("Elliot", authDAO.getAuth(authToken).username());
 
-        assertThrows(DataAccessException.class, () -> {
+        assertThrows(UnauthorizedException.class, () -> {
             authService.logout("0");
         });
     }

@@ -3,6 +3,7 @@ package handler;
 import com.google.gson.Gson;
 import dataaccess.AlreadyTakenException;
 import dataaccess.DataAccessException;
+import dataaccess.UnauthorizedException;
 import handler.request.JoinGameRequest;
 import handler.request.ListGamesRequest;
 import handler.result.JoinGameResult;
@@ -23,11 +24,9 @@ public class JoinGameHandler implements Route {
     }
 
     @Override
-    public Object handle(Request request, Response response) throws DataAccessException, AlreadyTakenException {
+    public Object handle(Request request, Response response) throws UnauthorizedException, AlreadyTakenException {
         String authToken = request.headers("authorization");
-        if (!authService.checkValidAuthToken(authToken)) {
-            throw new DataAccessException("Error: invalid auth token");
-        }
+        authService.checkValidAuthToken(authToken);
 
         JoinGameRequest joinGameRequest = generateJoinGameRequest(request.body());
         JoinGameResult joinGameResult = gameService.joinGame(joinGameRequest, authToken);

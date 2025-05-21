@@ -1,9 +1,6 @@
 package service;
 
-import dataaccess.AlreadyExistsException;
-import dataaccess.AuthDAO;
-import dataaccess.DataAccessException;
-import dataaccess.UserDAO;
+import dataaccess.*;
 import handler.request.*;
 import handler.result.*;
 import model.UserData;
@@ -38,13 +35,13 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testRegisterRepeatUser() throws AlreadyExistsException {
+    public void testRegisterRepeatUser() throws AlreadyTakenException {
         RegisterRequest testRequest = new RegisterRequest("Jeremy", "12345", "jeremy@email.com");
         userService.register(testRequest);
 
         RegisterRequest repeatRequest = new RegisterRequest("Jeremy", "12345", "jeremy@email.com");
 
-        assertThrows(AlreadyExistsException.class, () -> {
+        assertThrows(AlreadyTakenException.class, () -> {
             userService.register(repeatRequest);
         });
     }
@@ -63,13 +60,13 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testLoginIncorrectPassword() throws DataAccessException {
+    public void testLoginIncorrectPassword() throws UnauthorizedException {
         RegisterRequest registerRequest = new RegisterRequest("Shaw", "12345", "Shaw@gmail.com");
         userService.register(registerRequest);
 
         LoginRequest loginRequest = new LoginRequest("Shaw", "00000");
 
-        assertThrows(DataAccessException.class, () -> {
+        assertThrows(UnauthorizedException.class, () -> {
             userService.login(loginRequest);
         });
     }

@@ -1,10 +1,7 @@
 package service;
 
 import chess.ChessGame;
-import dataaccess.AlreadyTakenException;
-import dataaccess.AuthDAO;
-import dataaccess.DataAccessException;
-import dataaccess.GameDAO;
+import dataaccess.*;
 import handler.request.CreateGameRequest;
 import handler.request.JoinGameRequest;
 import handler.request.ListGamesRequest;
@@ -23,13 +20,17 @@ public class GameService {
     public GameService(GameDAO gameDAO, AuthDAO authDAO) {
         this.gameDAO = gameDAO;
         this.authDAO = authDAO;
-        nextID = 0;
+        nextID = 1;
     }
 
-    public CreateGameResult createGame(CreateGameRequest request) throws AlreadyTakenException {
+    public CreateGameResult createGame(CreateGameRequest request) throws BadRequestException, AlreadyTakenException {
+        if (request.gameName() == null) {
+            throw new BadRequestException("Error: bad request");
+        }
+
         String gameName = request.gameName();
         if (gameDAO.getGame(gameName) != null) {
-            throw new AlreadyTakenException("Error: Game name already exists");
+            throw new AlreadyTakenException("Error: already taken");
         }
 
         ChessGame chessGame = new ChessGame();
@@ -46,18 +47,22 @@ public class GameService {
         return new ListGamesResult(games);
     }
 
-    public JoinGameResult joinGame(JoinGameRequest request, String authToken) throws AlreadyTakenException, DataAccessException{
+    public JoinGameResult joinGame(JoinGameRequest request, String authToken) throws BadRequestException, AlreadyTakenException{
+        if (request.playerColor() == null || request.gameID() == 0) {
+            throw new BadRequestException("Error: bad request");
+        }
+
         int gameID = request.gameID();
         String color = request.playerColor();
         String username = authDAO.getUsername(authToken);
 
         if (!color.equals("WHITE") && !color.equals("BLACK")) {
-            throw new DataAccessException("Error: Invalid color");
+            throw new BadRequestException("Error: bad request");
         }
 
         GameData game = gameDAO.getGameByID(gameID);
         if (gameDAO.checkColorOccupied(game, color)) {
-            throw new AlreadyTakenException("Error: color already taken");
+            throw new AlreadyTakenException("Error: already taken");
         }
 
         gameDAO.join(game, color, username);

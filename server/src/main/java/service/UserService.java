@@ -1,10 +1,8 @@
 package service;
 
-import dataaccess.AlreadyTakenException;
+import dataaccess.*;
 import handler.request.*;
 import handler.result.*;
-import dataaccess.UserDAO;
-import dataaccess.DataAccessException;
 import model.UserData;
 
 public class UserService {
@@ -16,9 +14,13 @@ public class UserService {
         this.authService = authService;
     }
 
-    public RegisterResult register(RegisterRequest request) throws AlreadyTakenException {
+    public RegisterResult register(RegisterRequest request) throws BadRequestException, AlreadyTakenException {
+        if (request.username() == null || request.password() == null || request.email() == null) {
+            throw new BadRequestException("Error: bad request");
+        }
+
         if (userDAO.getUser(request.username()) != null) {
-            throw new AlreadyTakenException("Error: username already taken");
+            throw new AlreadyTakenException("Error: already taken");
         }
 
         UserData user = new UserData(request.username(), request.password(), request.email());
@@ -28,14 +30,18 @@ public class UserService {
         return new RegisterResult(request.username(), authToken);
     }
 
-    public LoginResult login(LoginRequest request) throws DataAccessException {
+    public LoginResult login(LoginRequest request) throws BadRequestException, UnauthorizedException {
+        if (request.username() == null || request.password() == null) {
+            throw new BadRequestException("Error: bad request");
+        }
+
         UserData user = userDAO.getUser(request.username());
         if (user == null) {
-            throw new DataAccessException("Error: user doesn't exist");
+            throw new UnauthorizedException("Error: unauthorized");
         }
 
         if (!request.password().equals(user.password())) {
-            throw new DataAccessException("Error: incorrect password");
+            throw new UnauthorizedException("Error: unauthorized");
         }
 
         String authToken = authService.generateAuthToken(request.username());
