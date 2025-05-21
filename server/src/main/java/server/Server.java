@@ -16,11 +16,11 @@ public class Server {
     AuthService authService;
 
     public Server() {
-        registerHandler = new RegisterHandler();
-        loginHandler = new LoginHandler();
-        logoutHandler = new LogoutHandler();
         authService = new AuthService(new AuthDAO());
         userService = new UserService(new UserDAO(), authService);
+        registerHandler = new RegisterHandler(userService);
+        loginHandler = new LoginHandler(userService);
+        logoutHandler = new LogoutHandler(authService);
     }
 
     public int run(int desiredPort) {
@@ -28,7 +28,9 @@ public class Server {
 
         Spark.staticFiles.location("web");
 
-        // Register your endpoints and handle exceptions here.
+        Spark.post("/user", registerHandler);
+        Spark.post("/session", loginHandler);
+        Spark.delete("/session", logoutHandler);
 
         //This line initializes the server and can be removed once you have a functioning endpoint 
         Spark.init();
@@ -40,35 +42,5 @@ public class Server {
     public void stop() {
         Spark.stop();
         Spark.awaitStop();
-    }
-
-    public String register(String json) {
-        try {
-            RegisterRequest request = registerHandler.generateRegisterRequest(json);
-            RegisterResult result = userService.register(request);
-            return registerHandler.processRegisterResult(result);
-        } catch (AlreadyExistsException e) {
-            return "error";
-        }
-    }
-
-    public String login(String json) {
-        try {
-            LoginRequest request = loginHandler.generateLoginRequest(json);
-            LoginResult result = userService.login(request);
-            return loginHandler.processLoginResult(result);
-        } catch (DataAccessException e) {
-            return "error";
-        }
-    }
-
-    public String logout(String json) {
-        try {
-            LogoutRequest request = logoutHandler.generateLogoutRequest(json);
-            LogoutResult result = authService.logout(request);
-            return logoutHandler.processLogoutResult(result);
-        } catch (DataAccessException e) {
-            return "error";
-        }
     }
 }
