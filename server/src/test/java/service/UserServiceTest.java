@@ -26,7 +26,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testRegisterNewUser() throws DataAccessException {
+    public void testRegisterNewUser() {
         RegisterRequest testRequest = new RegisterRequest("Jeremy", "12345", "jeremy@emila.com");
         RegisterResult testResult = userService.register(testRequest);
 

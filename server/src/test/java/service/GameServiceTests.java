@@ -66,7 +66,7 @@ public class GameServiceTests {
     }
 
     @Test
-    public void testJoinGame() throws DataAccessException, AlreadyTakenException {
+    public void testJoinGame() throws AlreadyTakenException {
         CreateGameRequest request1 = new CreateGameRequest("Wright");
         gameService.createGame(request1);
         GameData game1 = gameDAO.getGame("Wright");
