@@ -47,7 +47,8 @@ public class GameService {
         return new ListGamesResult(games);
     }
 
-    public JoinGameResult joinGame(JoinGameRequest request, String authToken) throws BadRequestException, AlreadyTakenException, UnauthorizedException{
+    public JoinGameResult joinGame(JoinGameRequest request, String authToken)
+            throws BadRequestException, AlreadyTakenException, UnauthorizedException {
         if (request.playerColor() == null || request.gameID() == 0) {
             throw new BadRequestException("Error: bad request");
         }
