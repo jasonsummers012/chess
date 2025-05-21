@@ -23,11 +23,38 @@ public class GameDAO {
         return null;
     }
 
+    public GameData getGameByID(int gameID) {
+        for (GameData game : games.values()) {
+            if (game.gameID() == gameID) {
+                return game;
+            }
+        }
+        return null;
+    }
+
     public List<GameData> getAllGames() {
         List<GameData> allGames = new ArrayList<>();
-        for (GameData game : games.values()) {
-            allGames.add(game);
-        }
+        allGames.addAll(games.values());
         return allGames;
+    }
+
+    public boolean checkColorOccupied(GameData game, String color) {
+        if (color.equals("WHITE")) {
+            return games.get(game.gameID()).whiteUsername() != null;
+        } else {
+            return games.get(game.gameID()).blackUsername() != null;
+        }
+    }
+
+    public GameData join(GameData game, String color, String username) {
+        GameData newGameData;
+        if (color.equals("WHITE")) {
+            newGameData = new GameData(game.gameID(), username, game.blackUsername(), game.gameName(), game.game());
+            games.put(game.gameID(), newGameData);
+        } else {
+            newGameData = new GameData(game.gameID(), game.whiteUsername(), username, game.gameName(), game.game());
+            games.put(game.gameID(), newGameData);
+        }
+        return newGameData;
     }
 }

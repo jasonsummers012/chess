@@ -2,11 +2,14 @@ package service;
 
 import chess.ChessGame;
 import dataaccess.AlreadyExistsException;
+import dataaccess.AuthDAO;
 import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
 import handler.request.CreateGameRequest;
+import handler.request.JoinGameRequest;
 import handler.request.ListGamesRequest;
 import handler.result.CreateGameResult;
+import handler.result.JoinGameResult;
 import handler.result.ListGamesResult;
 import model.GameData;
 
@@ -15,10 +18,12 @@ import java.util.List;
 
 public class GameService {
     private final GameDAO gameDAO;
+    private final AuthDAO authDAO;
     private int nextID;
 
-    public GameService(GameDAO gameDAO) {
+    public GameService(GameDAO gameDAO, AuthDAO authDAO) {
         this.gameDAO = gameDAO;
+        this.authDAO = authDAO;
         nextID = 0;
     }
 
@@ -40,5 +45,23 @@ public class GameService {
     public ListGamesResult listGames(ListGamesRequest request) {
         List<GameData> games = gameDAO.getAllGames();
         return new ListGamesResult(games);
+    }
+
+    public JoinGameResult joinGame(JoinGameRequest request, String authToken) throws AlreadyExistsException, DataAccessException{
+        int gameID = request.gameID();
+        String color = request.playerColor();
+        String username = authDAO.getUsername(authToken);
+
+        if (!color.equals("WHITE") && !color.equals("BLACK")) {
+            throw new DataAccessException("Error: Invalid color");
+        }
+
+        GameData game = gameDAO.getGameByID(gameID);
+        if (gameDAO.checkColorOccupied(game, color)) {
+            throw new AlreadyExistsException("Error: color already taken");
+        }
+
+        gameDAO.join(game, color, username);
+        return new JoinGameResult();
     }
 }

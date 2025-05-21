@@ -18,4 +18,8 @@ public class AuthDAO {
     public void deleteAuth(String authToken) {
         data.remove(authToken);
     }
+
+    public String getUsername(String authToken) {
+        return data.get(authToken).username();
+    }
 }
