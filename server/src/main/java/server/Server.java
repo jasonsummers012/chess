@@ -47,7 +47,7 @@ public class Server {
             RegisterRequest request = registerHandler.generateRegisterRequest(json);
             RegisterResult result = userService.register(request);
             return registerHandler.processRegisterResult(result);
-        } catch (DataAccessException e) {
+        } catch (AlreadyExistsException e) {
             return "error";
         }
     }

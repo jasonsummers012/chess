@@ -1,5 +1,6 @@
 package service;
 
+import dataaccess.AlreadyExistsException;
 import dataaccess.AuthDAO;
 import dataaccess.DataAccessException;
 import dataaccess.UserDAO;
