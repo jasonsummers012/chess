@@ -24,7 +24,7 @@ public class AuthServiceTests {
     }
 
     @Test
-    public void testGenerateToken() throws DataAccessException {
+    public void testGenerateToken() {
         RegisterRequest registerRequest = new RegisterRequest("Jeremy", "12345", "jeremy@email.com");
         RegisterResult registerResult = userService.register(registerRequest);
 
@@ -33,7 +33,27 @@ public class AuthServiceTests {
     }
 
     @Test
-    public void testLogoutSuccessful() throws DataAccessException {
+    public void testValidateToken() {
+        RegisterRequest registerRequest = new RegisterRequest("Lebron", "bball", "lebron@gmail.com");
+        RegisterResult registerResult = userService.register(registerRequest);
+        String authToken = registerResult.authToken();
+
+        assertNotNull(authDAO.getAuth(authToken));
+        assertEquals("Lebron", authService.checkValidAuthToken(authToken));
+    }
+
+    @Test
+    public void testInvalidAuthToken() throws UnauthorizedException {
+        RegisterRequest registerRequest = new RegisterRequest("Lebron", "bball", "lebron@gmail.com");
+        RegisterResult registerResult = userService.register(registerRequest);
+
+        assertThrows(UnauthorizedException.class, () -> {
+            authService.checkValidAuthToken("random");
+        });
+    }
+
+    @Test
+    public void testLogoutSuccessful() {
         RegisterRequest registerRequest = new RegisterRequest("Elliot", "010101", "elliot@yahoo.com");
         userService.register(registerRequest);
 

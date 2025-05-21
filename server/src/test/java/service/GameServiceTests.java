@@ -47,7 +47,7 @@ public class GameServiceTests {
     }
 
     @Test
-    public void testListGames() throws DataAccessException {
+    public void testListGames() {
         CreateGameRequest request1 = new CreateGameRequest("Shrek");
         gameService.createGame(request1);
         GameData game1 = gameDAO.getGame("Shrek");
@@ -63,6 +63,12 @@ public class GameServiceTests {
         ListGamesRequest listGamesRequest = new ListGamesRequest();
 
         assertEquals(gameService.listGames(listGamesRequest).games(), games);
+    }
+
+    @Test
+    public void testReturnEmptyGameList() {
+        ListGamesRequest listGamesRequest = new ListGamesRequest();
+        assertTrue(gameService.listGames(listGamesRequest).games().isEmpty());
     }
 
     @Test
@@ -92,15 +98,9 @@ public class GameServiceTests {
     public void testJoinOccupiedGame() throws AlreadyTakenException, DataAccessException {
         CreateGameRequest request1 = new CreateGameRequest("Wright");
         gameService.createGame(request1);
-        GameData game1 = gameDAO.getGame("Wright");
 
         CreateGameRequest request2 = new CreateGameRequest("Edgeworth");
         gameService.createGame(request2);
-        GameData game2 = gameDAO.getGame("Edgeworth");
-
-        List<GameData> games = new ArrayList<>();
-        games.add(game1);
-        games.add(game2);
 
         JoinGameRequest joinGameRequest1 = new JoinGameRequest(ChessGame.TeamColor.WHITE, 1);
         AuthData data1 = new AuthData("Oldbag", "12");
