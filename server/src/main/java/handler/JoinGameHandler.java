@@ -1,7 +1,7 @@
 package handler;
 
 import com.google.gson.Gson;
-import dataaccess.AlreadyExistsException;
+import dataaccess.AlreadyTakenException;
 import dataaccess.DataAccessException;
 import handler.request.JoinGameRequest;
 import handler.request.ListGamesRequest;
@@ -23,7 +23,7 @@ public class JoinGameHandler implements Route {
     }
 
     @Override
-    public Object handle(Request request, Response response) throws DataAccessException, AlreadyExistsException {
+    public Object handle(Request request, Response response) throws DataAccessException, AlreadyTakenException {
         String authToken = request.headers("authorization");
         if (!authService.checkValidAuthToken(authToken)) {
             throw new DataAccessException("Error: invalid auth token");

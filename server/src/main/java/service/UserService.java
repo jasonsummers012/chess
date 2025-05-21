@@ -1,6 +1,6 @@
 package service;
 
-import dataaccess.AlreadyExistsException;
+import dataaccess.AlreadyTakenException;
 import handler.request.*;
 import handler.result.*;
 import dataaccess.UserDAO;
@@ -16,9 +16,9 @@ public class UserService {
         this.authService = authService;
     }
 
-    public RegisterResult register(RegisterRequest request) throws AlreadyExistsException {
+    public RegisterResult register(RegisterRequest request) throws AlreadyTakenException {
         if (userDAO.getUser(request.username()) != null) {
-            throw new AlreadyExistsException("Error: username already taken");
+            throw new AlreadyTakenException("Error: username already taken");
         }
 
         UserData user = new UserData(request.username(), request.password(), request.email());

@@ -1,7 +1,7 @@
 package service;
 
 import chess.ChessGame;
-import dataaccess.AlreadyExistsException;
+import dataaccess.AlreadyTakenException;
 import dataaccess.AuthDAO;
 import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
@@ -13,7 +13,6 @@ import handler.result.JoinGameResult;
 import handler.result.ListGamesResult;
 import model.GameData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameService {
@@ -27,10 +26,10 @@ public class GameService {
         nextID = 0;
     }
 
-    public CreateGameResult createGame(CreateGameRequest request) throws AlreadyExistsException {
+    public CreateGameResult createGame(CreateGameRequest request) throws AlreadyTakenException {
         String gameName = request.gameName();
         if (gameDAO.getGame(gameName) != null) {
-            throw new AlreadyExistsException("Error: Game name already exists");
+            throw new AlreadyTakenException("Error: Game name already exists");
         }
 
         ChessGame chessGame = new ChessGame();
@@ -47,7 +46,7 @@ public class GameService {
         return new ListGamesResult(games);
     }
 
-    public JoinGameResult joinGame(JoinGameRequest request, String authToken) throws AlreadyExistsException, DataAccessException{
+    public JoinGameResult joinGame(JoinGameRequest request, String authToken) throws AlreadyTakenException, DataAccessException{
         int gameID = request.gameID();
         String color = request.playerColor();
         String username = authDAO.getUsername(authToken);
@@ -58,7 +57,7 @@ public class GameService {
 
         GameData game = gameDAO.getGameByID(gameID);
         if (gameDAO.checkColorOccupied(game, color)) {
-            throw new AlreadyExistsException("Error: color already taken");
+            throw new AlreadyTakenException("Error: color already taken");
         }
 
         gameDAO.join(game, color, username);

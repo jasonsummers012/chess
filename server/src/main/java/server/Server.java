@@ -3,10 +3,10 @@ package server;
 import dataaccess.AuthDAO;
 import dataaccess.*;
 import handler.*;
-import handler.request.*;
-import handler.result.*;
 import service.*;
 import spark.*;
+
+import static spark.Spark.exception;
 
 public class Server {
     RegisterHandler registerHandler;
@@ -31,6 +31,30 @@ public class Server {
         listGamesHandler = new ListGamesHandler(gameService, authService);
         joinGameHandler = new JoinGameHandler(gameService, authService);
         clearHandler = new ClearHandler(userService, gameService, authService);
+
+        exception(BadRequestException.class, (exception, request, response) -> {
+            response.status(400);
+            response.type("application/json");
+            response.body("{\"message\":\"Error: bad request\"}");
+        });
+
+        exception(UnauthorizedException.class, (exception, request, response) -> {
+            response.status(401);
+            response.type("application/json");
+            response.body("{\"message\":\"Error: unauthorized\"}");
+        });
+
+        exception(AlreadyTakenException.class, (exception, request, response) -> {
+            response.status(403);
+            response.type("application/json");
+            response.body("{\"message\":\"Error: already taken\"}");
+        });
+
+        exception(DataAccessException.class, (exception, request, response) -> {
+            response.status(500);
+            response.type("application/json");
+            response.body("{\"message\":\"Error: \"}");
+        });
     }
 
     public int run(int desiredPort) {
