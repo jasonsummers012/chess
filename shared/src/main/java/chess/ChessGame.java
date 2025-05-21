@@ -13,13 +13,11 @@ import java.util.Objects;
 public class ChessGame {
     private TeamColor color;
     private ChessBoard board;
-    private ChessMove mostRecentMove;
 
     public ChessGame() {
         color = TeamColor.WHITE;
         board = new ChessBoard();
         board.resetBoard();
-        mostRecentMove = null;
     }
 
     /**
@@ -64,7 +62,7 @@ public class ChessGame {
             ChessPosition endPosition = move.getEndPosition();
             ChessPiece capturedPiece = board.getPiece(endPosition);
             board.movePiece(move);
-            boolean inCheck = isInCheckAfterMove(piece.getTeamColor());
+            boolean inCheck = isInCheck(piece.getTeamColor());
             reverseMove(move, capturedPiece);
             if (!inCheck) {
                 validMoves.add(move);
@@ -104,7 +102,6 @@ public class ChessGame {
             reverseMove(move, capturedPiece);
             throw new InvalidMoveException("Invalid move: King is in check");
         }
-        mostRecentMove = move;
         nextTurn();
     }
 
@@ -124,13 +121,12 @@ public class ChessGame {
             for (int col = 1; col <= 8; col ++) {
                 ChessPosition position = new ChessPosition(row, col);
                 ChessPiece piece = board.getPiece(position);
-                if (piece != null && piece.getTeamColor() == opponentColor) {
-                    Collection<ChessMove> moves = piece.pieceMoves(board, position);
-                    for (ChessMove move : moves) {
-                        ChessPosition endPosition = move.getEndPosition();
-                        if (endPosition.equals(kingPosition)) {
-                            return true;
-                        }
+                if (piece == null || piece.getTeamColor() != opponentColor) {
+                    continue;
+                }
+                for (ChessMove move : piece.pieceMoves(board, position)) {
+                    if (move.getEndPosition().equals(kingPosition)) {
+                        return true;
                     }
                 }
             }
@@ -244,33 +240,6 @@ public class ChessGame {
         } else {
             color = TeamColor.WHITE;
         }
-    }
-
-    private boolean isInCheckAfterMove(TeamColor color) {
-        ChessPosition kingPosition = getKingPosition(color);
-        if (kingPosition == null) {
-            return false;
-        }
-        TeamColor opponentColor = (color == TeamColor.WHITE) ? TeamColor.BLACK : TeamColor.WHITE;
-        for (int row = 1; row <= 8; row ++) {
-            for (int col = 1; col <= 8; col ++) {
-                ChessPosition position = new ChessPosition(row, col);
-                ChessPiece piece = board.getPiece(position);
-                if (piece != null && piece.getTeamColor() == opponentColor) {
-                    Collection<ChessMove> moves = piece.pieceMoves(board, position);
-                    for (ChessMove move : moves) {
-                        if (move.getEndPosition().equals(kingPosition)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    public ChessMove getMostRecentMove() {
-        return mostRecentMove;
     }
 
     @Override

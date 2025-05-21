@@ -17,14 +17,10 @@ public class LogoutHandler implements Route {
     }
 
     @Override
-    public Object handle(Request request, Response response) throws DataAccessException {
+    public Object handle(Request request, Response response) {
         String authToken = request.headers("authorization");
         LogoutResult logoutResult = authService.logout(authToken);
         return processLogoutResult(logoutResult);
-    }
-
-    public LogoutRequest generateLogoutRequest(String json) {
-        return gson.fromJson(json, LogoutRequest.class);
     }
 
     public String processLogoutResult(LogoutResult result) {
