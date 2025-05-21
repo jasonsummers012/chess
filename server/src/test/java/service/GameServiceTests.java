@@ -79,7 +79,7 @@ public class GameServiceTests {
         games.add(game1);
         games.add(game2);
 
-        JoinGameRequest joinGameRequest = new JoinGameRequest("WHITE", 1);
+        JoinGameRequest joinGameRequest = new JoinGameRequest(ChessGame.TeamColor.WHITE, 1);
         AuthData data = new AuthData("Oldbag", "12");
         authDAO.createAuth(data);
         gameService.joinGame(joinGameRequest, "12");
@@ -102,12 +102,12 @@ public class GameServiceTests {
         games.add(game1);
         games.add(game2);
 
-        JoinGameRequest joinGameRequest1 = new JoinGameRequest("WHITE", 1);
+        JoinGameRequest joinGameRequest1 = new JoinGameRequest(ChessGame.TeamColor.WHITE, 1);
         AuthData data1 = new AuthData("Oldbag", "12");
         authDAO.createAuth(data1);
         gameService.joinGame(joinGameRequest1, "12");
 
-        JoinGameRequest joinGameRequest2 = new JoinGameRequest("WHITE", 1);
+        JoinGameRequest joinGameRequest2 = new JoinGameRequest(ChessGame.TeamColor.WHITE, 1);
         AuthData data2 = new AuthData("Godot", "13");
         authDAO.createAuth(data2);
 

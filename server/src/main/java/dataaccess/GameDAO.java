@@ -1,5 +1,6 @@
 package dataaccess;
 
+import chess.ChessGame;
 import model.GameData;
 
 import java.util.ArrayList;
@@ -38,17 +39,17 @@ public class GameDAO {
         return allGames;
     }
 
-    public boolean checkColorOccupied(GameData game, String color) {
-        if (color.equals("WHITE")) {
+    public boolean checkColorOccupied(GameData game, ChessGame.TeamColor color) {
+        if (color == ChessGame.TeamColor.WHITE) {
             return games.get(game.gameID()).whiteUsername() != null;
         } else {
             return games.get(game.gameID()).blackUsername() != null;
         }
     }
 
-    public GameData join(GameData game, String color, String username) {
+    public GameData join(GameData game, ChessGame.TeamColor color, String username) {
         GameData newGameData;
-        if (color.equals("WHITE")) {
+        if (color == ChessGame.TeamColor.WHITE) {
             newGameData = new GameData(game.gameID(), username, game.blackUsername(), game.gameName(), game.game());
             games.put(game.gameID(), newGameData);
         } else {

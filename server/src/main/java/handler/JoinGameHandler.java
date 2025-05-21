@@ -24,7 +24,7 @@ public class JoinGameHandler implements Route {
     }
 
     @Override
-    public Object handle(Request request, Response response) throws UnauthorizedException, AlreadyTakenException {
+    public Object handle(Request request, Response response) throws UnauthorizedException, AlreadyTakenException, DataAccessException {
         String authToken = request.headers("authorization");
         authService.checkValidAuthToken(authToken);
 

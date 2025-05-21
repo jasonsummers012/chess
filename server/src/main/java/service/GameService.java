@@ -47,20 +47,29 @@ public class GameService {
         return new ListGamesResult(games);
     }
 
-    public JoinGameResult joinGame(JoinGameRequest request, String authToken) throws BadRequestException, AlreadyTakenException{
+    public JoinGameResult joinGame(JoinGameRequest request, String authToken) throws BadRequestException, AlreadyTakenException, UnauthorizedException{
         if (request.playerColor() == null || request.gameID() == 0) {
             throw new BadRequestException("Error: bad request");
         }
 
         int gameID = request.gameID();
-        String color = request.playerColor();
-        String username = authDAO.getUsername(authToken);
-
-        if (!color.equals("WHITE") && !color.equals("BLACK")) {
-            throw new BadRequestException("Error: bad request");
+        ChessGame.TeamColor color = request.playerColor();
+        String username;
+        try {
+            username = authDAO.getUsername(authToken);
+        } catch (DataAccessException e) {
+            throw new UnauthorizedException("Error: unauthorized");
         }
 
         GameData game = gameDAO.getGameByID(gameID);
+        if (game == null) {
+            throw new BadRequestException("Error: bad request");
+        }
+
+        if (color != ChessGame.TeamColor.WHITE && color != ChessGame.TeamColor.BLACK) {
+            throw new BadRequestException("Error: bad request");
+        }
+
         if (gameDAO.checkColorOccupied(game, color)) {
             throw new AlreadyTakenException("Error: already taken");
         }

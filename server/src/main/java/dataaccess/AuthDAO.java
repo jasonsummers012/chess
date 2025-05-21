@@ -19,8 +19,12 @@ public class AuthDAO {
         data.remove(authToken);
     }
 
-    public String getUsername(String authToken) {
-        return data.get(authToken).username();
+    public String getUsername(String authToken) throws DataAccessException {
+        AuthData authData = data.get(authToken);
+        if (authData == null) {
+            throw new DataAccessException("Error: invalid auth token");
+        }
+        return authData.username();
     }
 
     public void clear() {

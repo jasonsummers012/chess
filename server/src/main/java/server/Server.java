@@ -19,11 +19,17 @@ public class Server {
     UserService userService;
     AuthService authService;
     GameService gameService;
+    AuthDAO authDAO;
+    UserDAO userDAO;
+    GameDAO gameDAO;
 
     public Server() {
-        authService = new AuthService(new AuthDAO());
-        userService = new UserService(new UserDAO(), authService);
-        gameService = new GameService(new GameDAO(), new AuthDAO());
+        authDAO = new AuthDAO();
+        userDAO = new UserDAO();
+        gameDAO = new GameDAO();
+        authService = new AuthService(authDAO);
+        userService = new UserService(userDAO, authService);
+        gameService = new GameService(gameDAO, authDAO);
         registerHandler = new RegisterHandler(userService);
         loginHandler = new LoginHandler(userService);
         logoutHandler = new LogoutHandler(authService);
