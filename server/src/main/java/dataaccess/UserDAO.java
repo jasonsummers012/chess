@@ -14,4 +14,8 @@ public class UserDAO {
     public void createUser(UserData user) {
         users.put(user.username(), user);
     }
+
+    public void clear() {
+        users.clear();
+    }
 }

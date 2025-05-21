@@ -1,5 +1,6 @@
 package service;
 
+import chess.ChessGame;
 import dataaccess.*;
 import handler.request.*;
 import model.AuthData;
@@ -113,5 +114,15 @@ public class GameServiceTests {
         assertThrows(AlreadyExistsException.class, () ->{
             gameService.joinGame(joinGameRequest2, "13");
         });
+    }
+
+    @Test
+    public void testClear() {
+        ChessGame chessGame = new ChessGame();
+        GameData game = new GameData(123, "Wario", "Waluigi", "Smash Bros", chessGame);
+        gameDAO.createGame(game);
+        gameService.clear();
+
+        assertNull(gameDAO.getGame("Smash Bros"));
     }
 }

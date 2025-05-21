@@ -64,4 +64,8 @@ public class GameService {
         gameDAO.join(game, color, username);
         return new JoinGameResult();
     }
+
+    public void clear() {
+        gameDAO.clear();
+    }
 }

@@ -33,4 +33,8 @@ public class AuthService {
         authDAO.deleteAuth(authToken);
         return new LogoutResult();
     }
+
+    public void clear() {
+        authDAO.clear();
+    }
 }

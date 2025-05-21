@@ -6,6 +6,7 @@ import dataaccess.DataAccessException;
 import dataaccess.UserDAO;
 import handler.request.*;
 import handler.result.*;
+import model.AuthData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -67,5 +68,14 @@ public class AuthServiceTests {
         assertThrows(DataAccessException.class, () -> {
             authService.logout("0");
         });
+    }
+
+    @Test
+    public void testClear() {
+        AuthData data = new AuthData("Mario", "2");
+        authDAO.createAuth(data);
+        authService.clear();
+
+        assertNull(authDAO.getAuth("2"));
     }
 }

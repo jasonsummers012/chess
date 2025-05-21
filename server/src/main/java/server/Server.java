@@ -15,6 +15,7 @@ public class Server {
     CreateGameHandler createGameHandler;
     ListGamesHandler listGamesHandler;
     JoinGameHandler joinGameHandler;
+    ClearHandler clearHandler;
     UserService userService;
     AuthService authService;
     GameService gameService;
@@ -29,6 +30,7 @@ public class Server {
         createGameHandler = new CreateGameHandler(gameService, authService);
         listGamesHandler = new ListGamesHandler(gameService, authService);
         joinGameHandler = new JoinGameHandler(gameService, authService);
+        clearHandler = new ClearHandler(userService, gameService, authService);
     }
 
     public int run(int desiredPort) {
@@ -42,6 +44,7 @@ public class Server {
         Spark.post("/game", createGameHandler);
         Spark.get("/game", listGamesHandler);
         Spark.put("/game", joinGameHandler);
+        Spark.delete("/db", clearHandler);
 
         //This line initializes the server and can be removed once you have a functioning endpoint 
         Spark.init();

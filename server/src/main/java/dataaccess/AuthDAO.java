@@ -22,4 +22,8 @@ public class AuthDAO {
     public String getUsername(String authToken) {
         return data.get(authToken).username();
     }
+
+    public void clear() {
+        data.clear();
+    }
 }

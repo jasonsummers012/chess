@@ -57,4 +57,8 @@ public class GameDAO {
         }
         return newGameData;
     }
+
+    public void clear() {
+        games.clear();
+    }
 }

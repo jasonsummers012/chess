@@ -6,6 +6,7 @@ import dataaccess.DataAccessException;
 import dataaccess.UserDAO;
 import handler.request.*;
 import handler.result.*;
+import model.UserData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -71,5 +72,14 @@ public class UserServiceTest {
         assertThrows(DataAccessException.class, () -> {
             userService.login(loginRequest);
         });
+    }
+
+    @Test
+    public void testClear() {
+        UserData user = new UserData("Buttered Beans", "pass123", "beans@hotmail.com");
+        userDAO.createUser(user);
+        userService.clear();
+
+        assertNull(userDAO.getUser("Buttered Beans"));
     }
 }
