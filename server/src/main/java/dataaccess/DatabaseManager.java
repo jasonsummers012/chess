@@ -29,6 +29,49 @@ public class DatabaseManager {
         }
     }
 
+    static public void createAuthTable() throws DataAccessException {
+        var statement = "CREATE TABLE IF NOT EXISTS AuthTable (" +
+                "authToken VARCHAR(255) NOT NULL," +
+                "username VARCHAR(255) NOT NULL," +
+                "PRIMARY KEY (authToken))";
+        try (var conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
+             var preparedStatement = conn.prepareStatement(statement)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataAccessException("failed to create table", ex);
+        }
+    }
+
+    static public void createUserTable() throws DataAccessException {
+        var statement = "CREATE TABLE IF NOT EXISTS UserTable (" +
+                "username VARCHAR(255) NOT NULL," +
+                "password VARCHAR(255) NOT NULL," +
+                "email VARCHAR(255) NOT NULL" +
+                "PRIMARY KEY (username))";
+        try (var conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
+             var preparedStatement = conn.prepareStatement(statement)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataAccessException("failed to create table", ex);
+        }
+    }
+
+    static public void createGameTable() throws DataAccessException {
+        var statement = "CREATE TABLE IF NOT EXISTS GameTable (" +
+                "gameID INT NOT NULL," +
+                "whiteUsername VARCHAR(255)," +
+                "blackUsername VARCHAR(255)," +
+                "gameName VARCHAR(255) NOT NULL)" +
+                "chessGame VARCHAR(20000)" +
+                "PRIMARY KEY (username))";
+        try (var conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
+             var preparedStatement = conn.prepareStatement(statement)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DataAccessException("failed to create table", ex);
+        }
+    }
+
     /**
      * Create a connection to the database and sets the catalog based upon the
      * properties specified in db.properties. Connections to the database should

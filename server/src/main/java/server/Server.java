@@ -1,10 +1,11 @@
 package server;
 
-import dataaccess.AuthDAO;
 import dataaccess.*;
 import handler.*;
 import service.*;
 import spark.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 import static spark.Spark.exception;
 
