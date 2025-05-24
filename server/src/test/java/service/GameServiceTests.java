@@ -20,8 +20,8 @@ public class GameServiceTests {
 
     @BeforeEach
     public void setup() {
-        gameDAO = new GameDAO();
-        authDAO = new AuthDAO();
+        gameDAO = new MemoryGameDAO();
+        authDAO = new MemoryAuthDAO();
         gameService = new GameService(gameDAO, authDAO);
     }
 

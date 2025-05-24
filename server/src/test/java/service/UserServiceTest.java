@@ -18,8 +18,8 @@ public class UserServiceTest {
 
     @BeforeEach
     public void setup() {
-        userDAO = new UserDAO();
-        authDAO = new AuthDAO();
+        userDAO = new MemoryUserDAO();
+        authDAO = new MemoryAuthDAO();
         authService = new AuthService(authDAO);
         userService = new UserService(userDAO, authService);
 
