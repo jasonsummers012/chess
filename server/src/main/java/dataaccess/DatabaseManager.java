@@ -16,6 +16,22 @@ public class DatabaseManager {
         loadPropertiesFromResources();
     }
 
+    public static String getDbName() {
+        return databaseName;
+    }
+
+    public static String getDbUsername() {
+        return dbUsername;
+    }
+
+    public static String getDbPassword() {
+        return dbPassword;
+    }
+
+    public static String getConnectionUrl() {
+        return connectionUrl;
+    }
+
     /**
      * Creates the database if it does not already exist.
      */
@@ -43,7 +59,8 @@ public class DatabaseManager {
     }
 
     static public void createUserTable() throws DataAccessException {
-        var statement = "CREATE TABLE IF NOT EXISTS UserTable (" +
+        var statement = "USE " + databaseName +
+                "CREATE TABLE IF NOT EXISTS UserTable (" +
                 "username VARCHAR(255) NOT NULL," +
                 "password VARCHAR(255) NOT NULL," +
                 "email VARCHAR(255) NOT NULL" +
@@ -57,7 +74,8 @@ public class DatabaseManager {
     }
 
     static public void createGameTable() throws DataAccessException {
-        var statement = "CREATE TABLE IF NOT EXISTS GameTable (" +
+        var statement = "USE " + databaseName +
+                "CREATE TABLE IF NOT EXISTS GameTable (" +
                 "gameID INT NOT NULL," +
                 "whiteUsername VARCHAR(255)," +
                 "blackUsername VARCHAR(255)," +
