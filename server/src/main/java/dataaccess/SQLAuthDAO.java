@@ -20,12 +20,8 @@ public class SQLAuthDAO implements AuthDAO {
 
     @Override
     public void createAuth(AuthData auth) throws DataAccessException {
-         var statement = "INSERT INTO AuthTable (authToken, username) VALUES (?, ?)";
-        try (var conn = DriverManager.getConnection(
-                DatabaseManager.getConnectionUrl(),
-                DatabaseManager.getDbUsername(),
-                DatabaseManager.getDbPassword());
-             var preparedStatement = conn.prepareStatement(statement)) {
+         var statement = "INSERT INTO authTable (authToken, username) VALUES (?, ?)";
+        try (var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.setString(1, auth.authToken());
             preparedStatement.setString(2, auth.username());
@@ -39,11 +35,7 @@ public class SQLAuthDAO implements AuthDAO {
     @Override
     public AuthData getAuth(String authToken) throws DataAccessException {
         var statement = "SELECT authToken, username FROM authTable WHERE authToken = ?";
-        try (var conn = DriverManager.getConnection(
-                DatabaseManager.getConnectionUrl(),
-                DatabaseManager.getDbUsername(),
-                DatabaseManager.getDbPassword());
-             var preparedStatement = conn.prepareStatement(statement)) {
+        try (var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.setString(1, authToken);
 
@@ -65,11 +57,7 @@ public class SQLAuthDAO implements AuthDAO {
     @Override
     public void deleteAuth(String authToken) throws DataAccessException {
         var statement = "DELETE FROM authTable WHERE authToken = ?";
-        try (var conn = DriverManager.getConnection(
-                DatabaseManager.getConnectionUrl(),
-                DatabaseManager.getDbUsername(),
-                DatabaseManager.getDbPassword());
-             var preparedStatement = conn.prepareStatement(statement)) {
+        try (var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.setString(1, authToken);
             preparedStatement.executeUpdate();
@@ -81,12 +69,8 @@ public class SQLAuthDAO implements AuthDAO {
 
     @Override
     public String getUsername(String authToken) throws DataAccessException {
-        var statement = "SELECT authToken, username FROM authTable WHERE authToken = ?";
-        try (var conn = DriverManager.getConnection(
-                DatabaseManager.getConnectionUrl(),
-                DatabaseManager.getDbUsername(),
-                DatabaseManager.getDbPassword());
-             var preparedStatement = conn.prepareStatement(statement)) {
+        var statement = "SELECT username FROM authTable WHERE authToken = ?";
+        try (var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.setString(1, authToken);
 
@@ -105,17 +89,13 @@ public class SQLAuthDAO implements AuthDAO {
 
     @Override
     public void clear() throws DataAccessException {
-        var statement = "DROP TABLE AuthTable";
-        try (var conn = DriverManager.getConnection(
-                DatabaseManager.getConnectionUrl(),
-                DatabaseManager.getDbUsername(),
-                DatabaseManager.getDbPassword());
-             var preparedStatement = conn.prepareStatement(statement)) {
+        var statement = "DROP TABLE authTable";
+        try (var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new DataAccessException("failed to delete auth data", ex);
+            throw new DataAccessException("failed to clear auth data", ex);
         }
     }
 }

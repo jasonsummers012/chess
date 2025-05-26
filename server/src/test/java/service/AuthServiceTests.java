@@ -24,7 +24,7 @@ public class AuthServiceTests {
     }
 
     @Test
-    public void testGenerateToken() {
+    public void testGenerateToken() throws DataAccessException {
         RegisterRequest registerRequest = new RegisterRequest("Jeremy", "12345", "jeremy@email.com");
         RegisterResult registerResult = userService.register(registerRequest);
 
@@ -33,7 +33,7 @@ public class AuthServiceTests {
     }
 
     @Test
-    public void testValidateToken() {
+    public void testValidateToken() throws DataAccessException {
         RegisterRequest registerRequest = new RegisterRequest("Lebron", "bball", "lebron@gmail.com");
         RegisterResult registerResult = userService.register(registerRequest);
         String authToken = registerResult.authToken();
@@ -43,7 +43,7 @@ public class AuthServiceTests {
     }
 
     @Test
-    public void testInvalidAuthToken() throws UnauthorizedException {
+    public void testInvalidAuthToken() throws UnauthorizedException, DataAccessException {
         RegisterRequest registerRequest = new RegisterRequest("Lebron", "bball", "lebron@gmail.com");
         RegisterResult registerResult = userService.register(registerRequest);
 
@@ -53,7 +53,7 @@ public class AuthServiceTests {
     }
 
     @Test
-    public void testLogoutSuccessful() {
+    public void testLogoutSuccessful() throws DataAccessException {
         RegisterRequest registerRequest = new RegisterRequest("Elliot", "010101", "elliot@yahoo.com");
         userService.register(registerRequest);
 
@@ -71,7 +71,7 @@ public class AuthServiceTests {
     }
 
     @Test
-    public void testLogoutFailure() throws UnauthorizedException {
+    public void testLogoutFailure() throws UnauthorizedException, DataAccessException {
         RegisterRequest registerRequest = new RegisterRequest("Elliot", "010101", "elliot@yahoo.com");
         userService.register(registerRequest);
 
@@ -88,7 +88,7 @@ public class AuthServiceTests {
     }
 
     @Test
-    public void testClear() {
+    public void testClear() throws DataAccessException {
         AuthData data = new AuthData("Mario", "2");
         authDAO.createAuth(data);
         authService.clear();

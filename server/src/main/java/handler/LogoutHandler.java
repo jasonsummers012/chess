@@ -17,7 +17,7 @@ public class LogoutHandler implements Route {
     }
 
     @Override
-    public Object handle(Request request, Response response) {
+    public Object handle(Request request, Response response) throws DataAccessException {
         String authToken = request.headers("authorization");
         LogoutResult logoutResult = authService.logout(authToken);
         return processLogoutResult(logoutResult);

@@ -21,7 +21,7 @@ public class CreateGameHandler implements Route {
     }
 
     @Override
-    public Object handle(Request request, Response response) throws UnauthorizedException {
+    public Object handle(Request request, Response response) throws UnauthorizedException, DataAccessException {
         String authToken = request.headers("authorization");
         authService.checkValidAuthToken(authToken);
 

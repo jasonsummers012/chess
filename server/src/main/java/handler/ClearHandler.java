@@ -1,5 +1,6 @@
 package handler;
 
+import dataaccess.DataAccessException;
 import service.*;
 import spark.*;
 
@@ -15,7 +16,7 @@ public class ClearHandler implements Route {
     }
 
     @Override
-    public Object handle(Request request, Response response) {
+    public Object handle(Request request, Response response) throws DataAccessException {
         userService.clear();
         gameService.clear();
         authService.clear();

@@ -26,7 +26,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testRegisterNewUser() {
+    public void testRegisterNewUser() throws DataAccessException {
         RegisterRequest testRequest = new RegisterRequest("Jeremy", "12345", "jeremy@emila.com");
         RegisterResult testResult = userService.register(testRequest);
 
@@ -35,7 +35,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testRegisterRepeatUser() throws AlreadyTakenException {
+    public void testRegisterRepeatUser() throws AlreadyTakenException, DataAccessException {
         RegisterRequest testRequest = new RegisterRequest("Jeremy", "12345", "jeremy@email.com");
         userService.register(testRequest);
 
@@ -60,7 +60,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testLoginIncorrectPassword() throws UnauthorizedException {
+    public void testLoginIncorrectPassword() throws UnauthorizedException, DataAccessException {
         RegisterRequest registerRequest = new RegisterRequest("Shaw", "12345", "Shaw@gmail.com");
         userService.register(registerRequest);
 

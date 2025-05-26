@@ -14,7 +14,7 @@ public class UserService {
         this.authService = authService;
     }
 
-    public RegisterResult register(RegisterRequest request) throws BadRequestException, AlreadyTakenException {
+    public RegisterResult register(RegisterRequest request) throws BadRequestException, AlreadyTakenException, DataAccessException {
         if (request.username() == null || request.password() == null || request.email() == null) {
             throw new BadRequestException("Error: bad request");
         }
@@ -30,7 +30,7 @@ public class UserService {
         return new RegisterResult(request.username(), authToken);
     }
 
-    public LoginResult login(LoginRequest request) throws BadRequestException, UnauthorizedException {
+    public LoginResult login(LoginRequest request) throws BadRequestException, UnauthorizedException, DataAccessException {
         if (request.username() == null || request.password() == null) {
             throw new BadRequestException("Error: bad request");
         }

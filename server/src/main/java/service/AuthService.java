@@ -15,21 +15,21 @@ public class AuthService {
     public AuthService(AuthDAO authDAO) {
         this.authDAO = authDAO;
     }
-    public String generateAuthToken(String username) {
+    public String generateAuthToken(String username) throws DataAccessException {
         String authToken = UUID.randomUUID().toString();
         AuthData auth = new AuthData(username, authToken);
         authDAO.createAuth(auth);
         return authToken;
     }
 
-    public String checkValidAuthToken(String authToken) throws UnauthorizedException{
+    public String checkValidAuthToken(String authToken) throws UnauthorizedException, DataAccessException {
         if (authToken == null || authDAO.getAuth(authToken) == null) {
             throw new UnauthorizedException("Error: unauthorized");
         }
         return authDAO.getAuth(authToken).username();
     }
 
-    public LogoutResult logout(String authToken) throws BadRequestException, UnauthorizedException {
+    public LogoutResult logout(String authToken) throws BadRequestException, UnauthorizedException, DataAccessException {
         if (authToken == null) {
             throw new BadRequestException("Error: bad request");
         }
@@ -43,7 +43,7 @@ public class AuthService {
         return new LogoutResult();
     }
 
-    public void clear() {
+    public void clear() throws DataAccessException{
         authDAO.clear();
     }
 }

@@ -32,6 +32,18 @@ public class DatabaseManager {
         return connectionUrl;
     }
 
+    public static void setDbUsername(String username) {
+        dbUsername = username;
+    }
+
+    public static void setDbPassword(String password) {
+        dbPassword = password;
+    }
+
+    public static void setConnectionUrl(String url) {
+        connectionUrl = url;
+    }
+
     /**
      * Creates the database if it does not already exist.
      */
