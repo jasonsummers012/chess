@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import static dataaccess.DatabaseManager.createAuthTable;
+import static dataaccess.DatabaseManager.createDatabase;
 
 public class SQLAuthDAO implements AuthDAO {
     private final Connection conn;
@@ -13,6 +14,7 @@ public class SQLAuthDAO implements AuthDAO {
     public SQLAuthDAO(Connection conn) {
         this.conn = conn;
         try {
+            createDatabase();
             createAuthTable();
         } catch (DataAccessException e) {
             throw new RuntimeException("Failed to create auth table", e);

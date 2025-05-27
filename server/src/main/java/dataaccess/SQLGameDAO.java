@@ -9,8 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dataaccess.DatabaseManager.createAuthTable;
-import static dataaccess.DatabaseManager.createGameTable;
+import static dataaccess.DatabaseManager.*;
 
 public class SQLGameDAO implements GameDAO {
     private final Connection conn;
@@ -20,7 +19,8 @@ public class SQLGameDAO implements GameDAO {
         this.conn = conn;
         this.gson = new Gson();
         try {
-            createAuthTable();
+            createDatabase();
+            createGameTable();
         } catch (DataAccessException e) {
             throw new RuntimeException("Failed to create game table", e);
         }

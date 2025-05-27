@@ -32,24 +32,12 @@ public class DatabaseManager {
         return connectionUrl;
     }
 
-    public static void setDbUsername(String username) {
-        dbUsername = username;
-    }
-
-    public static void setDbPassword(String password) {
-        dbPassword = password;
-    }
-
-    public static void setConnectionUrl(String url) {
-        connectionUrl = url;
-    }
-
     /**
      * Creates the database if it does not already exist.
      */
     static public void createDatabase() throws DataAccessException {
         var statement = "CREATE DATABASE IF NOT EXISTS " + databaseName;
-        try (var conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
+        try (var conn = getConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
@@ -62,7 +50,7 @@ public class DatabaseManager {
                 "authToken VARCHAR(255) NOT NULL," +
                 "username VARCHAR(255) NOT NULL," +
                 "PRIMARY KEY (authToken))";
-        try (var conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
+        try (var conn = getConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
@@ -71,13 +59,12 @@ public class DatabaseManager {
     }
 
     static public void createUserTable() throws DataAccessException {
-        var statement = "USE " + databaseName +
-                "CREATE TABLE IF NOT EXISTS UserTable (" +
+        var statement = "CREATE TABLE IF NOT EXISTS UserTable (" +
                 "username VARCHAR(255) NOT NULL," +
                 "password VARCHAR(255) NOT NULL," +
-                "email VARCHAR(255) NOT NULL" +
+                "email VARCHAR(255) NOT NULL," +
                 "PRIMARY KEY (username))";
-        try (var conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
+        try (var conn = getConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
@@ -86,15 +73,14 @@ public class DatabaseManager {
     }
 
     static public void createGameTable() throws DataAccessException {
-        var statement = "USE " + databaseName +
-                "CREATE TABLE IF NOT EXISTS GameTable (" +
+        var statement = "CREATE TABLE IF NOT EXISTS GameTable (" +
                 "gameID INT NOT NULL," +
                 "whiteUsername VARCHAR(255)," +
                 "blackUsername VARCHAR(255)," +
-                "gameName VARCHAR(255) NOT NULL)" +
-                "chessGame VARCHAR(20000)" +
-                "PRIMARY KEY (username))";
-        try (var conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
+                "gameName VARCHAR(255) NOT NULL," +
+                "chessGame VARCHAR(12000)," +
+                "PRIMARY KEY (gameName))";
+        try (var conn = getConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
