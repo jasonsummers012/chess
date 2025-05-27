@@ -23,11 +23,11 @@ public class SQLAuthDAO implements AuthDAO {
 
     @Override
     public void createAuth(AuthData auth) throws DataAccessException {
-         var statement = "INSERT INTO authTable (authToken, username) VALUES (?, ?)";
+         var statement = "INSERT INTO authTable (username, authToken) VALUES (?, ?)";
         try (var preparedStatement = conn.prepareStatement(statement)) {
 
-            preparedStatement.setString(1, auth.authToken());
-            preparedStatement.setString(2, auth.username());
+            preparedStatement.setString(1, auth.username());
+            preparedStatement.setString(2, auth.authToken());
             preparedStatement.executeUpdate();
 
         } catch (SQLException ex) {
@@ -37,16 +37,16 @@ public class SQLAuthDAO implements AuthDAO {
 
     @Override
     public AuthData getAuth(String authToken) throws DataAccessException {
-        var statement = "SELECT authToken, username FROM authTable WHERE authToken = ?";
+        var statement = "SELECT username, authToken FROM authTable WHERE authToken = ?";
         try (var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.setString(1, authToken);
 
             try (var resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    String token = resultSet.getString("authToken");
                     String username = resultSet.getString("username");
-                    return new AuthData(token, username);
+                    String token = resultSet.getString("authToken");
+                    return new AuthData(username, token);
                 } else {
                     return null;
                 }

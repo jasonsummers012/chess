@@ -1,4 +1,3 @@
-/*
 package SQLDAO;
 
 import dataaccess.DataAccessException;
@@ -18,16 +17,27 @@ public class SQLAuthDAOTests {
     private Connection conn;
     private SQLAuthDAO authDAO;
 
-    @BeforeAll
+    @BeforeEach
     void setup() throws SQLException, DataAccessException {
-        conn = DriverManager.getConnection();
+        conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/testdb",
+                "root",
+                "SAirplane12#"
+        );
+
+        try (var statement = conn.createStatement()) {
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS authTable (" +
+                    "username VARCHAR(255) NOT NULL," +
+                    "authToken VARCHAR(255) PRIMARY KEY)"
+            );
+        }
         authDAO = new SQLAuthDAO(conn);
     }
 
     @AfterEach
     void clearTable() throws SQLException {
         try (var statement = conn.createStatement()) {
-            statement.executeUpdate("DELETE FROM auth");
+            statement.executeUpdate("DELETE FROM authTable");
         }
     }
 
@@ -49,4 +59,3 @@ public class SQLAuthDAOTests {
         assertEquals("123", current.authToken());
     }
 }
-*/

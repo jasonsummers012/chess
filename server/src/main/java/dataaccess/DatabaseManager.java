@@ -47,8 +47,8 @@ public class DatabaseManager {
 
     static public void createAuthTable() throws DataAccessException {
         var statement = "CREATE TABLE IF NOT EXISTS AuthTable (" +
-                "authToken VARCHAR(255) NOT NULL," +
                 "username VARCHAR(255) NOT NULL," +
+                "authToken VARCHAR(255) NOT NULL," +
                 "PRIMARY KEY (authToken))";
         try (var conn = getConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
