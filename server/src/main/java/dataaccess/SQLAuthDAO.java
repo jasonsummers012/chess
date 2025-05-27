@@ -48,7 +48,7 @@ public class SQLAuthDAO implements AuthDAO {
                     String token = resultSet.getString("authToken");
                     return new AuthData(username, token);
                 } else {
-                    return null;
+                    throw new DataAccessException("auth token doesn't exist");
                 }
             }
 
@@ -59,6 +59,8 @@ public class SQLAuthDAO implements AuthDAO {
 
     @Override
     public void deleteAuth(String authToken) throws DataAccessException {
+        getAuth(authToken);
+
         var statement = "DELETE FROM authTable WHERE authToken = ?";
         try (var preparedStatement = conn.prepareStatement(statement)) {
 
@@ -72,6 +74,8 @@ public class SQLAuthDAO implements AuthDAO {
 
     @Override
     public String getUsername(String authToken) throws DataAccessException {
+        getAuth(authToken);
+
         var statement = "SELECT username FROM authTable WHERE authToken = ?";
         try (var preparedStatement = conn.prepareStatement(statement)) {
 
