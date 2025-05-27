@@ -18,7 +18,7 @@ public class SQLAuthDAOTests {
     private SQLAuthDAO authDAO;
 
     @BeforeEach
-    void setup() throws SQLException, DataAccessException {
+    void setup() throws SQLException {
         conn = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/testdb",
                 "root",

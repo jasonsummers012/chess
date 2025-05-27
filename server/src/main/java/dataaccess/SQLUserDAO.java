@@ -35,7 +35,7 @@ public class SQLUserDAO implements UserDAO {
                     String email = resultSet.getString("email");
                     return new UserData(name, password, email);
                 } else {
-                    return null;
+                    throw new DataAccessException("user doesn't exist");
                 }
             }
         } catch (SQLException ex) {
