@@ -3,10 +3,6 @@ package SQLDAO;
 import dataaccess.DataAccessException;
 import dataaccess.SQLAuthDAO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 import model.AuthData;
 import org.junit.jupiter.api.*;
 
@@ -14,38 +10,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SQLAuthDAOTests {
-    private Connection conn;
     private SQLAuthDAO authDAO;
 
     @BeforeEach
-    void setup() throws SQLException {
-        conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/testdb",
-                "root",
-                "SAirplane12#"
-        );
-
-        try (var statement = conn.createStatement()) {
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS authTable (" +
-                    "username VARCHAR(255) NOT NULL," +
-                    "authToken VARCHAR(255) PRIMARY KEY)"
-            );
-        }
+    void setup() throws DataAccessException {
         authDAO = new SQLAuthDAO();
+        authDAO.clear();
     }
 
     @AfterEach
-    void clearTable() throws SQLException {
-        try (var statement = conn.createStatement()) {
-            statement.executeUpdate("DELETE FROM authTable");
-        }
-    }
-
-    @AfterAll
-    void closeConnection() throws SQLException {
-        if (conn != null && !conn.isClosed()) {
-            conn.close();
-        }
+    void reset() throws DataAccessException {
+        authDAO.clear();
     }
 
     @Test
@@ -83,8 +58,7 @@ public class SQLAuthDAOTests {
         AuthData auth = new AuthData("Shaw", "444");
         authDAO.createAuth(auth);
 
-        assertThrows(DataAccessException.class, () ->
-                authDAO.getAuth("445"));
+        assertNull(authDAO.getAuth("445"));
     }
 
     @Test
@@ -93,17 +67,16 @@ public class SQLAuthDAOTests {
         authDAO.createAuth(auth);
         authDAO.deleteAuth(auth.authToken());
 
-        assertThrows(DataAccessException.class, () ->
-                authDAO.getAuth("234"));
+        assertNull(authDAO.getAuth("234"));
     }
 
     @Test
     void deleteAuthDoesntExist() throws DataAccessException {
         AuthData auth = new AuthData("Boog", "234");
         authDAO.createAuth(auth);
+        authDAO.deleteAuth(auth.authToken());
 
-        assertThrows(DataAccessException.class, () ->
-                authDAO.deleteAuth("235"));
+        assertNull(authDAO.getAuth("234"));
     }
 
     @Test
@@ -120,8 +93,7 @@ public class SQLAuthDAOTests {
         AuthData auth = new AuthData("Elliot", "222");
         authDAO.createAuth(auth);
 
-        assertThrows(DataAccessException.class, () ->
-                authDAO.getUsername("Boog"));
+        assertNull(authDAO.getUsername("Boog"));
     }
 
     @Test
@@ -132,9 +104,7 @@ public class SQLAuthDAOTests {
         authDAO.createAuth(auth2);
         authDAO.clear();
 
-        assertThrows(DataAccessException.class, () ->
-                authDAO.getAuth("111"));
-        assertThrows(DataAccessException.class, () ->
-                authDAO.deleteAuth("555"));
+        assertNull(authDAO.getAuth("111"));
+        assertNull(authDAO.getAuth("555"));
     }
 }

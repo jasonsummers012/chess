@@ -19,7 +19,7 @@ public class SQLGameDAO implements GameDAO {
     public SQLGameDAO() {
         this.gson = new Gson();
         try {
-            Connection conn = DatabaseManager.getConnection();
+            DatabaseManager.getConnection();
         } catch (DataAccessException e) {
             throw new RuntimeException("Failed to create game table", e);
         }

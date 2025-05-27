@@ -12,7 +12,7 @@ public class SQLUserDAO implements UserDAO {
 
     public SQLUserDAO() {
         try {
-            Connection conn = DatabaseManager.getConnection();
+            DatabaseManager.getConnection();
         } catch (DataAccessException e) {
             throw new RuntimeException("Failed to create game table", e);
         }

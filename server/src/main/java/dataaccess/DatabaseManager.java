@@ -16,22 +16,6 @@ public class DatabaseManager {
         loadPropertiesFromResources();
     }
 
-    public static String getDbName() {
-        return databaseName;
-    }
-
-    public static String getDbUsername() {
-        return dbUsername;
-    }
-
-    public static String getDbPassword() {
-        return dbPassword;
-    }
-
-    public static String getConnectionUrl() {
-        return connectionUrl;
-    }
-
     /**
      * Creates the database if it does not already exist.
      */
@@ -79,7 +63,7 @@ public class DatabaseManager {
                 "blackUsername VARCHAR(255)," +
                 "gameName VARCHAR(255) NOT NULL," +
                 "game VARCHAR(12000)," +
-                "PRIMARY KEY (gameID))";
+                "PRIMARY KEY (gameName))";
         try (var conn = getConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
             preparedStatement.executeUpdate();
