@@ -6,14 +6,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import static dataaccess.DatabaseManager.createAuthTable;
 import static dataaccess.DatabaseManager.createUserTable;
 
 public class SQLUserDAO implements UserDAO {
     private final Connection conn;
 
-    public SQLUserDAO(Connection conn) throws DataAccessException {
+    public SQLUserDAO(Connection conn) {
         this.conn = conn;
-        createUserTable();
+        try {
+            createAuthTable();
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Failed to create user table", e);
+        }
     }
 
     @Override

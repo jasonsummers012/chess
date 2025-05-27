@@ -1,7 +1,6 @@
 package service;
 
 import chess.ChessGame;
-import com.google.gson.Gson;
 import dataaccess.*;
 import handler.request.CreateGameRequest;
 import handler.request.JoinGameRequest;

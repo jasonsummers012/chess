@@ -9,16 +9,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dataaccess.DatabaseManager.createAuthTable;
 import static dataaccess.DatabaseManager.createGameTable;
 
 public class SQLGameDAO implements GameDAO {
     private final Connection conn;
     private final Gson gson;
 
-    public SQLGameDAO(Connection conn) throws DataAccessException {
+    public SQLGameDAO(Connection conn) {
         this.conn = conn;
         this.gson = new Gson();
-        createGameTable();
+        try {
+            createAuthTable();
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Failed to create game table", e);
+        }
     }
 
     @Override

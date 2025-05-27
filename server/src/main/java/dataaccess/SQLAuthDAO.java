@@ -10,9 +10,13 @@ import static dataaccess.DatabaseManager.createAuthTable;
 public class SQLAuthDAO implements AuthDAO {
     private final Connection conn;
 
-    public SQLAuthDAO(Connection conn) throws DataAccessException {
+    public SQLAuthDAO(Connection conn) {
         this.conn = conn;
-        createAuthTable();
+        try {
+            createAuthTable();
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Failed to create auth table", e);
+        }
     }
 
     @Override

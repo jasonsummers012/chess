@@ -4,8 +4,10 @@ import dataaccess.*;
 import handler.*;
 import service.*;
 import spark.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import static spark.Spark.exception;
 
@@ -23,11 +25,19 @@ public class Server {
     AuthDAO authDAO;
     UserDAO userDAO;
     GameDAO gameDAO;
+    private static final String dbUrl = "jdbc:mysql://localhost:3306/chess";
+    private static final String dbUsername = "root";
+    private static final String dbPassword = "SAirplane12#";
 
     public Server() {
-        authDAO = new MemoryAuthDAO();
-        userDAO = new MemoryUserDAO();
-        gameDAO = new MemoryGameDAO();
+        try {Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            authDAO = new SQLAuthDAO(conn);
+            userDAO = new SQLUserDAO(conn);
+            gameDAO = new SQLGameDAO(conn);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("failed to connect to database");
+        }
         authService = new AuthService(authDAO);
         userService = new UserService(userDAO, authService);
         gameService = new GameService(gameDAO, authDAO);
