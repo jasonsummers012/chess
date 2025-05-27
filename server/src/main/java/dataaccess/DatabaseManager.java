@@ -73,13 +73,13 @@ public class DatabaseManager {
     }
 
     static public void createGameTable() throws DataAccessException {
-        var statement = "CREATE TABLE IF NOT EXISTS GameTable (" +
-                "gameID INT NOT NULL," +
+        var statement = "CREATE TABLE IF NOT EXISTS gameTable (" +
+                "gameID INT NOT NULL AUTO_INCREMENT," +
                 "whiteUsername VARCHAR(255)," +
                 "blackUsername VARCHAR(255)," +
                 "gameName VARCHAR(255) NOT NULL," +
-                "chessGame VARCHAR(12000)," +
-                "PRIMARY KEY (gameName))";
+                "game VARCHAR(12000)," +
+                "PRIMARY KEY (gameID))";
         try (var conn = getConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
             preparedStatement.executeUpdate();
@@ -100,7 +100,7 @@ public class DatabaseManager {
      * }
      * </code>
      */
-    static Connection getConnection() throws DataAccessException {
+    public static Connection getConnection() throws DataAccessException {
         try {
             //do not wrap the following line with a try-with-resources
             var conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);

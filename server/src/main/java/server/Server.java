@@ -30,11 +30,11 @@ public class Server {
     private static final String dbPassword = "SAirplane12#";
 
     public Server() {
-        try {Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+        try {Connection conn = DatabaseManager.getConnection();
             authDAO = new SQLAuthDAO(conn);
             userDAO = new SQLUserDAO(conn);
             gameDAO = new SQLGameDAO(conn);
-        } catch (SQLException e) {
+        } catch (DataAccessException e) {
             e.printStackTrace();
             throw new RuntimeException("failed to connect to database");
         }
@@ -70,7 +70,7 @@ public class Server {
         exception(DataAccessException.class, (exception, request, response) -> {
             response.status(500);
             response.type("application/json");
-            response.body("{\"message\":\"Error: \"}");
+            response.body("{\"message\":\"Error: " + exception.getMessage() + "\"}");
         });
     }
 

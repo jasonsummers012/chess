@@ -15,12 +15,10 @@ import java.util.List;
 public class GameService {
     private final GameDAO gameDAO;
     private final AuthDAO authDAO;
-    private int nextID;
 
     public GameService(GameDAO gameDAO, AuthDAO authDAO) {
         this.gameDAO = gameDAO;
         this.authDAO = authDAO;
-        nextID = 1;
     }
 
     public CreateGameResult createGame(CreateGameRequest request) throws BadRequestException, AlreadyTakenException, DataAccessException {
@@ -34,12 +32,10 @@ public class GameService {
         }
 
         ChessGame chessGame = new ChessGame();
-        GameData game = new GameData(nextID, null, null, gameName, chessGame);
-        gameDAO.createGame(game);
-        nextID ++;
+        GameData game = new GameData(0, null, null, gameName, chessGame);
+        int generatedID = gameDAO.createGame(game);
 
-        int gameID = game.gameID();
-        return new CreateGameResult(gameID);
+        return new CreateGameResult(generatedID);
     }
 
     public ListGamesResult listGames(ListGamesRequest request) throws DataAccessException {
@@ -49,7 +45,7 @@ public class GameService {
 
     public JoinGameResult joinGame(JoinGameRequest request, String authToken)
             throws BadRequestException, AlreadyTakenException, UnauthorizedException, DataAccessException {
-        if (request.playerColor() == null || request.gameID() == 0) {
+        if (request.playerColor() == null || request.gameID() < 1) {
             throw new BadRequestException("Error: bad request");
         }
 

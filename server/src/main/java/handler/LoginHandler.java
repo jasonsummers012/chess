@@ -15,12 +15,11 @@ public class LoginHandler implements Route {
         gson = new Gson();
         this.userService = userService;
     }
-
     @Override
     public Object handle(Request request, Response response) throws DataAccessException {
-        LoginRequest loginRequest = generateLoginRequest(request.body());
-        LoginResult loginResult = userService.login(loginRequest);
-        return processLoginResult(loginResult);
+            LoginRequest loginRequest = generateLoginRequest(request.body());
+            LoginResult loginResult = userService.login(loginRequest);
+            return processLoginResult(loginResult);
     }
 
     public LoginRequest generateLoginRequest(String json) {

@@ -12,8 +12,9 @@ public class MemoryGameDAO implements GameDAO {
     private final Map<Integer, GameData> games = new HashMap<>();
 
     @Override
-    public void createGame(GameData game) {
+    public int createGame(GameData game) {
         games.put(game.gameID(), game);
+        return game.gameID();
     }
 
     @Override
