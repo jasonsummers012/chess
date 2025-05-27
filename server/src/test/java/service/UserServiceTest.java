@@ -72,7 +72,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testClear() {
+    public void testClear() throws DataAccessException {
         UserData user = new UserData("Buttered Beans", "pass123", "beans@hotmail.com");
         userDAO.createUser(user);
         userService.clear();

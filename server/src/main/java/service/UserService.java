@@ -49,7 +49,7 @@ public class UserService {
         return new LoginResult(request.username(), authToken);
     }
 
-    public void clear() {
+    public void clear() throws DataAccessException {
         userDAO.clear();
     }
 
@@ -57,7 +57,7 @@ public class UserService {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
-    boolean verifyUser(String username, String password) {
+    boolean verifyUser(String username, String password) throws DataAccessException {
         var hashedPassword = userDAO.getUser(username).password();
         return BCrypt.checkpw(password, hashedPassword);
     }
