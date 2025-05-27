@@ -14,15 +14,12 @@ import java.util.List;
 import static dataaccess.DatabaseManager.*;
 
 public class SQLGameDAO implements GameDAO {
-    private final Connection conn;
     private final Gson gson;
 
-    public SQLGameDAO(Connection conn) {
-        this.conn = conn;
+    public SQLGameDAO() {
         this.gson = new Gson();
         try {
-            createDatabase();
-            createGameTable();
+            Connection conn = DatabaseManager.getConnection();
         } catch (DataAccessException e) {
             throw new RuntimeException("Failed to create game table", e);
         }
@@ -31,7 +28,8 @@ public class SQLGameDAO implements GameDAO {
     @Override
     public int createGame(GameData game) throws DataAccessException {
         var statement = "INSERT INTO gameTable (whiteUsername, blackUsername, gameName, game) VALUES (?, ?, ?, ?)";
-        try (var preparedStatement = conn.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, game.whiteUsername());
             preparedStatement.setString(2, game.blackUsername());
@@ -55,7 +53,8 @@ public class SQLGameDAO implements GameDAO {
     @Override
     public GameData getGame(String gameName) throws DataAccessException{
         var statement = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM gameTable WHERE gameName = ?";
-        try (var preparedStatement = conn.prepareStatement(statement)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.setString(1, gameName);
 
@@ -79,7 +78,8 @@ public class SQLGameDAO implements GameDAO {
     @Override
     public GameData getGameByID(int gameID) throws DataAccessException {
         var statement = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM gameTable WHERE gameID = ?";
-        try (var preparedStatement = conn.prepareStatement(statement)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.setInt(1, gameID);
 
@@ -105,7 +105,8 @@ public class SQLGameDAO implements GameDAO {
         List<GameData> games = new ArrayList<>();
         var statement = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM gameTable";
 
-        try (var preparedStatement = conn.prepareStatement(statement);
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement);
              var resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
@@ -145,7 +146,8 @@ public class SQLGameDAO implements GameDAO {
             updateStatement = "UPDATE gameTable SET blackUsername = ? WHERE gameID = ? AND blackUsername IS NULL";
         }
 
-        try (var preparedStatement = conn.prepareStatement(updateStatement)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(updateStatement)) {
             preparedStatement.setString(1, username);
             preparedStatement.setInt(2, game.gameID());
             int rowsAffected = preparedStatement.executeUpdate();
@@ -157,7 +159,8 @@ public class SQLGameDAO implements GameDAO {
         }
 
         String selectStatement = "SELECT gameID, whiteUsername, blackUsername, gameName, game FROM gameTable WHERE gameID = ?";
-        try (var preparedStatement = conn.prepareStatement(selectStatement)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(selectStatement)) {
             preparedStatement.setInt(1, game.gameID());
             try (var resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -179,7 +182,8 @@ public class SQLGameDAO implements GameDAO {
     @Override
     public void clear() throws DataAccessException {
         var statement = "TRUNCATE TABLE gameTable";
-        try (var preparedStatement = conn.prepareStatement(statement)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.executeUpdate();
 

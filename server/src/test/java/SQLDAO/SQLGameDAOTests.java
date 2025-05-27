@@ -36,7 +36,7 @@ public class SQLGameDAOTests {
                     "game VARCHAR(12000) NOT NULL)"
             );
         }
-        gameDAO = new SQLGameDAO(conn);
+        gameDAO = new SQLGameDAO();
     }
 
     @AfterEach

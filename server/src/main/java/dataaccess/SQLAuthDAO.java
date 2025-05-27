@@ -9,22 +9,20 @@ import static dataaccess.DatabaseManager.createAuthTable;
 import static dataaccess.DatabaseManager.createDatabase;
 
 public class SQLAuthDAO implements AuthDAO {
-    private final Connection conn;
 
-    public SQLAuthDAO(Connection conn) {
-        this.conn = conn;
+    public SQLAuthDAO() {
         try {
-            createDatabase();
-            createAuthTable();
+            Connection conn = DatabaseManager.getConnection();
         } catch (DataAccessException e) {
-            throw new RuntimeException("Failed to create auth table", e);
+            throw new RuntimeException("Failed to create game table", e);
         }
     }
 
     @Override
     public void createAuth(AuthData auth) throws DataAccessException {
          var statement = "INSERT INTO authTable (username, authToken) VALUES (?, ?)";
-        try (var preparedStatement = conn.prepareStatement(statement)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.setString(1, auth.username());
             preparedStatement.setString(2, auth.authToken());
@@ -38,7 +36,8 @@ public class SQLAuthDAO implements AuthDAO {
     @Override
     public AuthData getAuth(String authToken) throws DataAccessException {
         var statement = "SELECT username, authToken FROM authTable WHERE authToken = ?";
-        try (var preparedStatement = conn.prepareStatement(statement)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.setString(1, authToken);
 
@@ -60,7 +59,8 @@ public class SQLAuthDAO implements AuthDAO {
     @Override
     public void deleteAuth(String authToken) throws DataAccessException {
         var statement = "DELETE FROM authTable WHERE authToken = ?";
-        try (var preparedStatement = conn.prepareStatement(statement)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.setString(1, authToken);
             preparedStatement.executeUpdate();
@@ -75,7 +75,8 @@ public class SQLAuthDAO implements AuthDAO {
         getAuth(authToken);
 
         var statement = "SELECT username FROM authTable WHERE authToken = ?";
-        try (var preparedStatement = conn.prepareStatement(statement)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.setString(1, authToken);
 
@@ -95,7 +96,8 @@ public class SQLAuthDAO implements AuthDAO {
     @Override
     public void clear() throws DataAccessException {
         var statement = "TRUNCATE TABLE authTable";
-        try (var preparedStatement = conn.prepareStatement(statement)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.executeUpdate();
 

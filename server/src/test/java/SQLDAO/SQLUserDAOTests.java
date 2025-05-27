@@ -31,7 +31,7 @@ public class SQLUserDAOTests {
                     "email VARCHAR(255) NOT NULL)"
             );
         }
-        userDAO = new SQLUserDAO(conn);
+        userDAO = new SQLUserDAO();
     }
 
     @AfterEach

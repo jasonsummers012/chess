@@ -30,10 +30,14 @@ public class Server {
     private static final String dbPassword = "SAirplane12#";
 
     public Server() {
-        try {Connection conn = DatabaseManager.getConnection();
-            authDAO = new SQLAuthDAO(conn);
-            userDAO = new SQLUserDAO(conn);
-            gameDAO = new SQLGameDAO(conn);
+        try {
+            DatabaseManager.createDatabase();
+            DatabaseManager.createAuthTable();
+            DatabaseManager.createGameTable();
+
+            authDAO = new SQLAuthDAO();
+            userDAO = new SQLUserDAO();
+            gameDAO = new SQLGameDAO();
         } catch (DataAccessException e) {
             e.printStackTrace();
             throw new RuntimeException("failed to connect to database");

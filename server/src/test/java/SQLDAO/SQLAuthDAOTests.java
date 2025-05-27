@@ -31,7 +31,7 @@ public class SQLAuthDAOTests {
                     "authToken VARCHAR(255) PRIMARY KEY)"
             );
         }
-        authDAO = new SQLAuthDAO(conn);
+        authDAO = new SQLAuthDAO();
     }
 
     @AfterEach

@@ -9,22 +9,20 @@ import java.sql.SQLException;
 import static dataaccess.DatabaseManager.*;
 
 public class SQLUserDAO implements UserDAO {
-    private final Connection conn;
 
-    public SQLUserDAO(Connection conn) {
-        this.conn = conn;
+    public SQLUserDAO() {
         try {
-            createDatabase();
-            createUserTable();
+            Connection conn = DatabaseManager.getConnection();
         } catch (DataAccessException e) {
-            throw new RuntimeException("Failed to create user table", e);
+            throw new RuntimeException("Failed to create game table", e);
         }
     }
 
     @Override
     public UserData getUser(String username) throws DataAccessException {
         var statement = "SELECT username, password, email FROM userTable WHERE username = ?";
-        try (var preparedStatement = conn.prepareStatement(statement)){
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement)){
 
             preparedStatement.setString(1, username);
 
@@ -46,7 +44,8 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public void createUser(UserData user) throws DataAccessException {
         var statement = "INSERT into userTable (username, password, email) VALUES (?, ?, ?)";
-        try (var preparedStatement = conn.prepareStatement(statement)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.setString(1, user.username());
             preparedStatement.setString(2, user.password());
@@ -61,7 +60,8 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public void clear() throws DataAccessException {
         var statement = "TRUNCATE TABLE userTable";
-        try (var preparedStatement = conn.prepareStatement(statement)) {
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.executeUpdate();
 
