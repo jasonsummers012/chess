@@ -19,7 +19,7 @@ public class SQLAuthDAOTests {
 
     @BeforeAll
     void setup() throws SQLException, DataAccessException {
-        conn = DriverManager.getConnection("jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
+        conn = DriverManager.getConnection();
         authDAO = new SQLAuthDAO(conn);
     }
 

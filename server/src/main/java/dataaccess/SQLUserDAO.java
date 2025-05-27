@@ -1,4 +1,3 @@
-/*
 package dataaccess;
 
 import model.UserData;
@@ -23,7 +22,7 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public void createUser(UserData user) {
-
+        var statement = "INSERT into userTable ("
     }
 
     @Override
@@ -31,4 +30,3 @@ public class SQLUserDAO implements UserDAO {
 
     }
 }
-*/
