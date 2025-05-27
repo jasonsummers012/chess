@@ -46,6 +46,8 @@ public class SQLUserDAO implements UserDAO {
             preparedStatement.setString(1, user.username());
             preparedStatement.setString(2, user.password());
             preparedStatement.setString(3, user.email());
+            preparedStatement.executeUpdate();
+
         } catch (SQLException ex) {
             throw new DataAccessException("failed to create user", ex);
         }
@@ -53,7 +55,7 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public void clear() throws DataAccessException {
-        var statement = "DROP TABLE userTable";
+        var statement = "TRUNCATE TABLE userTable";
         try (var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.executeUpdate();

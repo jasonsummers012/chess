@@ -2,11 +2,8 @@ package dataaccess;
 
 import model.AuthData;
 
-import javax.xml.crypto.Data;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.ResultSet;
 
 import static dataaccess.DatabaseManager.createAuthTable;
 
@@ -28,7 +25,7 @@ public class SQLAuthDAO implements AuthDAO {
             preparedStatement.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new DataAccessException("failed to create input", ex);
+            throw new DataAccessException("failed to create auth data", ex);
         }
     }
 
@@ -89,7 +86,7 @@ public class SQLAuthDAO implements AuthDAO {
 
     @Override
     public void clear() throws DataAccessException {
-        var statement = "DROP TABLE authTable";
+        var statement = "TRUNCATE TABLE authTable";
         try (var preparedStatement = conn.prepareStatement(statement)) {
 
             preparedStatement.executeUpdate();

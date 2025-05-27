@@ -35,7 +35,7 @@ public class GameServiceTests {
     }
 
     @Test
-    public void testCreateRepeatGame() throws AlreadyTakenException {
+    public void testCreateRepeatGame() throws AlreadyTakenException, DataAccessException {
         CreateGameRequest testRequest = new CreateGameRequest("Boog");
         gameService.createGame(testRequest);
 
@@ -47,7 +47,7 @@ public class GameServiceTests {
     }
 
     @Test
-    public void testListGames() {
+    public void testListGames() throws DataAccessException {
         CreateGameRequest request1 = new CreateGameRequest("Shrek");
         gameService.createGame(request1);
         GameData game1 = gameDAO.getGame("Shrek");
@@ -66,7 +66,7 @@ public class GameServiceTests {
     }
 
     @Test
-    public void testReturnEmptyGameList() {
+    public void testReturnEmptyGameList() throws DataAccessException {
         ListGamesRequest listGamesRequest = new ListGamesRequest();
         assertTrue(gameService.listGames(listGamesRequest).games().isEmpty());
     }
@@ -117,7 +117,7 @@ public class GameServiceTests {
     }
 
     @Test
-    public void testClear() {
+    public void testClear() throws DataAccessException{
         ChessGame chessGame = new ChessGame();
         GameData game = new GameData(123, "Wario", "Waluigi", "Smash Bros", chessGame);
         gameDAO.createGame(game);

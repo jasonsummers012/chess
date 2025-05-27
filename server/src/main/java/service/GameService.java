@@ -24,7 +24,7 @@ public class GameService {
         nextID = 1;
     }
 
-    public CreateGameResult createGame(CreateGameRequest request) throws BadRequestException, AlreadyTakenException {
+    public CreateGameResult createGame(CreateGameRequest request) throws BadRequestException, AlreadyTakenException, DataAccessException {
         if (request.gameName() == null) {
             throw new BadRequestException("Error: bad request");
         }
@@ -43,13 +43,13 @@ public class GameService {
         return new CreateGameResult(gameID);
     }
 
-    public ListGamesResult listGames(ListGamesRequest request) {
+    public ListGamesResult listGames(ListGamesRequest request) throws DataAccessException {
         List<GameData> games = gameDAO.getAllGames();
         return new ListGamesResult(games);
     }
 
     public JoinGameResult joinGame(JoinGameRequest request, String authToken)
-            throws BadRequestException, AlreadyTakenException, UnauthorizedException {
+            throws BadRequestException, AlreadyTakenException, UnauthorizedException, DataAccessException {
         if (request.playerColor() == null || request.gameID() == 0) {
             throw new BadRequestException("Error: bad request");
         }
@@ -80,7 +80,7 @@ public class GameService {
         return new JoinGameResult();
     }
 
-    public void clear() {
+    public void clear() throws DataAccessException {
         gameDAO.clear();
     }
 }
