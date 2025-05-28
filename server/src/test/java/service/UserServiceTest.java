@@ -4,6 +4,7 @@ import dataaccess.*;
 import handler.request.*;
 import handler.result.*;
 import model.UserData;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,11 +19,16 @@ public class UserServiceTest {
 
     @BeforeEach
     public void setup() {
-        userDAO = new MemoryUserDAO();
-        authDAO = new MemoryAuthDAO();
+        userDAO = new SQLUserDAO();
+        authDAO = new SQLAuthDAO();
         authService = new AuthService(authDAO);
         userService = new UserService(userDAO, authService);
+    }
 
+    @AfterEach
+    public void reset() throws DataAccessException {
+        userDAO.clear();
+        authDAO.clear();
     }
 
     @Test

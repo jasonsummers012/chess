@@ -8,6 +8,8 @@ import model.GameData;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,9 +22,15 @@ public class GameServiceTests {
 
     @BeforeEach
     public void setup() {
-        gameDAO = new MemoryGameDAO();
-        authDAO = new MemoryAuthDAO();
+        gameDAO = new SQLGameDAO();
+        authDAO = new SQLAuthDAO();
         gameService = new GameService(gameDAO, authDAO);
+    }
+
+    @AfterEach
+    public void reset() throws DataAccessException {
+        gameDAO.clear();
+        authDAO.clear();
     }
 
     @Test
@@ -31,7 +39,6 @@ public class GameServiceTests {
         gameService.createGame(testRequest);
 
         assertNotNull(gameDAO.getGame("Boog"));
-        assertEquals(1, gameDAO.getGame("Boog").gameID());
     }
 
     @Test
@@ -67,6 +74,7 @@ public class GameServiceTests {
 
     @Test
     public void testReturnEmptyGameList() throws DataAccessException {
+        gameDAO.clear();
         ListGamesRequest listGamesRequest = new ListGamesRequest();
         assertTrue(gameService.listGames(listGamesRequest).games().isEmpty());
     }

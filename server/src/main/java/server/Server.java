@@ -5,10 +5,6 @@ import handler.*;
 import service.*;
 import spark.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 import static spark.Spark.exception;
 
 public class Server {
@@ -25,14 +21,12 @@ public class Server {
     AuthDAO authDAO;
     UserDAO userDAO;
     GameDAO gameDAO;
-    private static final String dbUrl = "jdbc:mysql://localhost:3306/chess";
-    private static final String dbUsername = "root";
-    private static final String dbPassword = "SAirplane12#";
 
     public Server() {
         try {
             DatabaseManager.createDatabase();
             DatabaseManager.createAuthTable();
+            DatabaseManager.createUserTable();
             DatabaseManager.createGameTable();
 
             authDAO = new SQLAuthDAO();

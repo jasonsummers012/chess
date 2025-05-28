@@ -5,9 +5,6 @@ import model.AuthData;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static dataaccess.DatabaseManager.createAuthTable;
-import static dataaccess.DatabaseManager.createDatabase;
-
 public class SQLAuthDAO implements AuthDAO {
 
     public SQLAuthDAO() {
