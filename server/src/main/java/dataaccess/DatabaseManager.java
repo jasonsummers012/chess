@@ -63,7 +63,8 @@ public class DatabaseManager {
                 "blackUsername VARCHAR(255)," +
                 "gameName VARCHAR(255) NOT NULL," +
                 "game VARCHAR(12000)," +
-                "PRIMARY KEY (gameName))";
+                "PRIMARY KEY (gameID))" +
+                "UNIQUE KEY (gameName))";
         try (var conn = getConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
             preparedStatement.executeUpdate();
