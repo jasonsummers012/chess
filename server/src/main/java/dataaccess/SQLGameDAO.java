@@ -18,11 +18,6 @@ public class SQLGameDAO implements GameDAO {
 
     public SQLGameDAO() {
         this.gson = new Gson();
-        try {
-            DatabaseManager.getConnection();
-        } catch (DataAccessException e) {
-            throw new RuntimeException("Failed to create game table", e);
-        }
     }
 
     @Override
@@ -181,7 +176,7 @@ public class SQLGameDAO implements GameDAO {
 
     @Override
     public void clear() throws DataAccessException {
-        var statement = "TRUNCATE TABLE gameTable";
+        var statement = "DELETE TABLE gameTable";
         try (Connection conn = DatabaseManager.getConnection();
                 var preparedStatement = conn.prepareStatement(statement)) {
 

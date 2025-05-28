@@ -11,11 +11,6 @@ import static dataaccess.DatabaseManager.*;
 public class SQLUserDAO implements UserDAO {
 
     public SQLUserDAO() {
-        try {
-            DatabaseManager.getConnection();
-        } catch (DataAccessException e) {
-            throw new RuntimeException("Failed to create game table", e);
-        }
     }
 
     @Override
@@ -59,7 +54,7 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public void clear() throws DataAccessException {
-        var statement = "TRUNCATE TABLE userTable";
+        var statement = "DELETE TABLE userTable";
         try (Connection conn = DatabaseManager.getConnection();
                 var preparedStatement = conn.prepareStatement(statement)) {
 

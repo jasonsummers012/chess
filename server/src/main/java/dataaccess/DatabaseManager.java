@@ -30,7 +30,7 @@ public class DatabaseManager {
     }
 
     static public void createAuthTable() throws DataAccessException {
-        var statement = "CREATE TABLE IF NOT EXISTS AuthTable (" +
+        var statement = "CREATE TABLE IF NOT EXISTS authTable (" +
                 "username VARCHAR(255) NOT NULL," +
                 "authToken VARCHAR(255) NOT NULL," +
                 "PRIMARY KEY (authToken))";
@@ -43,7 +43,7 @@ public class DatabaseManager {
     }
 
     static public void createUserTable() throws DataAccessException {
-        var statement = "CREATE TABLE IF NOT EXISTS UserTable (" +
+        var statement = "CREATE TABLE IF NOT EXISTS userTable (" +
                 "username VARCHAR(255) NOT NULL," +
                 "password VARCHAR(255) NOT NULL," +
                 "email VARCHAR(255) NOT NULL," +
