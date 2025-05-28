@@ -8,6 +8,11 @@ import java.sql.SQLException;
 public class SQLAuthDAO implements AuthDAO {
 
     public SQLAuthDAO() {
+        try {
+            DatabaseManager.getConnection();
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Failed to create auth table", e);
+        }
     }
 
     @Override
@@ -64,13 +69,30 @@ public class SQLAuthDAO implements AuthDAO {
 
     @Override
     public String getUsername(String authToken) throws DataAccessException {
-        AuthData auth = getAuth(authToken);
-        return auth != null ? auth.username() : null;
+        getAuth(authToken);
+
+        var statement = "SELECT username FROM authTable WHERE authToken = ?";
+        try (Connection conn = DatabaseManager.getConnection();
+                var preparedStatement = conn.prepareStatement(statement)) {
+
+            preparedStatement.setString(1, authToken);
+
+            try (var resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("username");
+                } else {
+                    return null;
+                }
+            }
+
+        } catch (SQLException ex) {
+            throw new DataAccessException("failed to retrieve auth data", ex);
+        }
     }
 
     @Override
     public void clear() throws DataAccessException {
-        var statement = "DELETE TABLE authTable";
+        var statement = "TRUNCATE TABLE authTable";
         try (Connection conn = DatabaseManager.getConnection();
                 var preparedStatement = conn.prepareStatement(statement)) {
 
