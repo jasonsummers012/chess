@@ -13,39 +13,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SQLUserDAOTests {
-    private Connection conn;
     private SQLUserDAO userDAO;
 
     @BeforeEach
-    void setup() throws SQLException {
-        conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/testdb",
-                "root",
-                "SAirplane12#"
-        );
-
-        try (var statement = conn.createStatement()) {
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS userTable (" +
-                    "username VARCHAR(255) PRIMARY KEY," +
-                    "password VARCHAR(255) NOT NULL," +
-                    "email VARCHAR(255) NOT NULL)"
-            );
-        }
+    void setup() throws DataAccessException {
         userDAO = new SQLUserDAO();
+        userDAO.clear();
     }
 
     @AfterEach
-    void clearTable() throws SQLException {
-        try (var statement = conn.createStatement()) {
-            statement.executeUpdate("DELETE FROM userTable");
-        }
-    }
-
-    @AfterAll
-    void closeConnection() throws SQLException {
-        if (conn != null && !conn.isClosed()) {
-            conn.close();
-        }
+    void clearTable() throws DataAccessException {
+        userDAO.clear();
     }
 
     @Test
