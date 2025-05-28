@@ -21,7 +21,7 @@ public class DatabaseManager {
      */
     static public void createDatabase() throws DataAccessException {
         var statement = "CREATE DATABASE IF NOT EXISTS " + databaseName;
-        try (var conn = getConnection();
+        try (var conn = getInititialConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
@@ -116,5 +116,13 @@ public class DatabaseManager {
         var host = props.getProperty("db.host");
         var port = Integer.parseInt(props.getProperty("db.port"));
         connectionUrl = String.format("jdbc:mysql://%s:%d", host, port);
+    }
+
+    public static Connection getInititialConnection() throws DataAccessException {
+        try {
+            return DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
+        } catch (SQLException ex) {
+            throw new DataAccessException("failed to get connection for creation");
+        }
     }
 }
