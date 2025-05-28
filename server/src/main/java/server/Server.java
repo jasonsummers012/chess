@@ -36,14 +36,7 @@ public class Server {
             userDAO = new SQLUserDAO();
             gameDAO = new SQLGameDAO();
         } catch (DataAccessException e) {
-            e.printStackTrace();
-            RuntimeException runtimeEx = new RuntimeException("Failed to connect to database");
-
-            StringWriter sw = new StringWriter();
-            runtimeEx.printStackTrace(new PrintWriter(sw));
-            String stackTrace = sw.toString();
-
-            throw new RuntimeException("Failed to connect to database:\n" + stackTrace);
+            throw new RuntimeException("Database connection failed. Error: " + e.getMessage(), e);
         }
         authService = new AuthService(authDAO);
         userService = new UserService(userDAO, authService);
