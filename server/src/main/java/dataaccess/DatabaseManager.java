@@ -85,6 +85,9 @@ public class DatabaseManager {
      * </code>
      */
     public static Connection getConnection() throws DataAccessException {
+        System.out.println("Connecting to: " + connectionUrl);
+        System.out.println("Database: " + databaseName);
+        System.out.println("User: " + dbUsername);
         try {
             //do not wrap the following line with a try-with-resources
             var conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
@@ -96,8 +99,10 @@ public class DatabaseManager {
     }
 
     private static void loadPropertiesFromResources() {
+        System.out.println("Attempting to load db.properties...");
         try (var propStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("db.properties")) {
             if (propStream == null) {
+                System.out.println("db.properties not found!");
                 throw new Exception("Unable to load db.properties");
             }
             Properties props = new Properties();
