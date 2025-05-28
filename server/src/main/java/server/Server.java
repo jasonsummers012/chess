@@ -5,6 +5,9 @@ import handler.*;
 import service.*;
 import spark.*;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import static spark.Spark.exception;
 
 public class Server {
@@ -34,7 +37,13 @@ public class Server {
             gameDAO = new SQLGameDAO();
         } catch (DataAccessException e) {
             e.printStackTrace();
-            throw new RuntimeException("failed to connect to database");
+            RuntimeException runtimeEx = new RuntimeException("Failed to connect to database");
+
+            StringWriter sw = new StringWriter();
+            runtimeEx.printStackTrace(new PrintWriter(sw));
+            String stackTrace = sw.toString();
+
+            throw new RuntimeException("Failed to connect to database:\n" + stackTrace);
         }
         authService = new AuthService(authDAO);
         userService = new UserService(userDAO, authService);
