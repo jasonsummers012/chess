@@ -1,4 +1,4 @@
-package SQLDAO;
+package sqldao;
 
 import dataaccess.DataAccessException;
 import dataaccess.SQLUserDAO;
@@ -79,11 +79,11 @@ public class SQLUserDAOTests {
 
     @Test
     void getUserDoesntExist() throws DataAccessException {
-        UserData user = new UserData("Edgeworth", "objection!", "miles@hotmail.com");
+        userDAO.clear();
+        UserData user = new UserData("Wright", "objection!", "miles@hotmail.com");
         userDAO.createUser(user);
 
-        assertThrows(DataAccessException.class, () ->
-                userDAO.getUser("Wright"));
+        assertNull(userDAO.getUser("Edgeworth"));
     }
 
     @Test
@@ -94,9 +94,7 @@ public class SQLUserDAOTests {
         userDAO.createUser(user2);
         userDAO.clear();
 
-        assertThrows(DataAccessException.class, () ->
-                userDAO.getUser("Simon"));
-        assertThrows(DataAccessException.class, () ->
-                userDAO.getUser("Athena"));
+        assertNull(userDAO.getUser("Simon"));
+        assertNull(userDAO.getUser("Athena"));
     }
 }

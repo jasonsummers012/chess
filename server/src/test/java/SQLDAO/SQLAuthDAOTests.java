@@ -1,4 +1,4 @@
-package SQLDAO;
+package sqldao;
 
 import dataaccess.DataAccessException;
 import dataaccess.SQLAuthDAO;
@@ -24,7 +24,7 @@ public class SQLAuthDAOTests {
     }
 
     @Test
-    void CreateAuthSuccessful() throws DataAccessException {
+    void createAuthSuccessful() throws DataAccessException {
         AuthData auth = new AuthData("Jeremy", "123");
         authDAO.createAuth(auth);
         AuthData current = authDAO.getAuth("123");
@@ -35,7 +35,7 @@ public class SQLAuthDAOTests {
     }
 
     @Test
-    void CreateDuplicateAuth() throws DataAccessException {
+    void createDuplicateAuth() throws DataAccessException {
         AuthData auth1 = new AuthData("Jeremy", "123");
         AuthData auth2 = new AuthData("Jacob", "123");
         authDAO.createAuth(auth1);
@@ -72,11 +72,10 @@ public class SQLAuthDAOTests {
 
     @Test
     void deleteAuthDoesntExist() throws DataAccessException {
-        AuthData auth = new AuthData("Boog", "234");
-        authDAO.createAuth(auth);
+        AuthData auth = new AuthData("Boog", "345");
         authDAO.deleteAuth(auth.authToken());
 
-        assertNull(authDAO.getAuth("234"));
+        assertNull(authDAO.getAuth("345"));
     }
 
     @Test

@@ -1,4 +1,4 @@
-package SQLDAO;
+package sqldao;
 
 import chess.ChessGame;
 import dataaccess.DataAccessException;
@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SQLGameDAOTests {
-    private Connection conn;
     private SQLGameDAO gameDAO;
 
     @BeforeEach
