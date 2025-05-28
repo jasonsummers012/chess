@@ -61,10 +61,10 @@ public class DatabaseManager {
                 "gameID INT NOT NULL AUTO_INCREMENT," +
                 "whiteUsername VARCHAR(255)," +
                 "blackUsername VARCHAR(255)," +
-                "gameName VARCHAR(255) NOT NULL," +
+                "gameName VARCHAR(255) NOT NULL UNIQUE," +
                 "game VARCHAR(12000)," +
-                "PRIMARY KEY (gameID))" +
-                "UNIQUE KEY (gameName))";
+                "PRIMARY KEY (gameID))";
+
         try (var conn = getConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
             preparedStatement.executeUpdate();
