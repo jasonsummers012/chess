@@ -26,7 +26,7 @@ public class ServerFacade {
         return this.makeRequest("POST", path, request, LoginResult.class);
     }
 
-    public LogoutResult logout(LoginRequest request) {
+    public LogoutResult logout(LogoutRequest request) {
         var path = "/session";
         return this.makeRequest("DELETE", path, request, LogoutResult.class);
     }
