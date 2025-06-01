@@ -8,12 +8,13 @@ import server.ServerFacade;
 import java.util.Arrays;
 
 public class PreLoginClient {
+    private final Repl repl;
     private String visitorName = null;
     private final ServerFacade server;
     private final String serverUrl;
-    private State state = State.LOGGEDOUT;
 
-    public PreLoginClient(String serverUrl) {
+    public PreLoginClient(String serverUrl, Repl repl) {
+        this.repl = repl;
         server = new ServerFacade(serverUrl);
         this.serverUrl = serverUrl;
     }
@@ -43,7 +44,7 @@ public class PreLoginClient {
             RegisterRequest request = new RegisterRequest(username, password, email);
             RegisterResult result = server.register(request);
 
-            state = State.LOGGEDIN;
+            repl.setState(State.LOGGEDIN);
             visitorName = username;
             return String.format("You registered as %s.", visitorName);
         }
@@ -58,7 +59,7 @@ public class PreLoginClient {
             LoginRequest request = new LoginRequest(username, password);
             LoginResult result = server.login(request);
 
-            state = State.LOGGEDIN;
+            repl.setState(State.LOGGEDIN);
             visitorName = username;
             return String.format("You signed in as %s.", visitorName);
         }
@@ -76,5 +77,9 @@ public class PreLoginClient {
                 quit                                     Exit
                 help                                     Show possible commands
                 """;
+    }
+
+    public String getVisitorName() {
+        return visitorName;
     }
 }

@@ -12,12 +12,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PostLoginClient {
+    private final Repl repl;
     private String visitorName;
     private final ServerFacade server;
     private final String serverUrl;
     private State state = State.LOGGEDIN;
 
-    public PostLoginClient(String serverUrl, String visitorName) {
+    public PostLoginClient(String serverUrl, Repl repl, String visitorName) {
+        this.repl = repl;
         server = new ServerFacade(serverUrl);
         this.serverUrl = serverUrl;
         this.visitorName = visitorName;
@@ -45,7 +47,7 @@ public class PostLoginClient {
         LogoutRequest request = new LogoutRequest();
         LogoutResult result = server.logout(request);
 
-        state = State.LOGGEDOUT;
+        repl.setState(State.LOGGEDOUT);
         visitorName = null;
         return "You have been logged out.";
     }
@@ -112,4 +114,7 @@ public class PostLoginClient {
             """;
     }
 
+    public State getState() {
+        return state;
+    }
 }
