@@ -15,7 +15,7 @@ public class PostLoginClient {
     private String visitorName;
     private final ServerFacade server;
     private final String serverUrl;
-    private State state = State.SIGNEDIN;
+    private State state = State.LOGGEDIN;
 
     public PostLoginClient(String serverUrl, String visitorName) {
         server = new ServerFacade(serverUrl);
@@ -45,7 +45,7 @@ public class PostLoginClient {
         LogoutRequest request = new LogoutRequest();
         LogoutResult result = server.logout(request);
 
-        state = State.SIGNEDOUT;
+        state = State.LOGGEDOUT;
         visitorName = null;
         return "You have been logged out.";
     }
@@ -83,9 +83,33 @@ public class PostLoginClient {
             JoinGameRequest request = new JoinGameRequest(color, gameID);
             JoinGameResult result = server.joinGame(request);
 
-            return String.format("You joined game with ID %s as %s.", color.name(), String.valueOf(gameID));
+            return String.format("You joined game with ID %s as %s.", color.name(), gameID);
         }
-        throw new ResponseException(400, "Expected <teamColor> <gameID>")
+        throw new ResponseException(400, "Expected <teamColor> <gameID>");
+    }
+
+    public String observeGame(String... params) {
+        if (params.length >= 1) {
+            int gameID = Integer.parseInt(params[0]);
+            ChessGame.TeamColor color = ChessGame.TeamColor.WHITE;
+
+            JoinGameRequest request = new JoinGameRequest(color, gameID);
+            JoinGameResult result = server.joinGame(request);
+
+            return String.format("You are observing game with ID %s.", gameID);
+        }
+        throw new ResponseException(400, "Excpeted <gameID>");
+    }
+
+    public String help() {
+        return """
+            logout                           Log out of your account
+            create game <gameName>           Create a new game
+            list games                       List all games
+            play game <gameID> <TeamColor>   Join a game
+            observe game <gameID>            Spectate a game
+            help                             Show possible commands
+            """;
     }
 
 }

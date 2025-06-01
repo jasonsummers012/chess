@@ -11,7 +11,7 @@ public class PreLoginClient {
     private String visitorName = null;
     private final ServerFacade server;
     private final String serverUrl;
-    private State state = State.SIGNEDOUT;
+    private State state = State.LOGGEDOUT;
 
     public PreLoginClient(String serverUrl) {
         server = new ServerFacade(serverUrl);
@@ -43,7 +43,7 @@ public class PreLoginClient {
             RegisterRequest request = new RegisterRequest(username, password, email);
             RegisterResult result = server.register(request);
 
-            state = State.SIGNEDIN;
+            state = State.LOGGEDIN;
             visitorName = username;
             return String.format("You registered as %s.", visitorName);
         }
@@ -58,7 +58,7 @@ public class PreLoginClient {
             LoginRequest request = new LoginRequest(username, password);
             LoginResult result = server.login(request);
 
-            state = State.SIGNEDIN;
+            state = State.LOGGEDIN;
             visitorName = username;
             return String.format("You signed in as %s.", visitorName);
         }
