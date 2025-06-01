@@ -1,9 +1,9 @@
 package ui;
 
 import exception.ResponseException;
-import handler.request.*;
-import handler.result.*;
-import server.ServerFacade;
+import request.*;
+import result.*;
+import server.*;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package handler.result;
+package result;
 
 public record JoinGameResult(
 ) {}

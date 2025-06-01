@@ -3,10 +3,10 @@ package ui;
 import chess.ChessGame;
 import com.google.gson.Gson;
 import exception.ResponseException;
-import handler.request.*;
-import handler.result.*;
 import model.GameData;
 import server.ServerFacade;
+import request.*;
+import result.*;
 
 import java.util.Arrays;
 import java.util.List;

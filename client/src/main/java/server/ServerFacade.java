@@ -1,10 +1,9 @@
 package server;
 
-import handler.request.*;
-import handler.result.*;
-
 import com.google.gson.Gson;
 import exception.ResponseException;
+import request.*;
+import result.*;
 
 import java.io.*;
 import java.net.*;

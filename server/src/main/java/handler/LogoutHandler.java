@@ -2,8 +2,7 @@ package handler;
 
 import com.google.gson.Gson;
 import dataaccess.DataAccessException;
-import handler.request.LogoutRequest;
-import handler.result.LogoutResult;
+import result.LogoutResult;
 import service.AuthService;
 import spark.*;
 

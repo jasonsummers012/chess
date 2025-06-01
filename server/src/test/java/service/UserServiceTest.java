@@ -1,12 +1,14 @@
 package service;
 
 import dataaccess.*;
-import handler.request.*;
-import handler.result.*;
 import model.UserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import request.LoginRequest;
+import request.RegisterRequest;
+import result.LoginResult;
+import result.RegisterResult;
 
 import static org.junit.jupiter.api.Assertions.*;
 

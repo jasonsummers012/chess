@@ -2,12 +2,12 @@ package service;
 
 import chess.ChessGame;
 import dataaccess.*;
-import handler.request.CreateGameRequest;
-import handler.request.JoinGameRequest;
-import handler.request.ListGamesRequest;
-import handler.result.CreateGameResult;
-import handler.result.JoinGameResult;
-import handler.result.ListGamesResult;
+import request.CreateGameRequest;
+import request.JoinGameRequest;
+import request.ListGamesRequest;
+import result.CreateGameResult;
+import result.JoinGameResult;
+import result.ListGamesResult;
 import model.GameData;
 
 import java.util.List;

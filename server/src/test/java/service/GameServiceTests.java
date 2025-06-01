@@ -2,7 +2,6 @@ package service;
 
 import chess.ChessGame;
 import dataaccess.*;
-import handler.request.*;
 import model.AuthData;
 import model.GameData;
 
@@ -12,6 +11,9 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import request.CreateGameRequest;
+import request.JoinGameRequest;
+import request.ListGamesRequest;
 
 import static org.junit.jupiter.api.Assertions.*;
 

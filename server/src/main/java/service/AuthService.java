@@ -4,8 +4,7 @@ import dataaccess.AuthDAO;
 import dataaccess.BadRequestException;
 import dataaccess.DataAccessException;
 import dataaccess.UnauthorizedException;
-import handler.request.LogoutRequest;
-import handler.result.LogoutResult;
+import result.LogoutResult;
 import model.AuthData;
 import java.util.UUID;
 
