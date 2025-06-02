@@ -4,18 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Made minor changes to fix error handling">
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed error handling, debugged, properly implemented observing a game">
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/ui/BoardDrawer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/PostLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/PostLoginClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/PreLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/PreLoginClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/GameplayClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/PostLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/PostLoginClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/PreLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/PreLoginClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/GameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/GameService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -62,6 +69,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="client" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -102,7 +114,8 @@
       <workItem from="1748821042793" duration="1029000" />
       <workItem from="1748837536627" duration="1882000" />
       <workItem from="1748893061973" duration="4662000" />
-      <workItem from="1748897903991" duration="1215000" />
+      <workItem from="1748897903991" duration="1492000" />
+      <workItem from="1748900044703" duration="3863000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -120,7 +133,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748839007385</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fixed error handling, debugged, properly implemented observing a game">
+      <option name="closed" value="true" />
+      <created>1748899315515</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1748899315515</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +151,7 @@
     <MESSAGE value="Implemented pre and post login loops in Repl class" />
     <MESSAGE value="Restructued dependencies, reloaded maven project" />
     <MESSAGE value="Made minor changes to fix error handling" />
-    <option name="LAST_COMMIT_MESSAGE" value="Made minor changes to fix error handling" />
+    <MESSAGE value="Fixed error handling, debugged, properly implemented observing a game" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed error handling, debugged, properly implemented observing a game" />
   </component>
 </project>

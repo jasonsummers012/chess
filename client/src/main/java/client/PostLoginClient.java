@@ -1,15 +1,22 @@
-package ui;
+package client;
 
+import chess.ChessBoard;
 import chess.ChessGame;
-import com.google.gson.Gson;
 import exception.ResponseException;
 import model.GameData;
 import server.ServerFacade;
 import request.*;
 import result.*;
+import ui.BoardDrawer;
+import ui.Repl;
+import ui.State;
 
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+
+import static ui.EscapeSequences.*;
 
 public class PostLoginClient {
     private final Repl repl;
@@ -105,6 +112,8 @@ public class PostLoginClient {
                 JoinGameRequest request = new JoinGameRequest(color, gameID);
                 JoinGameResult result = server.joinGame(request);
 
+                displayGameBoard(gameID, color);
+
                 return String.format("You joined game with ID %d as %s.", gameID, color.name());
             } catch (IllegalArgumentException e) {
                 throw new ResponseException(400, "Invalid team color. Use WHITE or BLACK.");
@@ -120,6 +129,9 @@ public class PostLoginClient {
                 try {
                     JoinGameRequest request = new JoinGameRequest(null, gameID);
                     JoinGameResult result = server.joinGame(request);
+
+                    displayGameBoard(gameID, null);
+
                     return String.format("You are observing game with ID %d.", gameID);
                 } catch (ResponseException e) {
                     return String.format("Unable to observe game %d. Server response: %s", gameID, e.getMessage());
@@ -149,5 +161,38 @@ public class PostLoginClient {
 
     public void setVisitorName(String name) {
         this.visitorName = name;
+    }
+
+    private void displayGameBoard(int gameID, ChessGame.TeamColor playerColor) {
+        try {
+            ChessBoard board = new ChessBoard();
+            board.resetBoard();
+
+            var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+
+            out.print(ERASE_SCREEN);
+            out.println();
+
+            String viewInfo = (playerColor != null)
+                    ? String.format("Playing as %s in Game %d", playerColor.name(), gameID)
+                    : String.format("Observing Game %d", gameID);
+
+            out.print(SET_TEXT_COLOR_YELLOW);
+            out.println(viewInfo);
+            out.print(RESET_TEXT_COLOR);
+            out.println();
+
+            if (playerColor == ChessGame.TeamColor.BLACK) {
+                // Draw board from black's perspective (flipped)
+                BoardDrawer.drawBoardBlackPerspective(out, board);
+            } else {
+                BoardDrawer.drawBoardWhitePerspective(out, board);
+            }
+
+            out.println();
+
+        } catch (Exception e) {
+            System.err.println("Error displaying board: " + e.getMessage());
+        }
     }
 }

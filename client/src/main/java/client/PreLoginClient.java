@@ -1,9 +1,11 @@
-package ui;
+package client;
 
 import exception.ResponseException;
 import request.*;
 import result.*;
 import server.*;
+import ui.Repl;
+import ui.State;
 
 import java.util.Arrays;
 
