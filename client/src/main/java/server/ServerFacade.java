@@ -7,6 +7,7 @@ import result.*;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 
 public class ServerFacade {
     private final String serverUrl;
@@ -78,16 +79,16 @@ public class ServerFacade {
         }
     }
 
-    private void throwIfNotSuccessful(HttpURLConnection http) throws IOException, Exception {
+    private void throwIfNotSuccessful(HttpURLConnection http) throws IOException, ResponseException {
         var status = http.getResponseCode();
         if (!isSuccessful(status)) {
+            String errorMessage = "HTTP error: " + status;
             try (InputStream respErr = http.getErrorStream()) {
                 if (respErr != null) {
-                    InputStreamReader reader = new InputStreamReader(respErr);
-                    throw new Gson().fromJson(reader, ResponseException.class);
+                    errorMessage = new String(respErr.readAllBytes(), StandardCharsets.UTF_8);
                 }
             }
-            throw new ResponseException(status, "other failure: " + status);
+            throw new ResponseException(status, errorMessage);
         }
     }
 

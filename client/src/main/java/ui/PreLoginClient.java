@@ -67,7 +67,7 @@ public class PreLoginClient {
     }
 
     public String quit(String... params) {
-        return "QUIT";
+        return "quit";
     }
 
     public String help() {
