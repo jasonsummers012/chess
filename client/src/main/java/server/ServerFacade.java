@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ServerFacade {
     private final String serverUrl;
+    private String authToken;
 
     public ServerFacade(String url) {
         serverUrl = url;
@@ -18,17 +19,27 @@ public class ServerFacade {
 
     public RegisterResult register(RegisterRequest request) {
         var path = "/user";
-        return this.makeRequest("POST", path, request, RegisterResult.class);
+        RegisterResult result = makeRequest("POST", path, request, RegisterResult.class);
+        if (result != null && result.authToken() != null) {
+            this.authToken = result.authToken();
+        }
+        return result;
     }
 
     public LoginResult login(LoginRequest request) {
         var path = "/session";
-        return this.makeRequest("POST", path, request, LoginResult.class);
+        LoginResult result = makeRequest("POST", path, request, LoginResult.class);
+        if (result != null && result.authToken() != null) {
+            this.authToken = result.authToken();
+        }
+        return result;
     }
 
     public LogoutResult logout(LogoutRequest request) {
         var path = "/session";
-        return this.makeRequest("DELETE", path, request, LogoutResult.class);
+        LogoutResult result = makeRequest("DELETE", path, request, LogoutResult.class);
+        this.authToken = null;
+        return result;
     }
 
     public CreateGameResult createGame(CreateGameRequest request) {
@@ -46,6 +57,11 @@ public class ServerFacade {
         return this.makeRequest("PUT", path, request, JoinGameResult.class);
     }
 
+    public JoinGameResult observeGame(JoinGameRequest request) {
+        var path = "/game";
+        return this.makeRequest("PUT", path, request, JoinGameResult.class);
+    }
+
     public void clear() {
         var path = "/db";
         this.makeRequest("DELETE", path, null, null);
@@ -58,7 +74,15 @@ public class ServerFacade {
             http.setRequestMethod(method);
             http.setDoOutput(true);
 
-            writeBody(request, http);
+            if (authToken != null) {
+                http.addRequestProperty("Authorization", authToken);
+            }
+
+            if (!method.equals("GET")) {
+                http.setDoOutput(true);
+                writeBody(request, http);
+            }
+
             http.connect();
             throwIfNotSuccessful(http);
             return readBody(http, responseClass);
@@ -107,5 +131,9 @@ public class ServerFacade {
 
     private boolean isSuccessful(int status) {
         return status / 100 == 2;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
     }
 }

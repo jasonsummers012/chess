@@ -13,10 +13,11 @@ public class PreLoginClient {
     private final ServerFacade server;
     private final String serverUrl;
 
-    public PreLoginClient(String serverUrl, Repl repl) {
+    public PreLoginClient(String serverUrl, Repl repl, ServerFacade server) {
         this.repl = repl;
-        server = new ServerFacade(serverUrl);
+        this.server = server;
         this.serverUrl = serverUrl;
+        this.visitorName = null;
     }
 
     public String eval(String input) {
@@ -61,7 +62,7 @@ public class PreLoginClient {
 
             repl.setState(State.LOGGEDIN);
             visitorName = username;
-            return String.format("You signed in as %s.", visitorName);
+            return String.format("You signed in as %s.\n\n%s", visitorName, repl.getPostLoginHelp());
         }
         throw new ResponseException(400, "Expected: <username> <password>");
     }
@@ -82,4 +83,9 @@ public class PreLoginClient {
     public String getVisitorName() {
         return visitorName;
     }
+
+    public void clearVisitorName() {
+        this.visitorName = null;
+    }
 }
+

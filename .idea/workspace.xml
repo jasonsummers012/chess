@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Restructued dependencies, reloaded maven project">
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Made minor changes to fix error handling">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/PostLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/PostLoginClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/PreLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/PreLoginClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/GameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/GameService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,27 +41,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main (1).executor": "Run",
-    "Application.Main.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/BYU/5.5 Spring 2025/CS240/chess",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "editor.preferences.inline.completion",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main (1).executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/BYU/5.5 Spring 2025/CS240/chess&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.inline.completion&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -98,7 +100,9 @@
       <option name="presentableId" value="Default" />
       <updated>1748821040857</updated>
       <workItem from="1748821042793" duration="1029000" />
-      <workItem from="1748837536627" duration="1439000" />
+      <workItem from="1748837536627" duration="1882000" />
+      <workItem from="1748893061973" duration="4662000" />
+      <workItem from="1748897903991" duration="1215000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -108,7 +112,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748822012242</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Made minor changes to fix error handling">
+      <option name="closed" value="true" />
+      <created>1748839007385</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1748839007385</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -117,6 +129,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Implemented pre and post login loops in Repl class" />
     <MESSAGE value="Restructued dependencies, reloaded maven project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Restructued dependencies, reloaded maven project" />
+    <MESSAGE value="Made minor changes to fix error handling" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made minor changes to fix error handling" />
   </component>
 </project>

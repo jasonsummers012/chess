@@ -18,9 +18,9 @@ public class PostLoginClient {
     private final String serverUrl;
     private State state = State.LOGGEDIN;
 
-    public PostLoginClient(String serverUrl, Repl repl, String visitorName) {
+    public PostLoginClient(String serverUrl, Repl repl, String visitorName, ServerFacade server) {
         this.repl = repl;
-        server = new ServerFacade(serverUrl);
+        this.server = server;
         this.serverUrl = serverUrl;
         this.visitorName = visitorName;
     }
@@ -30,12 +30,20 @@ public class PostLoginClient {
             var tokens = input.split(" ");
             var command = (tokens.length > 0) ? tokens[0].toLowerCase() : "help";
             var params = Arrays.copyOfRange(tokens, 1, tokens.length);
+
+            if (command.equals("create") && tokens.length > 1 && tokens[1].toLowerCase().equals("game")) {
+                return createGame(Arrays.copyOfRange(tokens, 2, tokens.length));
+            } else if (command.equals("list") && tokens.length > 1 && tokens[1].toLowerCase().equals("games")) {
+                return listGames(Arrays.copyOfRange(tokens, 2, tokens.length));
+            } else if (command.equals("play") && tokens.length > 1 && tokens[1].toLowerCase().equals("game")) {
+                return playGame(Arrays.copyOfRange(tokens, 2, tokens.length));
+            } else if (command.equals("observe") && tokens.length > 1 && tokens[1].toLowerCase().equals("game")) {
+                return observeGame(Arrays.copyOfRange(tokens, 2, tokens.length));
+            }
+
             return switch (command) {
                 case "logout" -> logout(params);
-                case "create game" -> createGame(params);
-                case "list games" -> listGames(params);
-                case "play game" -> playGame(params);
-                case "observe game" -> observeGame(params);
+                case "help" -> help();
                 default -> help();
             };
         } catch (ResponseException ex) {
@@ -49,7 +57,8 @@ public class PostLoginClient {
 
         repl.setState(State.LOGGEDOUT);
         visitorName = null;
-        return "You have been logged out.";
+        repl.getPreLoginClient().clearVisitorName();
+        return "You have been logged out.\n\n" + repl.getPreLoginHelp();
     }
 
     public String createGame(String... params) {
@@ -65,42 +74,62 @@ public class PostLoginClient {
     }
 
     public String listGames(String... params) {
-        ListGamesRequest request = new ListGamesRequest();
-        ListGamesResult result = server.listGames(request);
-        List<GameData> games = result.games();
+        try {
+            ListGamesResult result = server.listGames(null);
+            List<GameData> games = result.games();
 
-        StringBuilder list = new StringBuilder();
-        Gson gson = new Gson();
-        for (GameData game : games) {
-            list.append(gson.toJson(game)).append("\n");
+            if (games.isEmpty()) {
+                return "No games available.";
+            }
+
+            StringBuilder list = new StringBuilder();
+            int index = 1;
+            for (GameData game : games) {
+                list.append(String.format("%d. Game: %s (ID: %d) - White: %s, Black: %s\n",
+                        index++, game.gameName(), game.gameID(),
+                        game.whiteUsername() != null ? game.whiteUsername() : "empty",
+                        game.blackUsername() != null ? game.blackUsername() : "empty"));
+            }
+            return list.toString();
+        } catch (Exception e) {
+            return "Error listing games: " + e.getMessage();
         }
-        return list.toString();
     }
 
     public String playGame(String... params) {
         if (params.length >= 2) {
-            ChessGame.TeamColor color = ChessGame.TeamColor.valueOf(params[0]);
-            int gameID = Integer.parseInt(params[1]);
+            try {
+                int gameID = Integer.parseInt(params[0]);
+                ChessGame.TeamColor color = ChessGame.TeamColor.valueOf(params[1].toUpperCase());
 
-            JoinGameRequest request = new JoinGameRequest(color, gameID);
-            JoinGameResult result = server.joinGame(request);
+                JoinGameRequest request = new JoinGameRequest(color, gameID);
+                JoinGameResult result = server.joinGame(request);
 
-            return String.format("You joined game with ID %s as %s.", color.name(), gameID);
+                return String.format("You joined game with ID %d as %s.", gameID, color.name());
+            } catch (IllegalArgumentException e) {
+                throw new ResponseException(400, "Invalid team color. Use WHITE or BLACK.");
+            }
         }
-        throw new ResponseException(400, "Expected <teamColor> <gameID>");
+        throw new ResponseException(400, "Expected: <teamColor> <gameID>");
     }
 
     public String observeGame(String... params) {
         if (params.length >= 1) {
-            int gameID = Integer.parseInt(params[0]);
-            ChessGame.TeamColor color = ChessGame.TeamColor.WHITE;
+            try {
+                int gameID = Integer.parseInt(params[0]);
+                try {
+                    JoinGameRequest request = new JoinGameRequest(null, gameID);
+                    JoinGameResult result = server.joinGame(request);
+                    return String.format("You are observing game with ID %d.", gameID);
+                } catch (ResponseException e) {
+                    return String.format("Unable to observe game %d. Server response: %s", gameID, e.getMessage());
+                }
 
-            JoinGameRequest request = new JoinGameRequest(color, gameID);
-            JoinGameResult result = server.joinGame(request);
-
-            return String.format("You are observing game with ID %s.", gameID);
+            } catch (NumberFormatException e) {
+                throw new ResponseException(400, "Invalid game ID. Must be a number.");
+            }
         }
-        throw new ResponseException(400, "Excpeted <gameID>");
+        throw new ResponseException(400, "Expected: <gameID>");
     }
 
     public String help() {
@@ -116,5 +145,9 @@ public class PostLoginClient {
 
     public State getState() {
         return state;
+    }
+
+    public void setVisitorName(String name) {
+        this.visitorName = name;
     }
 }

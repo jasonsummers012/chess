@@ -1,5 +1,7 @@
 package ui;
 
+import server.ServerFacade;
+
 import java.util.Scanner;
 
 import static ui.EscapeSequences.*;
@@ -8,10 +10,12 @@ public class Repl {
     private final PreLoginClient preLoginClient;
     private final PostLoginClient postLoginClient;
     private State state = State.LOGGEDOUT;
+    private final ServerFacade server;
 
     public Repl(String serverUrl) {
-        preLoginClient = new PreLoginClient(serverUrl, this);
-        postLoginClient = new PostLoginClient(serverUrl, this, null);
+        server = new ServerFacade(serverUrl);
+        preLoginClient = new PreLoginClient(serverUrl, this, server);
+        postLoginClient = new PostLoginClient(serverUrl, this, null, server);
     }
 
     public void run() {
@@ -26,6 +30,9 @@ public class Repl {
             try {
                 if (state == State.LOGGEDOUT) {
                     result = preLoginClient.eval(line);
+                    if (state == State.LOGGEDIN) {
+                        postLoginClient.setVisitorName(preLoginClient.getVisitorName());
+                    }
                 } else {
                     result = postLoginClient.eval(line);
                 }
@@ -47,5 +54,21 @@ public class Repl {
 
     public void setState(State newState) {
         state = newState;
+    }
+
+    public String getPreLoginHelp() {
+        return preLoginClient.help();
+    }
+
+    public String getPostLoginHelp() {
+        return postLoginClient.help();
+    }
+
+    public PreLoginClient getPreLoginClient() {
+        return preLoginClient;
+    }
+
+    public PostLoginClient getPostLoginClient() {
+        return postLoginClient;
     }
 }

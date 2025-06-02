@@ -45,7 +45,7 @@ public class GameService {
 
     public JoinGameResult joinGame(JoinGameRequest request, String authToken)
             throws BadRequestException, AlreadyTakenException, UnauthorizedException, DataAccessException {
-        if (request.playerColor() == null || request.gameID() < 1) {
+        if (request.gameID() < 1) {
             throw new BadRequestException("Error: bad request");
         }
 
@@ -61,6 +61,10 @@ public class GameService {
         GameData game = gameDAO.getGameByID(gameID);
         if (game == null) {
             throw new BadRequestException("Error: bad request");
+        }
+
+        if (color == null) {
+            return new JoinGameResult();
         }
 
         if (color != ChessGame.TeamColor.WHITE && color != ChessGame.TeamColor.BLACK) {
