@@ -13,7 +13,7 @@ import static ui.EscapeSequences.*;
 
 public class BoardDrawer {
     private static final int BOARD_SIZE_IN_SQUARES = 8;
-    private static final int SQUARE_SIZE_IN_CHARS = 3;
+    private static final int SQUARE_SIZE_IN_CHARS = 1;
 
     private static String getPieceSymbol(ChessPiece piece) {
         if (piece == null) {
@@ -61,17 +61,6 @@ public class BoardDrawer {
         out.print(SET_TEXT_COLOR_WHITE);
     }
 
-    public static void main(String args) {
-        var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
-
-        out.print(ERASE_SCREEN);
-
-        ChessBoard board = new ChessBoard();
-        board.resetBoard();
-
-        drawBoardWhitePerspective(out, board);
-    }
-
     public static void drawHeaders(PrintStream out, boolean flipped) {
         setBlack(out);
 
@@ -117,69 +106,44 @@ public class BoardDrawer {
     private static void drawRowOfSquares(PrintStream out, int boardRow, ChessBoard board, boolean flipped) {
         int rowNumber = flipped ? (boardRow + 1) : (BOARD_SIZE_IN_SQUARES - boardRow);
 
-        for (int squareRow = 0; squareRow < SQUARE_SIZE_IN_CHARS; ++squareRow) {
-            if (squareRow == SQUARE_SIZE_IN_CHARS / 2) {
-                out.print(SET_BG_COLOR_BLACK);
-                out.print(SET_TEXT_COLOR_GREEN);
-                out.print(" " + rowNumber + " ");
-                setBlack(out);
-            } else {
-                out.print("   ");
-            }
+        out.print(SET_BG_COLOR_BLACK);
+        out.print(SET_TEXT_COLOR_GREEN);
+        out.print(" " + rowNumber + " ");
 
-            for (int boardCol = 0; boardCol < BOARD_SIZE_IN_SQUARES; ++boardCol) {
-                int actualCol = flipped ? (BOARD_SIZE_IN_SQUARES - 1 - boardCol) : boardCol;
+        for (int boardCol = 0; boardCol < BOARD_SIZE_IN_SQUARES; ++boardCol) {
+            int actualCol = flipped ? (BOARD_SIZE_IN_SQUARES - 1 - boardCol) : boardCol;
 
-                boolean isLightSquare = (boardRow + actualCol) % 2 == 0;
+            boolean isLightSquare = (boardRow + actualCol) % 2 == 0;
 
-                if (isLightSquare) {
-                    setLightSquare(out);
-                } else {
-                    setDarkSquare(out);
-                }
+            ChessPosition position = new ChessPosition(BOARD_SIZE_IN_SQUARES - boardRow, actualCol + 1);
+            ChessPiece piece = board.getPiece(position);
+            String pieceSymbol = getPieceSymbol(piece);
 
-                if (squareRow == SQUARE_SIZE_IN_CHARS / 2) {
-                    ChessPosition position = new ChessPosition(BOARD_SIZE_IN_SQUARES - boardRow, actualCol + 1);
-                    ChessPiece piece = board.getPiece(position);
-                    String pieceSymbol = getPieceSymbol(piece);
-                    printPiece(out, pieceSymbol, isLightSquare);
-                } else {
-                    out.print("   ");
-                }
-            }
-
-            setBlack(out);
-            out.println();
+            printPiece(out, pieceSymbol, isLightSquare);
         }
-    }
 
-    private static void setLightSquare(PrintStream out) {
-        out.print(SET_BG_COLOR_LIGHT_GREY);
-        out.print(SET_TEXT_COLOR_LIGHT_GREY);
-    }
-
-    private static void setDarkSquare(PrintStream out) {
-        out.print(SET_BG_COLOR_DARK_GREY);
-        out.print(SET_TEXT_COLOR_DARK_GREY);
+        out.print(SET_BG_COLOR_BLACK);
+        out.println();
     }
 
     private static void setBlack(PrintStream out) {
         out.print(SET_BG_COLOR_BLACK);
-        out.print(SET_TEXT_COLOR_BLACK);
+        out.print(SET_TEXT_COLOR_WHITE);
     }
 
     private static void printPiece(PrintStream out, String piece, boolean isLightSquare) {
         if (isLightSquare) {
-            out.print(SET_BG_COLOR_LIGHT_GREY);
+            out.print(SET_BG_COLOR_WHITE);
         } else {
-            out.print(SET_BG_COLOR_DARK_GREY);
+            out.print(SET_BG_COLOR_LIGHT_GREY);
         }
 
+        // Set text color for the piece
         if (piece.equals(EMPTY)) {
             out.print(piece);
         } else if (piece.contains("♔") || piece.contains("♕") || piece.contains("♖") ||
                 piece.contains("♗") || piece.contains("♘") || piece.contains("♙")) {
-            out.print(SET_TEXT_COLOR_WHITE);
+            out.print(SET_TEXT_COLOR_BLACK);
             out.print(piece);
         } else {
             out.print(SET_TEXT_COLOR_BLACK);
