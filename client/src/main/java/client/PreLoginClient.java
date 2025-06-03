@@ -51,7 +51,7 @@ public class PreLoginClient {
 
             repl.setState(State.LOGGEDIN);
             visitorName = username;
-            return String.format("You registered as %s.", visitorName);
+            return String.format("You registered as %s.\n\n%s", visitorName, repl.getPostLoginHelp());
         }
         throw new ResponseException(400, "Expected: <username> <password> <email>");
     }

@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Implemented all ServerFacade tests, all tests pass">
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Improved code quality">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/PreLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/PreLoginClient.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +87,21 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.StandardAPITests.joinGameBadColor">
+  <component name="RunManager" selected="Application.Main (1)">
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="client" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="server" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ServerFacadeTests.joinGameObserver" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="client" />
       <extension name="coverage">
@@ -99,38 +113,6 @@
       <option name="PACKAGE_NAME" value="client" />
       <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
       <option name="METHOD_NAME" value="joinGameObserver" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ServerFacadeTests.joinGameOccupied" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="client" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="client.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="client" />
-      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
-      <option name="METHOD_NAME" value="joinGameOccupied" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ServerFacadeTests.joinGameSuccessful" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="client" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="client.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="client" />
-      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
-      <option name="METHOD_NAME" value="joinGameSuccessful" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -169,11 +151,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main (1)" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.StandardAPITests.joinGameBadColor" />
         <item itemvalue="JUnit.StandardAPITests" />
         <item itemvalue="JUnit.ServerFacadeTests.joinGameObserver" />
-        <item itemvalue="JUnit.ServerFacadeTests.joinGameOccupied" />
-        <item itemvalue="JUnit.ServerFacadeTests.joinGameSuccessful" />
       </list>
     </recent_temporary>
   </component>
@@ -200,7 +182,7 @@
       <workItem from="1748905506932" duration="2998000" />
       <workItem from="1748918706508" duration="4436000" />
       <workItem from="1748979925523" duration="1430000" />
-      <workItem from="1748981447884" duration="5226000" />
+      <workItem from="1748981447884" duration="6370000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -266,7 +248,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748986279969</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Improved code quality">
+      <option name="closed" value="true" />
+      <created>1748986767223</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1748986767223</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -282,6 +272,7 @@
     <MESSAGE value="Made custom error messages" />
     <MESSAGE value="Fixed spacing on column headings on chess board" />
     <MESSAGE value="Implemented all ServerFacade tests, all tests pass" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented all ServerFacade tests, all tests pass" />
+    <MESSAGE value="Improved code quality" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improved code quality" />
   </component>
 </project>
