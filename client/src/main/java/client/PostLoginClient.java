@@ -125,7 +125,7 @@ public class PostLoginClient {
             try {
                 int gameID = Integer.parseInt(params[0]);
                 try {
-                    JoinGameRequest request = new JoinGameRequest(null, gameID);
+                    JoinGameRequest request = JoinGameRequest.forObserver(gameID);
                     JoinGameResult result = server.joinGame(request);
 
                     displayGameBoard(gameID, null);

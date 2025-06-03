@@ -187,7 +187,7 @@ public class ServerFacadeTests {
         JoinGameRequest joinGameRequest1 = new JoinGameRequest(ChessGame.TeamColor.WHITE, 1);
         facade.joinGame(joinGameRequest1);
 
-        JoinGameRequest joinAsObserverRequest = new JoinGameRequest(null, 1);
+        JoinGameRequest joinAsObserverRequest = JoinGameRequest.forObserver(1);
 
         assertDoesNotThrow(() -> facade.joinGame(joinAsObserverRequest));
     }

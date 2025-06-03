@@ -51,6 +51,11 @@ public class GameService {
 
         int gameID = request.gameID();
         ChessGame.TeamColor color = request.playerColor();
+
+        if (color == null && !request.observer()) {
+            throw new BadRequestException("Error: bad request");
+        }
+
         String username;
         try {
             username = authDAO.getUsername(authToken);
@@ -63,7 +68,7 @@ public class GameService {
             throw new BadRequestException("Error: bad request");
         }
 
-        if (color == null) {
+        if (request.observer()) {
             return new JoinGameResult();
         }
 
