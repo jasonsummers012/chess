@@ -1,6 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import exception.ResponseException;
 import request.*;
 import result.*;
@@ -107,11 +108,17 @@ public class ServerFacade {
         var status = http.getResponseCode();
         if (!isSuccessful(status)) {
             String errorMessage = "HTTP error: " + status;
+
             try (InputStream respErr = http.getErrorStream()) {
                 if (respErr != null) {
-                    errorMessage = new String(respErr.readAllBytes(), StandardCharsets.UTF_8);
+                    String serverResponse = new String(respErr.readAllBytes(), StandardCharsets.UTF_8);
+                    String parsedMessage = parseErrorMessage(serverResponse);
+                    if (parsedMessage != null && !parsedMessage.isEmpty()) {
+                        errorMessage = parsedMessage;
+                    }
                 }
             }
+
             throw new ResponseException(status, errorMessage);
         }
     }
@@ -127,6 +134,24 @@ public class ServerFacade {
             }
         }
         return response;
+    }
+
+    private String parseErrorMessage(String response) {
+        try {
+            Gson gson = new Gson();
+            JsonObject json = gson.fromJson(response, JsonObject.class);
+
+            if (json.has("message")) {
+                return json.get("message").getAsString();
+            } else if (json.has("error")) {
+                return json.get("error").getAsString();
+            } else if (json.has("description")) {
+                return json.get("description").getAsString();
+            }
+        } catch (Exception e) {
+            return response;
+        }
+        return null;
     }
 
     private boolean isSuccessful(int status) {

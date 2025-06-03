@@ -23,7 +23,6 @@ public class PostLoginClient {
     private String visitorName;
     private final ServerFacade server;
     private final String serverUrl;
-    private State state = State.LOGGEDIN;
 
     public PostLoginClient(String serverUrl, Repl repl, String visitorName, ServerFacade server) {
         this.repl = repl;
@@ -38,19 +37,18 @@ public class PostLoginClient {
             var command = (tokens.length > 0) ? tokens[0].toLowerCase() : "help";
             var params = Arrays.copyOfRange(tokens, 1, tokens.length);
 
-            if (command.equals("create") && tokens.length > 1 && tokens[1].toLowerCase().equals("game")) {
+            if (command.equals("create") && tokens.length > 1 && tokens[1].equalsIgnoreCase("game")) {
                 return createGame(Arrays.copyOfRange(tokens, 2, tokens.length));
-            } else if (command.equals("list") && tokens.length > 1 && tokens[1].toLowerCase().equals("games")) {
+            } else if (command.equals("list") && tokens.length > 1 && tokens[1].equalsIgnoreCase("games")) {
                 return listGames(Arrays.copyOfRange(tokens, 2, tokens.length));
-            } else if (command.equals("play") && tokens.length > 1 && tokens[1].toLowerCase().equals("game")) {
+            } else if (command.equals("play") && tokens.length > 1 && tokens[1].equalsIgnoreCase("game")) {
                 return playGame(Arrays.copyOfRange(tokens, 2, tokens.length));
-            } else if (command.equals("observe") && tokens.length > 1 && tokens[1].toLowerCase().equals("game")) {
+            } else if (command.equals("observe") && tokens.length > 1 && tokens[1].equalsIgnoreCase("game")) {
                 return observeGame(Arrays.copyOfRange(tokens, 2, tokens.length));
             }
 
             return switch (command) {
                 case "logout" -> logout(params);
-                case "help" -> help();
                 default -> help();
             };
         } catch (ResponseException ex) {
@@ -75,7 +73,7 @@ public class PostLoginClient {
             CreateGameRequest request = new CreateGameRequest(gameName);
             CreateGameResult result = server.createGame(request);
 
-            return String.format("You created a game with game ID: %s", result.gameID());
+            return String.format("You created a game with game ID: %s", result.gameID() + "\n\n" + help());
         }
         throw new ResponseException(400, "Expected: <gameName>");
     }
@@ -119,7 +117,7 @@ public class PostLoginClient {
                 throw new ResponseException(400, "Invalid team color. Use WHITE or BLACK.");
             }
         }
-        throw new ResponseException(400, "Expected: <teamColor> <gameID>");
+        throw new ResponseException(400, "Expected: <gameID> <TeamColor>");
     }
 
     public String observeGame(String... params) {
@@ -145,18 +143,14 @@ public class PostLoginClient {
     }
 
     public String help() {
-        return """
+        return SET_TEXT_COLOR_GREEN + """
             logout                           Log out of your account
             create game <gameName>           Create a new game
             list games                       List all games
             play game <gameID> <TeamColor>   Join a game
             observe game <gameID>            Spectate a game
             help                             Show possible commands
-            """;
-    }
-
-    public State getState() {
-        return state;
+            """ + RESET_TEXT_COLOR;
     }
 
     public void setVisitorName(String name) {
@@ -177,9 +171,7 @@ public class PostLoginClient {
                     ? String.format("Playing as %s in Game %d", playerColor.name(), gameID)
                     : String.format("Observing Game %d", gameID);
 
-            out.print(SET_TEXT_COLOR_YELLOW);
-            out.println(viewInfo);
-            out.print(RESET_TEXT_COLOR);
+            out.println(SET_TEXT_COLOR_BLUE + viewInfo + RESET_TEXT_COLOR);
             out.println();
 
             if (playerColor == ChessGame.TeamColor.BLACK) {

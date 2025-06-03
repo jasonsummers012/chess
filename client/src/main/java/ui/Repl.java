@@ -21,7 +21,7 @@ public class Repl {
     }
 
     public void run() {
-        System.out.println(preLoginClient.help());
+        System.out.println(SET_TEXT_COLOR_GREEN + preLoginClient.help() + RESET_TEXT_COLOR);
 
         Scanner scanner = new Scanner(System.in);
         var result = "";
@@ -38,7 +38,7 @@ public class Repl {
                 } else {
                     result = postLoginClient.eval(line);
                 }
-                System.out.print(SET_TEXT_COLOR_GREEN + result + RESET_TEXT_COLOR);
+                System.out.print(SET_TEXT_COLOR_BLUE + result + RESET_TEXT_COLOR);
             } catch (Throwable e) {
                 System.out.print(e.toString());
             }

@@ -9,6 +9,8 @@ import ui.State;
 
 import java.util.Arrays;
 
+import static ui.EscapeSequences.*;
+
 public class PreLoginClient {
     private final Repl repl;
     private String visitorName = null;
@@ -74,12 +76,12 @@ public class PreLoginClient {
     }
 
     public String help() {
-        return """
+        return SET_TEXT_COLOR_GREEN + """
                 register <username> <password> <email>   Register a new account
                 login <username> <password>              Log in to your account
                 quit                                     Exit
                 help                                     Show possible commands
-                """;
+                """ + RESET_TEXT_COLOR;
     }
 
     public String getVisitorName() {
