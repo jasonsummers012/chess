@@ -64,7 +64,7 @@ public class BoardDrawer {
     public static void drawHeaders(PrintStream out, boolean flipped) {
         setBlack(out);
 
-        out.print("    ");
+        out.print("   ");
         if (flipped) {
             for (char col = 'h'; col >= 'a'; col--) {
                 drawColumnHeader(out, String.valueOf(col));
@@ -81,12 +81,15 @@ public class BoardDrawer {
         out.print(SET_BG_COLOR_BLACK);
         out.print(SET_TEXT_COLOR_GREEN);
 
-        int prefixLength = (SQUARE_SIZE_IN_CHARS - 1) / 2;
-        int suffixLength = SQUARE_SIZE_IN_CHARS - prefixLength - 1;
-
-        out.print(" ".repeat(prefixLength));
-        out.print(headerText);
-        out.print(" ".repeat(suffixLength));
+        if (!headerText.equals("b") && !headerText.equals("d") && !headerText.equals("f")) {
+            out.print("  ");
+            out.print(headerText);
+            out.print(" ");
+        } else {
+            out.print(" ");
+            out.print(headerText);
+            out.print(" ");
+        }
 
         setBlack(out);
     }
@@ -138,7 +141,6 @@ public class BoardDrawer {
             out.print(SET_BG_COLOR_LIGHT_GREY);
         }
 
-        // Set text color for the piece
         if (piece.equals(EMPTY)) {
             out.print(piece);
         } else if (piece.contains("♔") || piece.contains("♕") || piece.contains("♖") ||
