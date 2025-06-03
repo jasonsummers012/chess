@@ -58,16 +58,6 @@ public class ServerFacade {
         return this.makeRequest("PUT", path, request, JoinGameResult.class);
     }
 
-    public JoinGameResult observeGame(JoinGameRequest request) {
-        var path = "/game";
-        return this.makeRequest("PUT", path, request, JoinGameResult.class);
-    }
-
-    public void clear() {
-        var path = "/db";
-        this.makeRequest("DELETE", path, null, null);
-    }
-
     private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass) throws ResponseException {
         try {
             URL url = (new URI(serverUrl + path)).toURL();
@@ -158,7 +148,7 @@ public class ServerFacade {
         return status / 100 == 2;
     }
 
-    public void setAuthToken(String authToken) {
-        this.authToken = authToken;
+    public String getAuthToken() {
+        return authToken;
     }
 }

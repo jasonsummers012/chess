@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Made custom error messages">
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed spacing on column headings on chess board">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/BoardDrawer.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/BoardDrawer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,51 +47,135 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/BYU/5.5 Spring 2025/CS240/chess&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.inline.completion&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main (1).executor": "Run",
+    "Application.Main.executor": "Run",
+    "JUnit.ServerFacadeTests.createGameSuccessful.executor": "Run",
+    "JUnit.ServerFacadeTests.createRepeatGame.executor": "Run",
+    "JUnit.ServerFacadeTests.joinGameObserver.executor": "Run",
+    "JUnit.ServerFacadeTests.joinGameOccupied.executor": "Run",
+    "JUnit.ServerFacadeTests.joinGameSuccessful.executor": "Run",
+    "JUnit.ServerFacadeTests.listGamesNotLoggedIn.executor": "Run",
+    "JUnit.ServerFacadeTests.listGamesSuccessful.executor": "Run",
+    "JUnit.ServerFacadeTests.loginDoesntExist.executor": "Run",
+    "JUnit.ServerFacadeTests.loginSuccessful.executor": "Run",
+    "JUnit.ServerFacadeTests.logoutNotLoggedIn.executor": "Run",
+    "JUnit.ServerFacadeTests.logoutSuccessful.executor": "Run",
+    "JUnit.ServerFacadeTests.registerRepeat.executor": "Run",
+    "JUnit.ServerFacadeTests.registerSuccessful.executor": "Run",
+    "JUnit.ServerFacadeTests.sampleTest.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/BYU/5.5 Spring 2025/CS240/chess",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.testRunning",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="server" />
+  <component name="RunManager" selected="JUnit.ServerFacadeTests.joinGameObserver">
+    <configuration name="ServerFacadeTests.joinGameObserver" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="client" />
+      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
+      <option name="METHOD_NAME" value="joinGameObserver" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
+    <configuration name="ServerFacadeTests.joinGameOccupied" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="client" />
+      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
+      <option name="METHOD_NAME" value="joinGameOccupied" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServerFacadeTests.joinGameSuccessful" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="client" />
+      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
+      <option name="METHOD_NAME" value="joinGameSuccessful" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServerFacadeTests.listGamesNotLoggedIn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="client" />
+      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
+      <option name="METHOD_NAME" value="listGamesNotLoggedIn" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServerFacadeTests.listGamesSuccessful" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="client" />
+      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
+      <option name="METHOD_NAME" value="listGamesSuccessful" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Main (1)" />
+        <item itemvalue="JUnit.ServerFacadeTests.joinGameObserver" />
+        <item itemvalue="JUnit.ServerFacadeTests.joinGameOccupied" />
+        <item itemvalue="JUnit.ServerFacadeTests.joinGameSuccessful" />
+        <item itemvalue="JUnit.ServerFacadeTests.listGamesNotLoggedIn" />
+        <item itemvalue="JUnit.ServerFacadeTests.listGamesSuccessful" />
       </list>
     </recent_temporary>
   </component>
@@ -113,7 +200,9 @@
       <workItem from="1748897903991" duration="1492000" />
       <workItem from="1748900044703" duration="3903000" />
       <workItem from="1748905506932" duration="2998000" />
-      <workItem from="1748918706508" duration="4278000" />
+      <workItem from="1748918706508" duration="4436000" />
+      <workItem from="1748979925523" duration="1430000" />
+      <workItem from="1748981447884" duration="4787000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -163,7 +252,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748922137284</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Fixed spacing on column headings on chess board">
+      <option name="closed" value="true" />
+      <created>1748923119751</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1748923119751</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,6 +274,7 @@
     <MESSAGE value="Implemented board drawing with spacing adjustments needed" />
     <MESSAGE value="Made progress in fixing spacing issues in the board" />
     <MESSAGE value="Made custom error messages" />
-    <option name="LAST_COMMIT_MESSAGE" value="Made custom error messages" />
+    <MESSAGE value="Fixed spacing on column headings on chess board" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed spacing on column headings on chess board" />
   </component>
 </project>
