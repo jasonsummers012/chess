@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed spacing on column headings on chess board">
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Implemented all ServerFacade tests, all tests pass">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/client/ServerFacadeTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,6 +62,8 @@
     "JUnit.ServerFacadeTests.registerRepeat.executor": "Run",
     "JUnit.ServerFacadeTests.registerSuccessful.executor": "Run",
     "JUnit.ServerFacadeTests.sampleTest.executor": "Run",
+    "JUnit.StandardAPITests.executor": "Run",
+    "JUnit.StandardAPITests.joinGameBadColor.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -88,7 +87,7 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ServerFacadeTests.joinGameObserver">
+  <component name="RunManager" selected="JUnit.StandardAPITests.joinGameBadColor">
     <configuration name="ServerFacadeTests.joinGameObserver" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="client" />
       <extension name="coverage">
@@ -137,33 +136,32 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServerFacadeTests.listGamesNotLoggedIn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="client" />
+    <configuration name="StandardAPITests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="client.*" />
+          <option name="PATTERN" value="passoff.server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="client" />
-      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
-      <option name="METHOD_NAME" value="listGamesNotLoggedIn" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="passoff.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.StandardAPITests" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServerFacadeTests.listGamesSuccessful" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="client" />
+    <configuration name="StandardAPITests.joinGameBadColor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="client.*" />
+          <option name="PATTERN" value="passoff.server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="client" />
-      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
-      <option name="METHOD_NAME" value="listGamesSuccessful" />
+      <option name="PACKAGE_NAME" value="passoff.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.StandardAPITests" />
+      <option name="METHOD_NAME" value="joinGameBadColor" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -171,11 +169,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.StandardAPITests.joinGameBadColor" />
+        <item itemvalue="JUnit.StandardAPITests" />
         <item itemvalue="JUnit.ServerFacadeTests.joinGameObserver" />
         <item itemvalue="JUnit.ServerFacadeTests.joinGameOccupied" />
         <item itemvalue="JUnit.ServerFacadeTests.joinGameSuccessful" />
-        <item itemvalue="JUnit.ServerFacadeTests.listGamesNotLoggedIn" />
-        <item itemvalue="JUnit.ServerFacadeTests.listGamesSuccessful" />
       </list>
     </recent_temporary>
   </component>
@@ -202,7 +200,7 @@
       <workItem from="1748905506932" duration="2998000" />
       <workItem from="1748918706508" duration="4436000" />
       <workItem from="1748979925523" duration="1430000" />
-      <workItem from="1748981447884" duration="4787000" />
+      <workItem from="1748981447884" duration="5226000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -260,7 +258,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748923119751</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Implemented all ServerFacade tests, all tests pass">
+      <option name="closed" value="true" />
+      <created>1748986279969</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1748986279969</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,6 +281,7 @@
     <MESSAGE value="Made progress in fixing spacing issues in the board" />
     <MESSAGE value="Made custom error messages" />
     <MESSAGE value="Fixed spacing on column headings on chess board" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed spacing on column headings on chess board" />
+    <MESSAGE value="Implemented all ServerFacade tests, all tests pass" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented all ServerFacade tests, all tests pass" />
   </component>
 </project>

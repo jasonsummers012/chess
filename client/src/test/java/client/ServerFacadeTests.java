@@ -20,7 +20,7 @@ public class ServerFacadeTests {
     private static Server server;
     private static int port;
     private static ServerFacade facade;
-    private final static HttpClient httpClient = HttpClient.newHttpClient();
+    private final static HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
 
     @BeforeAll
     public static void init() {
@@ -37,7 +37,7 @@ public class ServerFacadeTests {
         .uri(URI.create("http://localhost:" + port + "/db"))
                 .DELETE()
                 .build();
-        httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
     @AfterAll
