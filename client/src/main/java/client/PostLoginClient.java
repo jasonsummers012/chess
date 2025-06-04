@@ -73,7 +73,7 @@ public class PostLoginClient {
             CreateGameRequest request = new CreateGameRequest(gameName);
             CreateGameResult result = server.createGame(request);
 
-            return String.format("You created a game with game ID: %s", result.gameID() + "\n\n" + help());
+            return String.format("You created a game with name: %s", gameName + "\n\n" + help());
         }
         throw new ResponseException(400, "Expected: <gameName>");
     }
@@ -90,8 +90,8 @@ public class PostLoginClient {
             StringBuilder list = new StringBuilder();
             int index = 1;
             for (GameData game : games) {
-                list.append(String.format("%d. Game: %s (ID: %d) - White: %s, Black: %s\n",
-                        index++, game.gameName(), game.gameID(),
+                list.append(String.format("%d. Game: %s - White: %s, Black: %s\n",
+                        index++, game.gameName(),
                         game.whiteUsername() != null ? game.whiteUsername() : "empty",
                         game.blackUsername() != null ? game.blackUsername() : "empty"));
             }

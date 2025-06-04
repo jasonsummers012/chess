@@ -107,7 +107,7 @@ public class BoardDrawer {
     }
 
     private static void drawRowOfSquares(PrintStream out, int boardRow, ChessBoard board, boolean flipped) {
-        int rowNumber = flipped ? (boardRow + 1) : (BOARD_SIZE_IN_SQUARES - boardRow);
+        int rowNumber = flipped ? (8 - boardRow) : (BOARD_SIZE_IN_SQUARES - boardRow);
 
         out.print(SET_BG_COLOR_BLACK);
         out.print(SET_TEXT_COLOR_GREEN);
