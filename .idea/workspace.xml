@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed displaying black's perspective correctly and not listing IDs">
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Added phase 6 starter code and dependencies">
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/websocket/WebSocketServerFacade.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/PostLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/PostLoginClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/State.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,6 +189,8 @@
       <workItem from="1748979925523" duration="1430000" />
       <workItem from="1748981447884" duration="8011000" />
       <workItem from="1749062650976" duration="2830000" />
+      <workItem from="1749325989434" duration="144000" />
+      <workItem from="1749500235578" duration="3997000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -280,7 +288,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749065431535</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Added phase 6 starter code and dependencies">
+      <option name="closed" value="true" />
+      <created>1749326107986</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1749326107986</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,6 +315,7 @@
     <MESSAGE value="Improved code quality" />
     <MESSAGE value="Fixed issue with observing games, all previous tests pass" />
     <MESSAGE value="Fixed displaying black's perspective correctly and not listing IDs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed displaying black's perspective correctly and not listing IDs" />
+    <MESSAGE value="Added phase 6 starter code and dependencies" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added phase 6 starter code and dependencies" />
   </component>
 </project>

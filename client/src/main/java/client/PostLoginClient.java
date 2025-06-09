@@ -110,7 +110,10 @@ public class PostLoginClient {
                 JoinGameRequest request = new JoinGameRequest(color, gameID);
                 JoinGameResult result = server.joinGame(request);
 
-                displayGameBoard(gameID, color);
+                GameData currentGame = server.getGame(gameID);
+                ChessBoard board = currentGame.game().getBoard();
+
+                displayGameBoard(gameID, color, board);
 
                 return String.format("You joined game with ID %d as %s.", gameID, color.name());
             } catch (IllegalArgumentException e) {
@@ -128,7 +131,10 @@ public class PostLoginClient {
                     JoinGameRequest request = JoinGameRequest.forObserver(gameID);
                     JoinGameResult result = server.joinGame(request);
 
-                    displayGameBoard(gameID, null);
+                    GameData currentGame = server.getGame(gameID);
+                    ChessBoard board = currentGame.game().getBoard();
+
+                    displayGameBoard(gameID, null, board);
 
                     return String.format("You are observing game with ID %d.", gameID);
                 } catch (ResponseException e) {
@@ -157,11 +163,8 @@ public class PostLoginClient {
         this.visitorName = name;
     }
 
-    private void displayGameBoard(int gameID, ChessGame.TeamColor playerColor) {
+    private void displayGameBoard(int gameID, ChessGame.TeamColor playerColor, ChessBoard board) {
         try {
-            ChessBoard board = new ChessBoard();
-            board.resetBoard();
-
             var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
 
             out.print(ERASE_SCREEN);
@@ -175,7 +178,6 @@ public class PostLoginClient {
             out.println();
 
             if (playerColor == ChessGame.TeamColor.BLACK) {
-                // Draw board from black's perspective (flipped)
                 BoardDrawer.drawBoardBlackPerspective(out, board);
             } else {
                 BoardDrawer.drawBoardWhitePerspective(out, board);

@@ -50,10 +50,6 @@ public class Repl {
         System.out.print("\n");
     }
 
-    public State getState() {
-        return state;
-    }
-
     public void setState(State newState) {
         state = newState;
     }

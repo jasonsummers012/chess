@@ -3,6 +3,7 @@ package server;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import exception.ResponseException;
+import model.GameData;
 import request.*;
 import result.*;
 
@@ -56,6 +57,11 @@ public class ServerFacade {
     public JoinGameResult joinGame(JoinGameRequest request) {
         var path = "/game";
         return this.makeRequest("PUT", path, request, JoinGameResult.class);
+    }
+
+    public GameData getGame(int gameID) throws ResponseException {
+            var path = "/game";
+            return this.makeRequest("GET", path, null, GameData.class);
     }
 
     private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass) throws ResponseException {
