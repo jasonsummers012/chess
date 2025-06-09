@@ -4,14 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Added phase 6 starter code and dependencies">
-      <change afterPath="$PROJECT_DIR$/client/src/main/java/websocket/WebSocketServerFacade.java" afterDir="false" />
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Started GameplayClient, fixed drawing board methods">
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/websocket/NotificationHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/websocket/Connection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/websocket/ConnectionManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/websocket/messages/Action.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/PostLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/PostLoginClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/server/ServerFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/PreLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/PreLoginClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/websocket/messages/ServerMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/websocket/messages/ServerMessage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +26,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
@@ -190,7 +197,7 @@
       <workItem from="1748981447884" duration="8011000" />
       <workItem from="1749062650976" duration="2830000" />
       <workItem from="1749325989434" duration="144000" />
-      <workItem from="1749500235578" duration="3997000" />
+      <workItem from="1749500235578" duration="9015000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -296,7 +303,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749326107986</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Started GameplayClient, fixed drawing board methods">
+      <option name="closed" value="true" />
+      <created>1749504398943</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1749504398943</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -316,6 +331,7 @@
     <MESSAGE value="Fixed issue with observing games, all previous tests pass" />
     <MESSAGE value="Fixed displaying black's perspective correctly and not listing IDs" />
     <MESSAGE value="Added phase 6 starter code and dependencies" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added phase 6 starter code and dependencies" />
+    <MESSAGE value="Started GameplayClient, fixed drawing board methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started GameplayClient, fixed drawing board methods" />
   </component>
 </project>

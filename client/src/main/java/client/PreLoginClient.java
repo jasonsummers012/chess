@@ -13,7 +13,7 @@ import static ui.EscapeSequences.*;
 
 public class PreLoginClient {
     private final Repl repl;
-    private String visitorName = null;
+    private String playerName = null;
     private final ServerFacade server;
     private final String serverUrl;
 
@@ -21,7 +21,7 @@ public class PreLoginClient {
         this.repl = repl;
         this.server = server;
         this.serverUrl = serverUrl;
-        this.visitorName = null;
+        this.playerName = null;
     }
 
     public String eval(String input) {
@@ -50,8 +50,8 @@ public class PreLoginClient {
             RegisterResult result = server.register(request);
 
             repl.setState(State.LOGGEDIN);
-            visitorName = username;
-            return String.format("You registered as %s.\n\n%s", visitorName, repl.getPostLoginHelp());
+            playerName = username;
+            return String.format("You registered as %s.\n\n%s", playerName, repl.getPostLoginHelp());
         }
         throw new ResponseException(400, "Expected: <username> <password> <email>");
     }
@@ -65,8 +65,8 @@ public class PreLoginClient {
             LoginResult result = server.login(request);
 
             repl.setState(State.LOGGEDIN);
-            visitorName = username;
-            return String.format("You signed in as %s.\n\n%s", visitorName, repl.getPostLoginHelp());
+            playerName = username;
+            return String.format("You signed in as %s.\n\n%s", playerName, repl.getPostLoginHelp());
         }
         throw new ResponseException(400, "Expected: <username> <password>");
     }
@@ -84,12 +84,12 @@ public class PreLoginClient {
                 """ + RESET_TEXT_COLOR;
     }
 
-    public String getVisitorName() {
-        return visitorName;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void clearVisitorName() {
-        this.visitorName = null;
+    public void clearPlayerName() {
+        this.playerName = null;
     }
 }
 

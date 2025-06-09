@@ -33,7 +33,7 @@ public class Repl {
                 if (state == State.LOGGEDOUT) {
                     result = preLoginClient.eval(line);
                     if (state == State.LOGGEDIN) {
-                        postLoginClient.setVisitorName(preLoginClient.getVisitorName());
+                        postLoginClient.setPlayerName(preLoginClient.getPlayerName());
                     }
                 } else {
                     result = postLoginClient.eval(line);

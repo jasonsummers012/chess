@@ -1,15 +1,16 @@
 package client;
 
 import chess.ChessGame;
+import com.google.gson.Gson;
 import exception.ResponseException;
 import websocket.WebSocketServerFacade;
 import ui.Repl;
 import ui.State;
+import websocket.messages.ServerMessage;
 
 import java.util.Arrays;
 
-import static ui.EscapeSequences.RESET_TEXT_COLOR;
-import static ui.EscapeSequences.SET_TEXT_COLOR_GREEN;
+import static ui.EscapeSequences.*;
 
 public class GameplayClient {
     private final Repl repl;
@@ -54,7 +55,7 @@ public class GameplayClient {
             if (command.equals("redraw") && tokens.length > 1 && tokens[1].equalsIgnoreCase("chess") && tokens[2].equalsIgnoreCase("board")) {
                 return redrawChessBoard(Arrays.copyOfRange(tokens, 2, tokens.length));
             } else if (command.equals("make") && tokens.length > 1 && tokens[1].equalsIgnoreCase("move")) {
-                return listGames(Arrays.copyOfRange(tokens, 2, tokens.length));
+                return makeMove(Arrays.copyOfRange(tokens, 2, tokens.length));
             } else if (command.equals("highlight") && tokens.length > 1 && tokens[1].equalsIgnoreCase("legal") && tokens[2].equalsIgnoreCase("moves")) {
                 return highlightLegalMoves(Arrays.copyOfRange(tokens, 2, tokens.length));
             }
@@ -78,5 +79,14 @@ public class GameplayClient {
             highlight legal moves <piece>  Show all possible moves for piece
             help                           Show possible commands
             """ + RESET_TEXT_COLOR;
+    }
+
+    private void handleServerMessage(String json) {
+        ServerMessage message = new Gson().fromJson(json, ServerMessage.class);
+        switch (message.getServerMessageType()) {
+            case LOAD_GAME -> updateBoard(message.getGame());
+            case ERROR -> showError(message.getErrorMessage());
+            case NOTIFICATION -> showNotification(message.getMessage());
+        }
     }
 }

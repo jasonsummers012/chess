@@ -20,15 +20,15 @@ import static ui.EscapeSequences.*;
 
 public class PostLoginClient {
     private final Repl repl;
-    private String visitorName;
+    private String playerName;
     private final ServerFacade server;
     private final String serverUrl;
 
-    public PostLoginClient(String serverUrl, Repl repl, String visitorName, ServerFacade server) {
+    public PostLoginClient(String serverUrl, Repl repl, String playerName, ServerFacade server) {
         this.repl = repl;
         this.server = server;
         this.serverUrl = serverUrl;
-        this.visitorName = visitorName;
+        this.playerName = playerName;
     }
 
     public String eval(String input) {
@@ -61,8 +61,8 @@ public class PostLoginClient {
         LogoutResult result = server.logout(request);
 
         repl.setState(State.LOGGEDOUT);
-        visitorName = null;
-        repl.getPreLoginClient().clearVisitorName();
+        playerName = null;
+        repl.getPreLoginClient().clearPlayerName();
         return "You have been logged out.\n\n" + repl.getPreLoginHelp();
     }
 
@@ -159,8 +159,8 @@ public class PostLoginClient {
             """ + RESET_TEXT_COLOR;
     }
 
-    public void setVisitorName(String name) {
-        this.visitorName = name;
+    public void setPlayerName(String name) {
+        this.playerName = name;
     }
 
     private void displayGameBoard(int gameID, ChessGame.TeamColor playerColor, ChessBoard board) {

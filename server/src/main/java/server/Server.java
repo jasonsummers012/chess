@@ -87,8 +87,7 @@ public class Server {
         Spark.put("/game", joinGameHandler);
         Spark.delete("/db", clearHandler);
 
-        //This line initializes the server and can be removed once you have a functioning endpoint 
-        Spark.init();
+        Spark.webSocket("/ws", GameWebSocketHandler.class);
 
         Spark.awaitInitialization();
         return Spark.port();
