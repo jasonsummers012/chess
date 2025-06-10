@@ -40,8 +40,10 @@ public class WebSocketHandler {
                 case LEAVE -> handleLeave(command, session, username, game);
                 case RESIGN -> handleResign(command, session, username, game);
             }
-        } catch (DataAccessException | IOException e) {
-            sendError(session, "Error: " + e.getMessage());
+        } catch (DataAccessException | IOException | InvalidMoveException e) {
+            ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
+            errorMessage.setErrorMessage("Error: " + e.getMessage());
+            session.getRemote().sendString(serializeMessage(errorMessage));
         }
     }
 
@@ -152,8 +154,14 @@ public class WebSocketHandler {
         connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(notification));
     }
 
-    private void handleResign(UserGameCommand command, Session session, String username, GameData game) {
+    private void handleResign(UserGameCommand command, Session session, String username, GameData game) throws DataAccessException, IOException {
+        GameService gameService = ServiceLocator.getGameService();
+        GameData updatedGame = game.withGameOver(true);
+        gameService.updateGame(updatedGame.gameID(), updatedGame);
 
+        ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
+        notification.setMessage(username + " resigned");
+        connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(notification));
     }
 
     public String serializeMessage(ServerMessage message) {
