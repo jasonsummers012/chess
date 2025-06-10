@@ -84,6 +84,10 @@ public class GameService {
         return new JoinGameResult();
     }
 
+    public GameData getGame(int gameID) throws DataAccessException {
+        return gameDAO.getGameByID(gameID);
+    }
+
     public void clear() throws DataAccessException {
         gameDAO.clear();
     }

@@ -4,6 +4,7 @@ import dataaccess.*;
 import handler.*;
 import service.*;
 import spark.*;
+import websocket.WebSocketHandler;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -87,7 +88,10 @@ public class Server {
         Spark.put("/game", joinGameHandler);
         Spark.delete("/db", clearHandler);
 
-        Spark.webSocket("/ws", GameWebSocketHandler.class);
+        Spark.webSocket("/ws", WebSocketHandler.class);
+
+        ServiceLocator.provideGameService(gameService);
+        ServiceLocator.provideAuthService(authService);
 
         Spark.awaitInitialization();
         return Spark.port();
