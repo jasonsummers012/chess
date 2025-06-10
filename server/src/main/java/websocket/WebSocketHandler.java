@@ -105,6 +105,13 @@ public class WebSocketHandler {
             return;
         }
 
+        if (game.gameOver()) {
+            ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
+            errorMessage.setMessage("Error: game is over");
+            connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(errorMessage));
+            return;
+        }
+
         chessGame.makeMove(move);
 
         GameService gameService = ServiceLocator.getGameService();

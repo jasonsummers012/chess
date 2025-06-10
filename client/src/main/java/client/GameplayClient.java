@@ -1,14 +1,19 @@
 package client;
 
+import chess.ChessBoard;
 import chess.ChessGame;
-import com.google.gson.Gson;
+import chess.ChessMove;
 import exception.ResponseException;
-import websocket.WebSocketServerFacade;
+import ui.BoardDrawer;
 import ui.Repl;
 import ui.State;
+import websocket.ClientNotificationHandler;
+import websocket.NotificationHandler;
+import websocket.WebSocketServerFacade;
 import websocket.messages.ServerMessage;
 
-import java.util.Arrays;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 
 import static ui.EscapeSequences.*;
 
@@ -18,51 +23,48 @@ public class GameplayClient {
     private final String authToken;
     private final int gameID;
     private final ChessGame.TeamColor playerColor;
-    private WebSocketClient webSocket;
+    private ChessGame currentGame;
+    private ChessBoard board;
+    private NotificationHandler notificationHandler;
 
     public GameplayClient (
             String serverUrl,
             Repl repl,
             String authToken,
             int gameID,
-            ChessGame.TeamColor playerColor
+            ChessGame.TeamColor playerColor,
+            ChessGame initialGame
     ) throws ResponseException {
         this.repl = repl;
         this.authToken = authToken;
         this.gameID = gameID;
         this.playerColor = playerColor;
+        this.currentGame = initialGame;
+        this.board = initialGame.getBoard();
+        this.notificationHandler = new ClientNotificationHandler();
 
-        this.webSocketFacade = new WebSocketServerFacade(serverUrl);
-        try {
-            this.webSocketFacade = webSocketFacade.connect(
-                    authToken,
-                    gameID,
-                    this::handleServerMessage
-            );
-        } catch (Exception e) {
-            throw new ResponseException(500, "Websocket connection failed: " + e.getMessage());
-        }
+        this.webSocketFacade = new WebSocketServerFacade(
+                serverUrl,
+                authToken,
+                this::handleServerMessage);
 
         repl.setState(State.INGAME);
+        redrawChessBoard();
     }
 
     public String eval(String input) {
         try {
             var tokens = input.split(" ");
-            var command = (tokens.length > 0) ? tokens[0].toLowerCase() : "help";
-            var params = Arrays.copyOfRange(tokens, 1, tokens.length);
-
-            if (command.equals("redraw") && tokens.length > 1 && tokens[1].equalsIgnoreCase("chess") && tokens[2].equalsIgnoreCase("board")) {
-                return redrawChessBoard(Arrays.copyOfRange(tokens, 2, tokens.length));
-            } else if (command.equals("make") && tokens.length > 1 && tokens[1].equalsIgnoreCase("move")) {
-                return makeMove(Arrays.copyOfRange(tokens, 2, tokens.length));
-            } else if (command.equals("highlight") && tokens.length > 1 && tokens[1].equalsIgnoreCase("legal") && tokens[2].equalsIgnoreCase("moves")) {
-                return highlightLegalMoves(Arrays.copyOfRange(tokens, 2, tokens.length));
+            if (tokens.length == 0) {
+                return help();
             }
 
-            return switch (command) {
-                case "leave" -> leave(params);
-                case "resign" -> resign(params);
+            return switch (tokens[0]) {
+                case "redraw" -> redrawChessBoard();
+                case "leave" -> leave();
+                case "make" -> makeMove();
+                case "resign" -> resign();
+                case "highlight" -> highlightLegalMoves();
                 default -> help();
             };
         } catch (ResponseException ex) {
@@ -70,7 +72,32 @@ public class GameplayClient {
         }
     }
 
-    public String help() {
+    private void handleServerMessage(ServerMessage message) {
+        notificationHandler.notify(message);
+    }
+
+    private String redrawChessBoard() {
+        displayGameBoard();
+        return "";
+    }
+
+    private String leave() throws ResponseException {
+        webSocketFacade.leave(authToken, gameID);
+        repl.setState(State.LOGGEDIN);
+        return "You left the game";
+    }
+
+    private String makeMove(ChessMove move) throws ResponseException {
+        webSocketFacade.makeMove(authToken, gameID, move);
+        return "You made the move: " + move;
+    }
+
+    private String resign() throws ResponseException {
+        webSocketFacade.resign(authToken, gameID);
+        return "You resigned the game";
+    }
+
+    private String help() {
         return SET_TEXT_COLOR_GREEN + """
             redraw chess board             Draw current board
             leave                          Remove from game
@@ -81,12 +108,23 @@ public class GameplayClient {
             """ + RESET_TEXT_COLOR;
     }
 
-    private void handleServerMessage(String json) {
-        ServerMessage message = new Gson().fromJson(json, ServerMessage.class);
-        switch (message.getServerMessageType()) {
-            case LOAD_GAME -> updateBoard(message.getGame());
-            case ERROR -> showError(message.getErrorMessage());
-            case NOTIFICATION -> showNotification(message.getMessage());
+    private void displayGameBoard() {
+        try {
+            var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+
+            out.print(ERASE_SCREEN);
+            out.println();
+
+            if (playerColor == ChessGame.TeamColor.BLACK) {
+                BoardDrawer.drawBoardBlackPerspective(out, board);
+            } else {
+                BoardDrawer.drawBoardWhitePerspective(out, board);
+            }
+
+            out.println();
+
+        } catch (Exception e) {
+            System.err.println("Error displaying board: " + e.getMessage());
         }
     }
 }
