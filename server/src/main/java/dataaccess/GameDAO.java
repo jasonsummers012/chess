@@ -12,6 +12,6 @@ public interface GameDAO {
     List<GameData> getAllGames() throws DataAccessException;
     boolean checkColorOccupied(GameData game, ChessGame.TeamColor color) throws DataAccessException;
     GameData join(GameData game, ChessGame.TeamColor color, String username) throws DataAccessException;
-    void updateGame(int gameID, ChessGame newGame) throws DataAccessException;
+    void updateGame(int gameID, GameData newGame) throws DataAccessException;
     void clear() throws DataAccessException;
 }

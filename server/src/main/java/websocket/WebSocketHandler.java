@@ -85,6 +85,10 @@ public class WebSocketHandler {
             return;
         }
 
+        String opponentUsername = (opponentColor == ChessGame.TeamColor.WHITE)
+                ? game.whiteUsername()
+                : game.blackUsername();
+
         if (!chessGame.getTeamTurn().equals(playerColor)) {
             ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
             errorMessage.setMessage("Error: only make moves on your turn");
@@ -102,7 +106,7 @@ public class WebSocketHandler {
         chessGame.makeMove(move);
 
         GameService gameService = ServiceLocator.getGameService();
-        gameService.updateGame(game.gameID(), chessGame);
+        gameService.updateGame(game.gameID(), game);
 
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
         notification.setMessage(username + " made the move " + move);
@@ -110,7 +114,7 @@ public class WebSocketHandler {
 
         if (chessGame.isInCheckmate(opponentColor)) {
             ServerMessage checkmateNotification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
-            checkmateNotification.setMessage(playerColor + " has won by checkmate!");
+            checkmateNotification.setMessage(username + " has won by checkmate!");
             connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(checkmateNotification));
         } else if (chessGame.isInStalemate(opponentColor)) {
             ServerMessage checkmateNotification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
@@ -118,7 +122,7 @@ public class WebSocketHandler {
             connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(checkmateNotification));
         } else if (chessGame.isInCheck(opponentColor)) {
             ServerMessage checkNotification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
-            checkNotification.setMessage(opponentColor + " is in check");
+            checkNotification.setMessage(opponentUsername + " is in check");
             connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(checkNotification));
         }
 
@@ -127,11 +131,28 @@ public class WebSocketHandler {
         connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(loadGameMessage));
     }
 
-    private void handleResign(UserGameCommand command, Session session, String username, GameData game) {
+    private void handleLeave(UserGameCommand command, Session session, String username, GameData game) throws IOException, DataAccessException {
+        connections.remove(command.getGameID(), command.getAuthToken());
 
+        GameService gameService = ServiceLocator.getGameService();
+        GameData updatedGame = game;
+
+        if (username.equals(game.whiteUsername())) {
+            updatedGame = game.withWhiteUsername(null);
+        } else if (username.equals(game.blackUsername())) {
+            updatedGame = game.withBlackUsername(null);
+        }
+
+        if (updatedGame != game) {
+            gameService.updateGame(updatedGame.gameID(), updatedGame);
+        }
+
+        ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
+        notification.setMessage(username + " left the game");
+        connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(notification));
     }
 
-    private void handleLeave(UserGameCommand command, Session session, String username, GameData game) {
+    private void handleResign(UserGameCommand command, Session session, String username, GameData game) {
 
     }
 

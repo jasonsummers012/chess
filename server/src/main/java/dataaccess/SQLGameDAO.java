@@ -180,11 +180,11 @@ public class SQLGameDAO implements GameDAO {
     }
 
     @Override
-    public void updateGame(int gameID, ChessGame newGame) throws DataAccessException {
+    public void updateGame(int gameID, GameData newGame) throws DataAccessException {
         var statement = "UPDATE gameTable SET game = ? WHERE gameID = ?";
         try (Connection conn = DatabaseManager.getConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
-            preparedStatement.setString(1, gson.toJson(newGame));
+            preparedStatement.setString(1, gson.toJson(newGame.game()));
             preparedStatement.setInt(2, gameID);
 
             int rowsAffected = preparedStatement.executeUpdate();
