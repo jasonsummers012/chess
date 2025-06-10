@@ -88,6 +88,10 @@ public class GameService {
         return gameDAO.getGameByID(gameID);
     }
 
+    public void updateGame(int gameID, ChessGame newGame) throws DataAccessException {
+        gameDAO.updateGame(gameID, newGame);
+    }
+
     public void clear() throws DataAccessException {
         gameDAO.clear();
     }

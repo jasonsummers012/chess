@@ -71,6 +71,12 @@ public class ChessGame {
         return validMoves;
     }
 
+    public boolean isValidMove(ChessMove move) {
+        ChessPosition startPosition = move.getStartPosition();
+        Collection<ChessMove> validMoves = validMoves(startPosition);
+        return validMoves.contains(move);
+    }
+
     /**
      * Makes a move in a chess game
      *
