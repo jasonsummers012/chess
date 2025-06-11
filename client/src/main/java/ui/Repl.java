@@ -79,7 +79,14 @@ public class Repl {
     public void enterGameplay(int gameID, ChessGame.TeamColor playerColor, boolean observer) {
         try {
             GameData gameData = server.getGame(gameID);
+            if (gameData == null) {
+                throw new Exception("Game " + gameID + "not found");
+            }
+
             ChessGame initialGame = gameData.game();
+            if (initialGame == null) {
+                throw new Exception("Game " + gameID + " has no chess game data");
+            }
 
             String authToken = postLoginClient.getAuthToken();
 

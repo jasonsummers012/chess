@@ -78,6 +78,8 @@ public class Server {
     public int run(int desiredPort) {
         Spark.port(desiredPort);
 
+        Spark.webSocket("/ws", WebSocketHandler.class);
+
         Spark.staticFiles.location("web");
 
         Spark.post("/user", registerHandler);
@@ -87,8 +89,6 @@ public class Server {
         Spark.get("/game", listGamesHandler);
         Spark.put("/game", joinGameHandler);
         Spark.delete("/db", clearHandler);
-
-        Spark.webSocket("/ws", WebSocketHandler.class);
 
         ServiceLocator.provideGameService(gameService);
         ServiceLocator.provideAuthService(authService);

@@ -4,7 +4,6 @@ import chess.ChessGame;
 import chess.ChessMove;
 import chess.InvalidMoveException;
 import com.google.gson.Gson;
-//import dataaccess.DataAccess;
 import dataaccess.DataAccessException;
 import model.GameData;
 import org.eclipse.jetty.websocket.api.Session;
@@ -33,6 +32,20 @@ public class WebSocketHandler {
             String username = authService.getUsername(command.getAuthToken());
             int gameID = command.getGameID();
             GameData game = gameService.getGame(gameID);
+
+            if (username == null) {
+                ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
+                errorMessage.setErrorMessage("Error: invalid auth token");
+                session.getRemote().sendString(serializeMessage(errorMessage));
+                return;
+            }
+
+            if (game == null) {
+                ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
+                errorMessage.setErrorMessage("Error: invalid game ID");
+                session.getRemote().sendString(serializeMessage(errorMessage));
+                return;
+            }
 
             switch (command.getCommandType()) {
                 case CONNECT -> handleConnect(command, session, username, game);
