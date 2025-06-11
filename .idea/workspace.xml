@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Implemented highlightLegalMoves">
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Added proper handling of authTokens and GameplayClient into Repl">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/PostLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/PostLoginClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/websocket/ClientNotificationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/websocket/ClientNotificationHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,7 +192,7 @@
       <workItem from="1749516183670" duration="12405000" />
       <workItem from="1749583212523" duration="1561000" />
       <workItem from="1749586293760" duration="9593000" />
-      <workItem from="1749603326969" duration="5492000" />
+      <workItem from="1749603326969" duration="6787000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -386,14 +386,21 @@
       <option name="project" value="LOCAL" />
       <updated>1749607741016</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Added proper handling of authTokens and GameplayClient into Repl">
+      <option name="closed" value="true" />
+      <created>1749609227042</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1749609227042</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented pre and post login loops in Repl class" />
     <MESSAGE value="Restructued dependencies, reloaded maven project" />
     <MESSAGE value="Made minor changes to fix error handling" />
     <MESSAGE value="Fixed error handling, debugged, properly implemented observing a game" />
@@ -418,6 +425,7 @@
     <MESSAGE value="Finished all  methods in WebSocketHandler" />
     <MESSAGE value="Implemented all GameplayClient functions except highlightLegalMoves" />
     <MESSAGE value="Implemented highlightLegalMoves" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented highlightLegalMoves" />
+    <MESSAGE value="Added proper handling of authTokens and GameplayClient into Repl" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added proper handling of authTokens and GameplayClient into Repl" />
   </component>
 </project>

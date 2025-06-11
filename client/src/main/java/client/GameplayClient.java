@@ -82,6 +82,17 @@ public class GameplayClient {
 
     private void handleServerMessage(ServerMessage message) {
         notificationHandler.notify(message);
+        if (message.getServerMessageType() == ServerMessage.ServerMessageType.LOAD_GAME) {
+            updateGameStatus(message.getGame());
+        }
+    }
+
+    private void updateGameStatus(ChessGame newGame) {
+        if (newGame != null) {
+            this.currentGame = newGame;
+            this.board = newGame.getBoard();
+            redrawChessBoard();
+        }
     }
 
     private String redrawChessBoard() {
