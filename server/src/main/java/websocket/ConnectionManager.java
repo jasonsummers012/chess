@@ -14,16 +14,21 @@ public class ConnectionManager {
                 gameID,
                 k -> new ConcurrentHashMap<>()
         );
+
+        Connection existingConnection = connections.get(authToken);
+        if (existingConnection != null) {
+            connections.remove(authToken);
+        }
+
         connections.put(authToken, new Connection(authToken, session));
     }
 
     public void remove(int gameID, String authToken) {
+
         ConcurrentHashMap<String, Connection> connections = gameConnections.get(gameID);
         if (connections != null) {
-            connections.remove(authToken);
-            if (connections.isEmpty()) {
-                gameConnections.remove(gameID);
-            }
+            Connection removed = connections.remove(authToken);
+            gameConnections.remove(gameID);
         }
     }
 
@@ -84,11 +89,17 @@ public class ConnectionManager {
     }
 
     public void removeSession(Session session) {
+
         for (var gameEntry : gameConnections.entrySet()) {
+            int gameID = gameEntry.getKey();
             var connections = gameEntry.getValue();
-            connections.entrySet().removeIf(entry -> entry.getValue().session.equals(session));
+
+            boolean removed = connections.entrySet().removeIf(entry -> {
+                return entry.getValue().session.equals(session);
+            });
+
             if (connections.isEmpty()) {
-                gameConnections.remove(gameEntry.getKey());
+                gameConnections.remove(gameID);
             }
         }
     }

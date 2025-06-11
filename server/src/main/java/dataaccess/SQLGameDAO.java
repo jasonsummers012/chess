@@ -131,19 +131,27 @@ public class SQLGameDAO implements GameDAO {
 
     @Override
     public boolean checkColorOccupied(GameData game, ChessGame.TeamColor color) throws DataAccessException {
+
         GameData freshGame = getGameByID(game.gameID());
+
         if (freshGame == null) {
             return false;
         }
-        return color.equals(ChessGame.TeamColor.WHITE) ? freshGame.whiteUsername() != null
+
+        boolean result = color.equals(ChessGame.TeamColor.WHITE) ? freshGame.whiteUsername() != null
                 : freshGame.blackUsername() != null;
+
+        return result;
     }
 
     @Override
     public GameData join(GameData game, ChessGame.TeamColor color, String username) throws DataAccessException {
-        if (getGame(game.gameName()) == null) {
-            return null;
+        GameData freshGame = getGameByID(game.gameID());
+
+        if (freshGame == null) {
+            throw new DataAccessException("Game not found");
         }
+
         String updateStatement;
         if (color.equals(ChessGame.TeamColor.WHITE)) {
             updateStatement = "UPDATE gameTable SET whiteUsername = ? WHERE gameID = ? AND whiteUsername IS NULL";
@@ -151,42 +159,33 @@ public class SQLGameDAO implements GameDAO {
             updateStatement = "UPDATE gameTable SET blackUsername = ? WHERE gameID = ? AND blackUsername IS NULL";
         }
 
-        try (Connection conn = DatabaseManager.getConnection();
-                var preparedStatement = conn.prepareStatement(updateStatement)) {
-            preparedStatement.setString(1, username);
-            preparedStatement.setInt(2, game.gameID());
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected == 0) {
-                throw new DataAccessException("failed to join game");
-            }
-        } catch (SQLException ex) {
-            throw new DataAccessException("failed to join game", ex);
-        }
+        try (Connection conn = DatabaseManager.getConnection()) {
 
-        String selectStatement = "SELECT gameID, whiteUsername, blackUsername, gameName, game, gameOver FROM gameTable WHERE gameID = ?";
-        try (Connection conn = DatabaseManager.getConnection();
-                var preparedStatement = conn.prepareStatement(selectStatement)) {
-            preparedStatement.setInt(1, game.gameID());
-            try (var resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    int gameID = resultSet.getInt("gameID");
-                    String whiteUsername = resultSet.getString("whiteUsername");
-                    String blackUsername = resultSet.getString("blackUsername");
-                    String name = resultSet.getString("gameName");
-                    ChessGame chessGame = gson.fromJson(resultSet.getString("game"), ChessGame.class);
-                    boolean gameOver = resultSet.getBoolean("gameOver");
-                    return new GameData(gameID, whiteUsername, blackUsername, name, chessGame, gameOver);
-                } else {
+            try (var preparedStatement = conn.prepareStatement(updateStatement)) {
+                preparedStatement.setString(1, username);
+                preparedStatement.setInt(2, game.gameID());
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected == 0) {
                     throw new DataAccessException("failed to join game");
                 }
             }
         } catch (SQLException ex) {
-            throw new DataAccessException("failed to retrieve updated game", ex);
+            throw new DataAccessException("failed to join game: " + ex.getMessage(), ex);
+        }
+
+        try {
+            GameData result = getGameByID(game.gameID());
+            return result;
+        } catch (Exception e) {
+            throw e;
         }
     }
 
     @Override
     public void updateGame(int gameID, GameData newGame) throws DataAccessException {
+
         var statement = "UPDATE gameTable SET whiteUsername = ?, blackUsername = ?, gameName = ?, game = ?, gameOver = ? WHERE gameID = ?";
         try (Connection conn = DatabaseManager.getConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
@@ -199,6 +198,7 @@ public class SQLGameDAO implements GameDAO {
             preparedStatement.setInt(6, gameID);
 
             int rowsAffected = preparedStatement.executeUpdate();
+
             if (rowsAffected == 0) {
                 throw new DataAccessException("failed to find game");
             }

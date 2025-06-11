@@ -32,6 +32,7 @@ public class WebSocketHandler {
             GameService gameService = ServiceLocator.getGameService();
 
             String username = authService.getUsername(command.getAuthToken());
+
             int gameID = command.getGameID();
             GameData game = gameService.getGame(gameID);
 
@@ -50,10 +51,18 @@ public class WebSocketHandler {
             }
 
             switch (command.getCommandType()) {
-                case CONNECT -> handleConnect(command, session, username, game);
-                case MAKE_MOVE -> handleMove(command, session, username, game);
-                case LEAVE -> handleLeave(command, session, username, game);
-                case RESIGN -> handleResign(command, session, username, game);
+                case CONNECT -> {
+                    handleConnect(command, session, username, game);
+                }
+                case MAKE_MOVE -> {
+                    handleMove(command, session, username, game);
+                }
+                case LEAVE -> {
+                    handleLeave(command, session, username, game);
+                }
+                case RESIGN -> {
+                    handleResign(command, session, username, game);
+                }
             }
         } catch (DataAccessException | IOException | InvalidMoveException e) {
             ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
@@ -74,9 +83,9 @@ public class WebSocketHandler {
 
     private void handleConnect(UserGameCommand command, Session session, String username, GameData game) throws IOException {
         connections.add(command.getGameID(), command.getAuthToken(), session);
-
         ServerMessage loadGameMessage = new ServerMessage(ServerMessage.ServerMessageType.LOAD_GAME);
         loadGameMessage.setGame(game.game());
+
         session.getRemote().sendString(serializeMessage(loadGameMessage));
 
         String color = "observer";
@@ -89,6 +98,26 @@ public class WebSocketHandler {
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
         notification.setMessage(username + " joined as " + color);
         connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(notification));
+    }
+
+    private void handleLeave(UserGameCommand command, Session session, String username, GameData game) throws IOException, DataAccessException {
+
+        GameService gameService = ServiceLocator.getGameService();
+        GameData updatedGame = game;
+
+        if (username.equals(game.whiteUsername())) {
+            updatedGame = game.withWhiteUsername(null);
+            gameService.updateGame(updatedGame.gameID(), updatedGame);
+        } else if (username.equals(game.blackUsername())) {
+            updatedGame = game.withBlackUsername(null);
+            gameService.updateGame(updatedGame.gameID(), updatedGame);
+        }
+
+        ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
+        notification.setMessage(username + " left the game");
+        connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(notification));
+
+        connections.remove(command.getGameID(), command.getAuthToken());
     }
 
     private void handleMove(UserGameCommand command, Session session, String username, GameData game)
@@ -167,9 +196,8 @@ public class WebSocketHandler {
         connections.broadcastToAll(command.getGameID(), serializeMessage(loadGameMessage));
     }
 
+    /*
     private void handleLeave(UserGameCommand command, Session session, String username, GameData game) throws IOException, DataAccessException {
-        connections.remove(command.getGameID(), command.getAuthToken());
-
         GameService gameService = ServiceLocator.getGameService();
         GameData updatedGame = game;
 
@@ -180,11 +208,13 @@ public class WebSocketHandler {
             updatedGame = game.withBlackUsername(null);
             gameService.updateGame(updatedGame.gameID(), updatedGame);
         }
-
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
         notification.setMessage(username + " left the game");
         connections.broadcastToAll(command.getGameID(), serializeMessage(notification));
+
+        connections.remove(command.getGameID(), command.getAuthToken());
     }
+     */
 
     private void handleResign(UserGameCommand command, Session session, String username, GameData game) throws DataAccessException, IOException {
         if (!username.equals(game.whiteUsername()) && !username.equals(game.blackUsername())) {

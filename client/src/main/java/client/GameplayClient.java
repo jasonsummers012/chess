@@ -59,7 +59,6 @@ public class GameplayClient {
             }
 
             if (tokens[0].equals("make")) {
-                // Check if we have enough tokens for a move command
                 if (tokens.length < 4) {
                     return "Error: Invalid move format. Use: make move <from> <to> [promotion]";
                 }
@@ -110,8 +109,16 @@ public class GameplayClient {
     }
 
     public String leave() throws ResponseException {
-        webSocketFacade.leave(authToken, gameID);
-        webSocketFacade.close();
+        try {
+            webSocketFacade.leave(authToken, gameID);
+        } catch (Exception e) {
+        }
+
+        try {
+            webSocketFacade.close();
+        } catch (Exception e) {
+        }
+
         repl.setState(State.LOGGEDIN);
         return "You left the game";
     }

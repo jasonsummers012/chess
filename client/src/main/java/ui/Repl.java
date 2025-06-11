@@ -80,11 +80,17 @@ public class Repl {
     public void enterGameplay(int gameID, ChessGame.TeamColor playerColor, boolean observer) {
         try {
             if (gameplayClient != null) {
-                gameplayClient.leave();
+                try {
+                    gameplayClient.leave();
+                } catch (Exception e) {
+                    System.out.println("Note: Previous connection cleanup: " + e.getMessage());
+                }
+                gameplayClient = null;
             }
+
             GameData gameData = server.getGame(gameID);
             if (gameData == null) {
-                throw new Exception("Game " + gameID + "not found");
+                throw new Exception("Game " + gameID + " not found");
             }
 
             ChessGame initialGame = gameData.game();
@@ -93,8 +99,11 @@ public class Repl {
             }
 
             String authToken = postLoginClient.getAuthToken();
+            if (authToken == null) {
+                throw new Exception("No valid authentication token");
+            }
 
-            GameplayClient gameplayClient = new GameplayClient(
+            this.gameplayClient = new GameplayClient(
                     server.getServerUrl(),
                     this,
                     authToken,
@@ -102,10 +111,12 @@ public class Repl {
                     playerColor,
                     initialGame
             );
-            gameplayClient.setNotificationHandler(new ClientNotificationHandler(gameplayClient));
-            this.gameplayClient = gameplayClient;
+
+            this.gameplayClient.setNotificationHandler(new ClientNotificationHandler(this.gameplayClient));
+
         } catch (Exception e) {
             System.err.println("Error: unable to enter game: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
