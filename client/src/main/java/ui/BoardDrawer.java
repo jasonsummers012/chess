@@ -1,19 +1,19 @@
 package ui;
 
-import chess.ChessBoard;
-import chess.ChessPiece;
-import chess.ChessGame;
-import chess.ChessPosition;
+import chess.*;
 
 import java.io.PrintStream;
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static ui.EscapeSequences.*;
 
 
 public class BoardDrawer {
     private static final int BOARD_SIZE_IN_SQUARES = 8;
-    private static final int SQUARE_SIZE_IN_CHARS = 1;
 
     private static String getPieceSymbol(ChessPiece piece) {
         if (piece == null) {
@@ -44,15 +44,15 @@ public class BoardDrawer {
         }
     }
 
-    public static void drawBoardWhitePerspective(PrintStream out, ChessBoard board) {
+    public static void drawBoardWhitePerspective(PrintStream out, ChessBoard board, ChessPosition position) {
         drawHeaders(out, false);
-        drawChessBoard(out, board, false);
+        drawChessBoard(out, board, false, position);
         resetColors(out);
     }
 
-    public static void drawBoardBlackPerspective(PrintStream out, ChessBoard board) {
+    public static void drawBoardBlackPerspective(PrintStream out, ChessBoard board, ChessPosition position) {
         drawHeaders(out, true);
-        drawChessBoard(out, board, true);
+        drawChessBoard(out, board, true, position);
         resetColors(out);
     }
 
@@ -94,19 +94,19 @@ public class BoardDrawer {
         setBlack(out);
     }
 
-    private static void drawChessBoard(PrintStream out, ChessBoard board, boolean flipped) {
+    private static void drawChessBoard(PrintStream out, ChessBoard board, boolean flipped, ChessPosition position) {
         if (flipped) {
             for (int boardRow = BOARD_SIZE_IN_SQUARES - 1; boardRow >= 0; --boardRow) {
-                drawRowOfSquares(out, boardRow, board, flipped);
+                drawRowOfSquares(out, boardRow, board, flipped, position);
             }
         } else {
             for (int boardRow = 0; boardRow < BOARD_SIZE_IN_SQUARES; ++boardRow) {
-                drawRowOfSquares(out, boardRow, board, flipped);
+                drawRowOfSquares(out, boardRow, board, flipped, position);
             }
         }
     }
 
-    private static void drawRowOfSquares(PrintStream out, int boardRow, ChessBoard board, boolean flipped) {
+    private static void drawRowOfSquares(PrintStream out, int boardRow, ChessBoard board, boolean flipped, ChessPosition selectedPosition) {
         int rowNumber = flipped ? (8 - boardRow) : (BOARD_SIZE_IN_SQUARES - boardRow);
 
         out.print(SET_BG_COLOR_BLACK);
@@ -122,7 +122,11 @@ public class BoardDrawer {
             ChessPiece piece = board.getPiece(position);
             String pieceSymbol = getPieceSymbol(piece);
 
-            printPiece(out, pieceSymbol, isLightSquare);
+            Collection<ChessPosition> legalMoves = getLegalMoves(selectedPosition, board);
+            boolean isStartingPosition = position.equals(selectedPosition);
+            boolean isLegalMove = legalMoves != null && legalMoves.contains(position);
+
+            printPiece(out, pieceSymbol, isLightSquare, isStartingPosition, isLegalMove);
         }
 
         out.print(SET_BG_COLOR_BLACK);
@@ -134,8 +138,12 @@ public class BoardDrawer {
         out.print(SET_TEXT_COLOR_WHITE);
     }
 
-    private static void printPiece(PrintStream out, String piece, boolean isLightSquare) {
-        if (isLightSquare) {
+    private static void printPiece(PrintStream out, String piece, boolean isLightSquare, boolean isStartingPosition, boolean isLegalMove) {
+        if (isStartingPosition){
+            out.print(SET_BG_COLOR_YELLOW);
+        } else if (isLegalMove) {
+            out.print(SET_BG_COLOR_GREEN);
+        } else if (isLightSquare) {
             out.print(SET_BG_COLOR_WHITE);
         } else {
             out.print(SET_BG_COLOR_LIGHT_GREY);
@@ -151,5 +159,21 @@ public class BoardDrawer {
             out.print(SET_TEXT_COLOR_BLACK);
             out.print(piece);
         }
+    }
+
+    private static Collection<ChessPosition> getLegalMoves(ChessPosition startPosition, ChessBoard board) {
+        Collection<ChessPosition> legalMoves = new ArrayList<>();
+        if (startPosition == null) {
+            return null;
+        }
+        ChessPiece piece = board.getPiece(startPosition);
+        if (piece == null) {
+            return null;
+        }
+        Collection<ChessMove> moves = piece.pieceMoves(board, startPosition);
+        for (ChessMove move : moves) {
+            legalMoves.add(move.getEndPosition());
+        }
+        return legalMoves;
     }
 }

@@ -40,7 +40,7 @@ public class PostLoginClient {
             if (command.equals("create") && tokens.length > 1 && tokens[1].equalsIgnoreCase("game")) {
                 return createGame(Arrays.copyOfRange(tokens, 2, tokens.length));
             } else if (command.equals("list") && tokens.length > 1 && tokens[1].equalsIgnoreCase("games")) {
-                return listGames(Arrays.copyOfRange(tokens, 2, tokens.length));
+                return listGames();
             } else if (command.equals("play") && tokens.length > 1 && tokens[1].equalsIgnoreCase("game")) {
                 return playGame(Arrays.copyOfRange(tokens, 2, tokens.length));
             } else if (command.equals("observe") && tokens.length > 1 && tokens[1].equalsIgnoreCase("game")) {
@@ -48,7 +48,7 @@ public class PostLoginClient {
             }
 
             return switch (command) {
-                case "logout" -> logout(params);
+                case "logout" -> logout();
                 default -> help();
             };
         } catch (ResponseException ex) {
@@ -56,7 +56,7 @@ public class PostLoginClient {
         }
     }
 
-    public String logout(String... params) throws ResponseException {
+    public String logout() throws ResponseException {
         LogoutRequest request = new LogoutRequest();
         LogoutResult result = server.logout(request);
 
@@ -78,7 +78,7 @@ public class PostLoginClient {
         throw new ResponseException(400, "Expected: <gameName>");
     }
 
-    public String listGames(String... params) {
+    public String listGames() {
         try {
             ListGamesResult result = server.listGames(null);
             List<GameData> games = result.games();
@@ -178,9 +178,9 @@ public class PostLoginClient {
             out.println();
 
             if (playerColor == ChessGame.TeamColor.BLACK) {
-                BoardDrawer.drawBoardBlackPerspective(out, board);
+                BoardDrawer.drawBoardBlackPerspective(out, board, null);
             } else {
-                BoardDrawer.drawBoardWhitePerspective(out, board);
+                BoardDrawer.drawBoardWhitePerspective(out, board, null);
             }
 
             out.println();

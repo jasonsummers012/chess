@@ -1,8 +1,6 @@
 package client;
 
-import chess.ChessBoard;
-import chess.ChessGame;
-import chess.ChessMove;
+import chess.*;
 import exception.ResponseException;
 import ui.BoardDrawer;
 import ui.Repl;
@@ -59,12 +57,22 @@ public class GameplayClient {
                 return help();
             }
 
+            if (tokens[0].equals("make")) {
+                ChessPosition startPosition = stringToPosition(tokens[2]);
+                ChessPosition endPosition = stringToPosition(tokens[3]);
+                ChessPiece.PieceType promotion = stringToPiece(tokens[4]);
+                ChessMove move = new ChessMove(startPosition, endPosition, promotion);
+
+                return makeMove(move);
+            } else if (tokens[0].equals("highlight") && tokens.length == 4) {
+                ChessPosition position = stringToPosition(tokens[3]);
+                return highlightLegalMoves(position);
+            }
+
             return switch (tokens[0]) {
                 case "redraw" -> redrawChessBoard();
                 case "leave" -> leave();
-                case "make" -> makeMove();
                 case "resign" -> resign();
-                case "highlight" -> highlightLegalMoves();
                 default -> help();
             };
         } catch (ResponseException ex) {
@@ -77,7 +85,7 @@ public class GameplayClient {
     }
 
     private String redrawChessBoard() {
-        displayGameBoard();
+        displayGameBoard(null);
         return "";
     }
 
@@ -97,18 +105,23 @@ public class GameplayClient {
         return "You resigned the game";
     }
 
+    private String highlightLegalMoves(ChessPosition position) {
+        displayGameBoard(position);
+        return "";
+    }
+
     private String help() {
         return SET_TEXT_COLOR_GREEN + """
-            redraw chess board             Draw current board
-            leave                          Remove from game
-            make move <from> <to>          Move piece
-            resign                         Forfeit game
-            highlight legal moves <piece>  Show all possible moves for piece
-            help                           Show possible commands
+            redraw chess board                 Draw current board
+            leave                              Remove from game
+            make move <from> <to> [promotion]  Move piece
+            resign                             Forfeit game
+            highlight legal moves <piece>      Show all possible moves for piece
+            help                               Show possible commands
             """ + RESET_TEXT_COLOR;
     }
 
-    private void displayGameBoard() {
+    private void displayGameBoard(ChessPosition position) {
         try {
             var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
 
@@ -116,9 +129,9 @@ public class GameplayClient {
             out.println();
 
             if (playerColor == ChessGame.TeamColor.BLACK) {
-                BoardDrawer.drawBoardBlackPerspective(out, board);
+                BoardDrawer.drawBoardBlackPerspective(out, board, position);
             } else {
-                BoardDrawer.drawBoardWhitePerspective(out, board);
+                BoardDrawer.drawBoardWhitePerspective(out, board, position);
             }
 
             out.println();
@@ -126,5 +139,25 @@ public class GameplayClient {
         } catch (Exception e) {
             System.err.println("Error displaying board: " + e.getMessage());
         }
+    }
+
+    private ChessPosition stringToPosition(String input) throws ResponseException {
+        if (input.length() != 2) {
+            throw new ResponseException(400, "Error: invalid position");
+        }
+        char row = Character.toLowerCase(input.charAt(0));
+        int col = Character.getNumericValue(input.charAt(1));
+
+        if (row < 'a' || row > 'h' || col < 1 || col > 8) {
+            throw new ResponseException(400, "Error: out of bounds");
+        }
+        return new ChessPosition(row, col);
+    }
+
+    private ChessPiece.PieceType stringToPiece(String input) {
+        if (input.length() > 4) {
+            return ChessPiece.PieceType.valueOf(input.toUpperCase());
+        }
+        return null;
     }
 }

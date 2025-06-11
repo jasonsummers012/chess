@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Finished all  methods in WebSocketHandler">
-      <change afterPath="$PROJECT_DIR$/client/src/main/java/websocket/ClientNotificationHandler.java" afterDir="false" />
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Implemented all GameplayClient functions except highlightLegalMoves">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/websocket/NotificationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/websocket/NotificationHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/websocket/WebSocketServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/websocket/WebSocketServerFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/PostLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/PostLoginClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/PreLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/PreLoginClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/BoardDrawer.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/BoardDrawer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,7 +193,8 @@
       <workItem from="1749500235578" duration="9769000" />
       <workItem from="1749516183670" duration="12405000" />
       <workItem from="1749583212523" duration="1561000" />
-      <workItem from="1749586293760" duration="9520000" />
+      <workItem from="1749586293760" duration="9593000" />
+      <workItem from="1749603326969" duration="4353000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -372,7 +372,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749591557216</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Implemented all GameplayClient functions except highlightLegalMoves">
+      <option name="closed" value="true" />
+      <created>1749595964983</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1749595964983</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -402,6 +410,7 @@
     <MESSAGE value="Fully implemented handleConnect and handleMove in WebSocketHandler" />
     <MESSAGE value="Implemented handleLeave in WebSocketHandler and updated GameData classes" />
     <MESSAGE value="Finished all  methods in WebSocketHandler" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished all  methods in WebSocketHandler" />
+    <MESSAGE value="Implemented all GameplayClient functions except highlightLegalMoves" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented all GameplayClient functions except highlightLegalMoves" />
   </component>
 </project>

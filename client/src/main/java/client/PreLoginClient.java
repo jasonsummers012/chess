@@ -32,7 +32,7 @@ public class PreLoginClient {
             return switch (command) {
                 case "register" -> register(params);
                 case "login" -> login(params);
-                case "quit" -> quit(params);
+                case "quit" -> quit();
                 default -> help();
             };
         } catch (ResponseException ex) {
@@ -71,7 +71,7 @@ public class PreLoginClient {
         throw new ResponseException(400, "Expected: <username> <password>");
     }
 
-    public String quit(String... params) {
+    public String quit() {
         return "quit";
     }
 
