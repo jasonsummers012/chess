@@ -24,7 +24,6 @@ public class ClientNotificationHandler implements NotificationHandler {
     private void handleLoadGame(ChessGame game) {
         System.out.println();
         gameplayClient.updateGameStatus(game);
-        gameplayClient.redrawChessBoard();
     }
 
     private void handleError(String errorMessage) {

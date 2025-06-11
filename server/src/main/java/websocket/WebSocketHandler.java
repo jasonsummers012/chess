@@ -95,7 +95,7 @@ public class WebSocketHandler {
             opponentColor = ChessGame.TeamColor.WHITE;
         } else {
             ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
-            errorMessage.setMessage("Error: only players can make moves");
+            errorMessage.setErrorMessage("Error: only players can make moves");
             session.getRemote().sendString(serializeMessage(errorMessage));
             return;
         }
@@ -106,21 +106,21 @@ public class WebSocketHandler {
 
         if (!chessGame.getTeamTurn().equals(playerColor)) {
             ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
-            errorMessage.setMessage("Error: only make moves on your turn");
+            errorMessage.setErrorMessage("Error: only make moves on your turn");
             session.getRemote().sendString(serializeMessage(errorMessage));
             return;
         }
 
         if (!chessGame.isValidMove(move)) {
             ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
-            errorMessage.setMessage("Error: invalid move");
+            errorMessage.setErrorMessage("Error: invalid move");
             session.getRemote().sendString(serializeMessage(errorMessage));
             return;
         }
 
         if (game.gameOver()) {
             ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
-            errorMessage.setMessage("Error: game is over");
+            errorMessage.setErrorMessage("Error: game is over");
             session.getRemote().sendString(serializeMessage(errorMessage));
             return;
         }
@@ -139,20 +139,20 @@ public class WebSocketHandler {
         if (chessGame.isInCheckmate(opponentColor)) {
             ServerMessage checkmateNotification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
             checkmateNotification.setMessage(username + " has won by checkmate!");
-            connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(checkmateNotification));
+            connections.broadcastToAll(command.getGameID(), serializeMessage(checkmateNotification));
         } else if (chessGame.isInStalemate(opponentColor)) {
             ServerMessage checkmateNotification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
             checkmateNotification.setMessage("Stalemate!");
-            connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(checkmateNotification));
+            connections.broadcastToAll(command.getGameID(), serializeMessage(checkmateNotification));
         } else if (chessGame.isInCheck(opponentColor)) {
             ServerMessage checkNotification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
             checkNotification.setMessage(opponentUsername + " is in check");
-            connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(checkNotification));
+            connections.broadcastToAll(command.getGameID(), serializeMessage(checkNotification));
         }
 
         ServerMessage loadGameMessage = new ServerMessage(ServerMessage.ServerMessageType.LOAD_GAME);
         loadGameMessage.setGame(chessGame);
-        connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(loadGameMessage));
+        connections.broadcastToAll(command.getGameID(), serializeMessage(loadGameMessage));
     }
 
     private void handleLeave(UserGameCommand command, Session session, String username, GameData game) throws IOException, DataAccessException {

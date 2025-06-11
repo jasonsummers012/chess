@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed issues with accessing games">
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed issues with accessing auth tokens and drawing the board">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/PreLoginClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/PreLoginClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/websocket/ClientNotificationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/websocket/ClientNotificationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/websocket/WebSocketServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/websocket/WebSocketServerFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/websocket/ConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/websocket/ConnectionManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -104,14 +106,7 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="server" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.WebSocketTests.multipleConcurrentGames">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="server" />
@@ -119,14 +114,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="client" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="WebSocketTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="WebSocketTests.invalidResignGameOver" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -136,28 +124,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="passoff.server.server" />
       <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="WebSocketTests.invalidMoveOpponent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="passoff.server.server.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="passoff.server.server" />
-      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
-      <option name="METHOD_NAME" value="invalidMoveOpponent" />
+      <option name="METHOD_NAME" value="invalidResignGameOver" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WebSocketTests.invalidMoveWrongTurn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="WebSocketTests.invalidResignObserver" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -167,7 +140,55 @@
       </extension>
       <option name="PACKAGE_NAME" value="passoff.server.server" />
       <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
-      <option name="METHOD_NAME" value="invalidMoveWrongTurn" />
+      <option name="METHOD_NAME" value="invalidResignObserver" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebSocketTests.joinAfterLeaveGame" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.server.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.server.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
+      <option name="METHOD_NAME" value="joinAfterLeaveGame" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebSocketTests.leaveGame" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.server.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.server.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
+      <option name="METHOD_NAME" value="leaveGame" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebSocketTests.multipleConcurrentGames" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.server.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.server.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
+      <option name="METHOD_NAME" value="multipleConcurrentGames" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -175,11 +196,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Main (1)" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.WebSocketTests" />
-        <item itemvalue="JUnit.WebSocketTests.invalidMoveOpponent" />
+        <item itemvalue="JUnit.WebSocketTests.multipleConcurrentGames" />
+        <item itemvalue="JUnit.WebSocketTests.joinAfterLeaveGame" />
+        <item itemvalue="JUnit.WebSocketTests.leaveGame" />
+        <item itemvalue="JUnit.WebSocketTests.invalidResignGameOver" />
+        <item itemvalue="JUnit.WebSocketTests.invalidResignObserver" />
       </list>
     </recent_temporary>
   </component>
@@ -214,7 +235,7 @@
       <workItem from="1749583212523" duration="1561000" />
       <workItem from="1749586293760" duration="9593000" />
       <workItem from="1749603326969" duration="15411000" />
-      <workItem from="1749665301788" duration="3108000" />
+      <workItem from="1749665301788" duration="6089000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -448,14 +469,21 @@
       <option name="project" value="LOCAL" />
       <updated>1749619854589</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Fixed issues with accessing auth tokens and drawing the board">
+      <option name="closed" value="true" />
+      <created>1749668459536</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1749668459536</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Made progress in fixing spacing issues in the board" />
     <MESSAGE value="Made custom error messages" />
     <MESSAGE value="Fixed spacing on column headings on chess board" />
     <MESSAGE value="Implemented all ServerFacade tests, all tests pass" />
@@ -480,6 +508,7 @@
     <MESSAGE value="Fixed Game storage issues" />
     <MESSAGE value="Added ability to store gameOver variables to games" />
     <MESSAGE value="Fixed issues with accessing games" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed issues with accessing games" />
+    <MESSAGE value="Fixed issues with accessing auth tokens and drawing the board" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed issues with accessing auth tokens and drawing the board" />
   </component>
 </project>

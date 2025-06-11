@@ -48,4 +48,22 @@ public class ConnectionManager {
             }
         }
     }
+
+    public void broadcastToAll(int gameID, String message) throws IOException {
+        ConcurrentHashMap<String, Connection> connections = gameConnections.get(gameID);
+        if (connections == null) {
+            return;
+        }
+
+        for (var entry : connections.entrySet()) {
+            String authToken = entry.getKey();
+            Connection connection = entry.getValue();
+
+            try {
+                connection.send(message);
+            } catch (IOException e) {
+                connections.remove(authToken);
+            }
+        }
+    }
 }

@@ -80,4 +80,12 @@ public class WebSocketServerFacade extends Endpoint {
             throw new ResponseException(500, ex.getMessage());
         }
     }
+
+    public void close() throws ResponseException {
+        try {
+            session.close();
+        } catch (IOException e) {
+            throw new ResponseException(500, "Error: failed to close WebSocket");
+        }
+    }
 }

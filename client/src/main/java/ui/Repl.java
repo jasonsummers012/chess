@@ -79,6 +79,9 @@ public class Repl {
 
     public void enterGameplay(int gameID, ChessGame.TeamColor playerColor, boolean observer) {
         try {
+            if (gameplayClient != null) {
+                gameplayClient.leave();
+            }
             GameData gameData = server.getGame(gameID);
             if (gameData == null) {
                 throw new Exception("Game " + gameID + "not found");

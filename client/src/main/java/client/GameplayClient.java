@@ -49,7 +49,6 @@ public class GameplayClient {
         this.webSocketFacade.connect(authToken, gameID);
 
         repl.setState(State.INGAME);
-        redrawChessBoard();
     }
 
     public String eval(String input) {
@@ -95,9 +94,6 @@ public class GameplayClient {
 
     private void handleServerMessage(ServerMessage message) {
         notificationHandler.notify(message);
-        if (message.getServerMessageType() == ServerMessage.ServerMessageType.LOAD_GAME) {
-            updateGameStatus(message.getGame());
-        }
     }
 
     public void updateGameStatus(ChessGame newGame) {
@@ -113,8 +109,9 @@ public class GameplayClient {
         return "";
     }
 
-    private String leave() throws ResponseException {
+    public String leave() throws ResponseException {
         webSocketFacade.leave(authToken, gameID);
+        webSocketFacade.close();
         repl.setState(State.LOGGEDIN);
         return "You left the game";
     }
