@@ -1,13 +1,16 @@
 package websocket;
 
 import chess.ChessGame;
+import client.GameplayClient;
 import websocket.messages.ServerMessage;
 
 import static ui.EscapeSequences.*;
 
 public class ClientNotificationHandler implements NotificationHandler {
+    private final GameplayClient gameplayClient;
 
-    public ClientNotificationHandler() {
+    public ClientNotificationHandler(GameplayClient client) {
+        this.gameplayClient = client;
     }
     @Override
     public void notify(ServerMessage message) {
@@ -20,6 +23,8 @@ public class ClientNotificationHandler implements NotificationHandler {
 
     private void handleLoadGame(ChessGame game) {
         System.out.println();
+        gameplayClient.updateGameStatus(game);
+        gameplayClient.redrawChessBoard();
     }
 
     private void handleError(String errorMessage) {

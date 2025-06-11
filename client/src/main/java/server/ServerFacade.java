@@ -60,8 +60,16 @@ public class ServerFacade {
     }
 
     public GameData getGame(int gameID) throws ResponseException {
-            var path = "/game";
-            return this.makeRequest("GET", path, null, GameData.class);
+        ListGamesResult result = listGames(new ListGamesRequest());
+
+        if (result != null && result.games() != null) {
+            for (GameData game : result.games()) {
+                if (game.gameID() == gameID) {
+                    return game;
+                }
+            }
+        }
+        throw new ResponseException(404, "Game not found");
     }
 
     private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass) throws ResponseException {

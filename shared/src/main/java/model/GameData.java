@@ -21,4 +21,8 @@ public record GameData (
     public GameData withGameOver(boolean newGameOver) {
         return new GameData(gameID, whiteUsername, blackUsername, gameName, game, newGameOver);
     }
+
+    public GameData withGame(ChessGame newGame) {
+        return new GameData(gameID, whiteUsername, blackUsername, gameName, newGame, gameOver);
+    }
 }

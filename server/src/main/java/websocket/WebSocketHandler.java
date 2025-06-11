@@ -127,8 +127,10 @@ public class WebSocketHandler {
 
         chessGame.makeMove(move);
 
+        GameData updatedGame = game.withGame(chessGame);
+
         GameService gameService = ServiceLocator.getGameService();
-        gameService.updateGame(game.gameID(), game);
+        gameService.updateGame(game.gameID(), updatedGame);
 
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
         notification.setMessage(username + " made the move " + move);

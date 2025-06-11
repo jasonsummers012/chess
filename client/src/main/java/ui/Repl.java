@@ -6,6 +6,7 @@ import client.PostLoginClient;
 import client.PreLoginClient;
 import model.GameData;
 import server.ServerFacade;
+import websocket.ClientNotificationHandler;
 
 import java.util.Scanner;
 
@@ -98,6 +99,7 @@ public class Repl {
                     playerColor,
                     initialGame
             );
+            gameplayClient.setNotificationHandler(new ClientNotificationHandler(gameplayClient));
             this.gameplayClient = gameplayClient;
         } catch (Exception e) {
             System.err.println("Error: unable to enter game: " + e.getMessage());

@@ -39,7 +39,7 @@ public class GameplayClient {
         this.playerColor = playerColor;
         this.currentGame = initialGame;
         this.board = initialGame.getBoard();
-        this.notificationHandler = new ClientNotificationHandler();
+        this.notificationHandler = new ClientNotificationHandler(this);
 
         this.webSocketFacade = new WebSocketServerFacade(
                 serverUrl,
@@ -87,7 +87,7 @@ public class GameplayClient {
         }
     }
 
-    private void updateGameStatus(ChessGame newGame) {
+    public void updateGameStatus(ChessGame newGame) {
         if (newGame != null) {
             this.currentGame = newGame;
             this.board = newGame.getBoard();
@@ -95,7 +95,7 @@ public class GameplayClient {
         }
     }
 
-    private String redrawChessBoard() {
+    public String redrawChessBoard() {
         displayGameBoard(null);
         return "";
     }
@@ -170,5 +170,9 @@ public class GameplayClient {
             return ChessPiece.PieceType.valueOf(input.toUpperCase());
         }
         return null;
+    }
+
+    public void setNotificationHandler(NotificationHandler notificationHandler) {
+        this.notificationHandler = notificationHandler;
     }
 }
