@@ -131,11 +131,12 @@ public class SQLGameDAO implements GameDAO {
 
     @Override
     public boolean checkColorOccupied(GameData game, ChessGame.TeamColor color) throws DataAccessException {
-        if (getGame(game.gameName()) == null) {
+        GameData freshGame = getGameByID(game.gameID());
+        if (freshGame == null) {
             return false;
         }
-        return color.equals(ChessGame.TeamColor.WHITE) ? game.whiteUsername() != null
-                : game.blackUsername() != null;
+        return color.equals(ChessGame.TeamColor.WHITE) ? freshGame.whiteUsername() != null
+                : freshGame.blackUsername() != null;
     }
 
     @Override
@@ -186,12 +187,16 @@ public class SQLGameDAO implements GameDAO {
 
     @Override
     public void updateGame(int gameID, GameData newGame) throws DataAccessException {
-        var statement = "UPDATE gameTable SET game = ?, gameOver = ? WHERE gameID = ?";
+        var statement = "UPDATE gameTable SET whiteUsername = ?, blackUsername = ?, gameName = ?, game = ?, gameOver = ? WHERE gameID = ?";
         try (Connection conn = DatabaseManager.getConnection();
              var preparedStatement = conn.prepareStatement(statement)) {
-            preparedStatement.setString(1, gson.toJson(newGame.game()));
-            preparedStatement.setInt(3, gameID);
-            preparedStatement.setBoolean(2, newGame.gameOver());
+
+            preparedStatement.setString(1, newGame.whiteUsername());
+            preparedStatement.setString(2, newGame.blackUsername());
+            preparedStatement.setString(3, newGame.gameName());
+            preparedStatement.setString(4, gson.toJson(newGame.game()));
+            preparedStatement.setBoolean(5, newGame.gameOver());
+            preparedStatement.setInt(6, gameID);
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected == 0) {

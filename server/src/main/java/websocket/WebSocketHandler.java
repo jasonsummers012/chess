@@ -175,17 +175,15 @@ public class WebSocketHandler {
 
         if (username.equals(game.whiteUsername())) {
             updatedGame = game.withWhiteUsername(null);
+            gameService.updateGame(updatedGame.gameID(), updatedGame);
         } else if (username.equals(game.blackUsername())) {
             updatedGame = game.withBlackUsername(null);
-        }
-
-        if (updatedGame != game) {
             gameService.updateGame(updatedGame.gameID(), updatedGame);
         }
 
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
         notification.setMessage(username + " left the game");
-        connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(notification));
+        connections.broadcastToAll(command.getGameID(), serializeMessage(notification));
     }
 
     private void handleResign(UserGameCommand command, Session session, String username, GameData game) throws DataAccessException, IOException {
@@ -209,7 +207,7 @@ public class WebSocketHandler {
 
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
         notification.setMessage(username + " resigned");
-        connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(notification));
+        connections.broadcastToAll(command.getGameID(), serializeMessage(notification));
     }
 
     public String serializeMessage(ServerMessage message) {
