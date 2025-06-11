@@ -1,7 +1,10 @@
 package ui;
 
+import chess.ChessGame;
+import client.GameplayClient;
 import client.PostLoginClient;
 import client.PreLoginClient;
+import model.GameData;
 import server.ServerFacade;
 
 import java.util.Scanner;
@@ -11,6 +14,7 @@ import static ui.EscapeSequences.*;
 public class Repl {
     private final PreLoginClient preLoginClient;
     private final PostLoginClient postLoginClient;
+    private GameplayClient gameplayClient;
     private State state = State.LOGGEDOUT;
     private final ServerFacade server;
 
@@ -35,8 +39,10 @@ public class Repl {
                     if (state == State.LOGGEDIN) {
                         postLoginClient.setPlayerName(preLoginClient.getPlayerName());
                     }
-                } else {
+                } else if (state == State.LOGGEDIN) {
                     result = postLoginClient.eval(line);
+                } else {
+                    result = gameplayClient.eval(line);
                 }
                 System.out.print(SET_TEXT_COLOR_BLUE + result + RESET_TEXT_COLOR);
             } catch (Throwable e) {
@@ -68,5 +74,26 @@ public class Repl {
 
     public PostLoginClient getPostLoginClient() {
         return postLoginClient;
+    }
+
+    public void enterGameplay(int gameID, ChessGame.TeamColor playerColor, boolean observer) {
+        try {
+            GameData gameData = server.getGame(gameID);
+            ChessGame initialGame = gameData.game();
+
+            String authToken = postLoginClient.getAuthToken();
+
+            GameplayClient gameplayClient = new GameplayClient(
+                    server.getServerUrl(),
+                    this,
+                    authToken,
+                    gameID,
+                    playerColor,
+                    initialGame
+            );
+            this.gameplayClient = gameplayClient;
+        } catch (Exception e) {
+            System.err.println("Error: unable to enter game: " + e.getMessage());
+        }
     }
 }

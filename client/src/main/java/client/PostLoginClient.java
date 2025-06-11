@@ -23,12 +23,14 @@ public class PostLoginClient {
     private String playerName;
     private final ServerFacade server;
     private final String serverUrl;
+    private String authToken;
 
     public PostLoginClient(String serverUrl, Repl repl, String playerName, ServerFacade server) {
         this.repl = repl;
         this.server = server;
         this.serverUrl = serverUrl;
         this.playerName = playerName;
+        this.authToken = null;
     }
 
     public String eval(String input) {
@@ -62,6 +64,7 @@ public class PostLoginClient {
 
         repl.setState(State.LOGGEDOUT);
         playerName = null;
+        authToken = null;
         repl.getPreLoginClient().clearPlayerName();
         return "You have been logged out.\n\n" + repl.getPreLoginHelp();
     }
@@ -110,12 +113,10 @@ public class PostLoginClient {
                 JoinGameRequest request = new JoinGameRequest(color, gameID);
                 JoinGameResult result = server.joinGame(request);
 
-                GameData currentGame = server.getGame(gameID);
-                ChessBoard board = currentGame.game().getBoard();
+                repl.enterGameplay(gameID, color, false);
 
-                displayGameBoard(gameID, color, board);
+                return "";
 
-                return String.format("You joined game with ID %d as %s.", gameID, color.name());
             } catch (IllegalArgumentException e) {
                 throw new ResponseException(400, "Invalid team color. Use WHITE or BLACK.");
             }
@@ -131,12 +132,10 @@ public class PostLoginClient {
                     JoinGameRequest request = JoinGameRequest.forObserver(gameID);
                     JoinGameResult result = server.joinGame(request);
 
-                    GameData currentGame = server.getGame(gameID);
-                    ChessBoard board = currentGame.game().getBoard();
+                    repl.enterGameplay(gameID, null, true);
 
-                    displayGameBoard(gameID, null, board);
+                    return "";
 
-                    return String.format("You are observing game with ID %d.", gameID);
                 } catch (ResponseException e) {
                     return String.format("Unable to observe game %d. Server response: %s", gameID, e.getMessage());
                 }
@@ -161,6 +160,14 @@ public class PostLoginClient {
 
     public void setPlayerName(String name) {
         this.playerName = name;
+    }
+
+    public String getAuthToken() {
+        return this.authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
     }
 
     private void displayGameBoard(int gameID, ChessGame.TeamColor playerColor, ChessBoard board) {
