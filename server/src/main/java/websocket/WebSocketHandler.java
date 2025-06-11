@@ -96,7 +96,7 @@ public class WebSocketHandler {
         } else {
             ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
             errorMessage.setMessage("Error: only players can make moves");
-            connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(errorMessage));
+            session.getRemote().sendString(serializeMessage(errorMessage));
             return;
         }
 
@@ -107,21 +107,21 @@ public class WebSocketHandler {
         if (!chessGame.getTeamTurn().equals(playerColor)) {
             ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
             errorMessage.setMessage("Error: only make moves on your turn");
-            connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(errorMessage));
+            session.getRemote().sendString(serializeMessage(errorMessage));
             return;
         }
 
         if (!chessGame.isValidMove(move)) {
             ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
             errorMessage.setMessage("Error: invalid move");
-            connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(errorMessage));
+            session.getRemote().sendString(serializeMessage(errorMessage));
             return;
         }
 
         if (game.gameOver()) {
             ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
             errorMessage.setMessage("Error: game is over");
-            connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(errorMessage));
+            session.getRemote().sendString(serializeMessage(errorMessage));
             return;
         }
 

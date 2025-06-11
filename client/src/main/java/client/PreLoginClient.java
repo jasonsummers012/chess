@@ -69,6 +69,8 @@ public class PreLoginClient {
 
             repl.setState(State.LOGGEDIN);
             playerName = username;
+            repl.getPostLoginClient().setAuthToken(result.authToken());
+
             return String.format("You signed in as %s.\n\n%s", playerName, repl.getPostLoginHelp());
         }
         throw new ResponseException(400, "Expected: <username> <password>");

@@ -46,6 +46,8 @@ public class GameplayClient {
                 authToken,
                 this::handleServerMessage);
 
+        this.webSocketFacade.connect(authToken, gameID);
+
         repl.setState(State.INGAME);
         redrawChessBoard();
     }
@@ -58,13 +60,22 @@ public class GameplayClient {
             }
 
             if (tokens[0].equals("make")) {
+                // Check if we have enough tokens for a move command
+                if (tokens.length < 4) {
+                    return "Error: Invalid move format. Use: make move <from> <to> [promotion]";
+                }
+
                 ChessPosition startPosition = stringToPosition(tokens[2]);
                 ChessPosition endPosition = stringToPosition(tokens[3]);
-                ChessPiece.PieceType promotion = stringToPiece(tokens[4]);
-                ChessMove move = new ChessMove(startPosition, endPosition, promotion);
 
+                ChessPiece.PieceType promotion = null;
+                if (tokens.length > 4) {
+                    promotion = stringToPiece(tokens[4]);
+                }
+
+                ChessMove move = new ChessMove(startPosition, endPosition, promotion);
                 return makeMove(move);
-            } else if (tokens[0].equals("highlight") && tokens.length == 4) {
+            } else if (tokens[0].equals("highlight") && tokens.length >= 4) {
                 ChessPosition position = stringToPosition(tokens[3]);
                 return highlightLegalMoves(position);
             }
@@ -77,6 +88,8 @@ public class GameplayClient {
             };
         } catch (ResponseException ex) {
             return ex.getMessage();
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            return "Error: Invalid command format. Type 'help' for available commands.";
         }
     }
 
@@ -153,16 +166,24 @@ public class GameplayClient {
     }
 
     private ChessPosition stringToPosition(String input) throws ResponseException {
-        if (input.length() != 2) {
-            throw new ResponseException(400, "Error: invalid position");
+        if (input == null || input.length() != 2) {
+            throw new ResponseException(400, "Error: invalid position format");
         }
-        char row = Character.toLowerCase(input.charAt(0));
-        int col = Character.getNumericValue(input.charAt(1));
 
-        if (row < 'a' || row > 'h' || col < 1 || col > 8) {
-            throw new ResponseException(400, "Error: out of bounds");
+        char col = Character.toLowerCase(input.charAt(0));
+        char rowChar = input.charAt(1);
+
+        if (col < 'a' || col > 'h') {
+            throw new ResponseException(400, "Error: column must be between a and h");
         }
-        return new ChessPosition(row, col);
+
+        if (rowChar < '1' || rowChar > '8') {
+            throw new ResponseException(400, "Error: row must be between 1 and 8");
+        }
+
+        int row = Character.getNumericValue(rowChar);
+
+        return new ChessPosition(row, col - 'a' + 1);
     }
 
     private ChessPiece.PieceType stringToPiece(String input) {

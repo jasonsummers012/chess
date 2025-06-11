@@ -32,6 +32,6 @@ public class ClientNotificationHandler implements NotificationHandler {
     }
 
     private void handleNotification(String notification) {
-        System.out.println(SET_BG_COLOR_YELLOW + notification + RESET_TEXT_COLOR);
+        System.out.println(SET_TEXT_COLOR_YELLOW + notification + RESET_TEXT_COLOR);
     }
 }
