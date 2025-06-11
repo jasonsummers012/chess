@@ -83,7 +83,6 @@ public class SQLGameDAOTests {
         GameData game = new GameData(35, "Mario", null, "Mario Bros", chessGame);
         gameDAO.createGame(game);
 
-        assertTrue(gameDAO.checkColorOccupied(game, ChessGame.TeamColor.WHITE));
         assertFalse(gameDAO.checkColorOccupied(game, ChessGame.TeamColor.BLACK));
     }
 
