@@ -62,7 +62,8 @@ public class DatabaseManager {
                 "whiteUsername VARCHAR(255)," +
                 "blackUsername VARCHAR(255)," +
                 "gameName VARCHAR(255) NOT NULL UNIQUE," +
-                "game VARCHAR(12000)," +
+                "game VARCHAR(12000) NOT NULL," +
+                "gameOver BOOLEAN DEFAULT FALSE, " +
                 "PRIMARY KEY (gameID))";
 
         try (var conn = getConnection();
