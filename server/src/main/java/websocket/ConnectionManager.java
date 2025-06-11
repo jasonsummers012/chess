@@ -33,6 +33,8 @@ public class ConnectionManager {
             return;
         }
 
+        var failedConnections = new ArrayList<String>();
+
         for (var entry : connections.entrySet()) {
             String authToken = entry.getKey();
             Connection connection = entry.getValue();
@@ -44,8 +46,12 @@ public class ConnectionManager {
             try {
                 connection.send(message);
             } catch (IOException e) {
-                connections.remove(authToken);
+                failedConnections.add(authToken);
             }
+        }
+
+        for (String authToken : failedConnections) {
+            connections.remove(authToken);
         }
     }
 
@@ -55,6 +61,8 @@ public class ConnectionManager {
             return;
         }
 
+        var failedConnections = new ArrayList<String>();
+
         for (var entry : connections.entrySet()) {
             String authToken = entry.getKey();
             Connection connection = entry.getValue();
@@ -62,7 +70,29 @@ public class ConnectionManager {
             try {
                 connection.send(message);
             } catch (IOException e) {
-                connections.remove(authToken);
+                failedConnections.add(authToken);
+            }
+        }
+
+        for (String authToken : failedConnections) {
+            connections.remove(authToken);
+        }
+
+        if (connections.isEmpty()) {
+            gameConnections.remove(gameID);
+        }
+    }
+
+    public void removeAll() {
+        gameConnections.clear();
+    }
+
+    public void removeSession(Session session) {
+        for (var gameEntry : gameConnections.entrySet()) {
+            var connections = gameEntry.getValue();
+            connections.entrySet().removeIf(entry -> entry.getValue().session.equals(session));
+            if (connections.isEmpty()) {
+                gameConnections.remove(gameEntry.getKey());
             }
         }
     }

@@ -14,6 +14,10 @@ public class Connection {
     }
 
     public void send(String message) throws IOException {
-        session.getRemote().sendString(message);
+        if (session.isOpen()) {
+            session.getRemote().sendString(message);
+        } else {
+            throw new IOException("Session is closed");
+        }
     }
 }

@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import dataaccess.DataAccessException;
 import model.GameData;
 import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import service.*;
@@ -60,8 +62,22 @@ public class WebSocketHandler {
         }
     }
 
+    @OnWebSocketClose
+    public void onClose(Session session, int statusCode, String reason) {
+        connections.removeSession(session);
+    }
+
+    @OnWebSocketError
+    public void onError(Session session, Throwable error) {
+        connections.removeSession(session);
+    }
+
     private void handleConnect(UserGameCommand command, Session session, String username, GameData game) throws IOException {
         connections.add(command.getGameID(), command.getAuthToken(), session);
+
+        ServerMessage loadGameMessage = new ServerMessage(ServerMessage.ServerMessageType.LOAD_GAME);
+        loadGameMessage.setGame(game.game());
+        session.getRemote().sendString(serializeMessage(loadGameMessage));
 
         String color = "observer";
         if (username.equals(game.whiteUsername())) {
@@ -72,11 +88,7 @@ public class WebSocketHandler {
 
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
         notification.setMessage(username + " joined as " + color);
-        connections.broadcast(command.getGameID(), command.getAuthToken(), new Gson().toJson(notification));
-
-        ServerMessage loadGameMessage = new ServerMessage(ServerMessage.ServerMessageType.LOAD_GAME);
-        loadGameMessage.setGame(game.game());
-        session.getRemote().sendString(serializeMessage(loadGameMessage));
+        connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(notification));
     }
 
     private void handleMove(UserGameCommand command, Session session, String username, GameData game)
@@ -177,6 +189,20 @@ public class WebSocketHandler {
     }
 
     private void handleResign(UserGameCommand command, Session session, String username, GameData game) throws DataAccessException, IOException {
+        if (!username.equals(game.whiteUsername()) && !username.equals(game.blackUsername())) {
+            ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
+            errorMessage.setErrorMessage("Error: observers cannot resign");
+            session.getRemote().sendString(serializeMessage(errorMessage));
+            return;
+        }
+
+        if (game.gameOver()) {
+            ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
+            errorMessage.setErrorMessage("Error: game is already over");
+            session.getRemote().sendString(serializeMessage(errorMessage));
+            return;
+        }
+
         GameService gameService = ServiceLocator.getGameService();
         GameData updatedGame = game.withGameOver(true);
         gameService.updateGame(updatedGame.gameID(), updatedGame);

@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed issues with accessing auth tokens and drawing the board">
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed issues with drawing board multiple times and sending proper notifications">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/Repl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/websocket/ClientNotificationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/websocket/ClientNotificationHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/websocket/WebSocketServerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/websocket/WebSocketServerFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/websocket/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/websocket/Connection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/websocket/ConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/websocket/ConnectionManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" afterDir="false" />
     </list>
@@ -54,62 +51,86 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.DatabaseTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.createGameSuccessful.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.createRepeatGame.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.joinGameObserver.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.joinGameOccupied.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.joinGameSuccessful.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.listGamesNotLoggedIn.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.listGamesSuccessful.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.loginDoesntExist.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.loginSuccessful.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.logoutNotLoggedIn.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.logoutSuccessful.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.registerRepeat.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.registerSuccessful.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServerFacadeTests.sampleTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.StandardAPITests.joinGameBadColor.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.WebSocketTests.connectGood.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.WebSocketTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.WebSocketTests.invalidMoveBadMove.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.WebSocketTests.invalidMoveOpponent.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.WebSocketTests.invalidMoveWrongTurn.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.WebSocketTests.makeMoveBadAuthtoken.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.WebSocketTests.validMove.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/BYU/5.5 Spring 2025/CS240/chess&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.testRunning&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main (1).executor": "Run",
+    "Application.Main.executor": "Run",
+    "JUnit.DatabaseTests.executor": "Run",
+    "JUnit.ServerFacadeTests.createGameSuccessful.executor": "Run",
+    "JUnit.ServerFacadeTests.createRepeatGame.executor": "Run",
+    "JUnit.ServerFacadeTests.executor": "Run",
+    "JUnit.ServerFacadeTests.joinGameObserver.executor": "Run",
+    "JUnit.ServerFacadeTests.joinGameOccupied.executor": "Run",
+    "JUnit.ServerFacadeTests.joinGameSuccessful.executor": "Run",
+    "JUnit.ServerFacadeTests.listGamesNotLoggedIn.executor": "Run",
+    "JUnit.ServerFacadeTests.listGamesSuccessful.executor": "Run",
+    "JUnit.ServerFacadeTests.loginDoesntExist.executor": "Run",
+    "JUnit.ServerFacadeTests.loginSuccessful.executor": "Run",
+    "JUnit.ServerFacadeTests.logoutNotLoggedIn.executor": "Run",
+    "JUnit.ServerFacadeTests.logoutSuccessful.executor": "Run",
+    "JUnit.ServerFacadeTests.registerRepeat.executor": "Run",
+    "JUnit.ServerFacadeTests.registerSuccessful.executor": "Run",
+    "JUnit.ServerFacadeTests.sampleTest.executor": "Run",
+    "JUnit.StandardAPITests.executor": "Run",
+    "JUnit.StandardAPITests.joinGameBadColor.executor": "Run",
+    "JUnit.WebSocketTests.connectGood.executor": "Run",
+    "JUnit.WebSocketTests.executor": "Run",
+    "JUnit.WebSocketTests.invalidMoveBadMove.executor": "Run",
+    "JUnit.WebSocketTests.invalidMoveGameOver.executor": "Run",
+    "JUnit.WebSocketTests.invalidMoveObserver.executor": "Run",
+    "JUnit.WebSocketTests.invalidMoveOpponent.executor": "Run",
+    "JUnit.WebSocketTests.invalidMoveWrongTurn.executor": "Run",
+    "JUnit.WebSocketTests.invalidResignGameOver.executor": "Run",
+    "JUnit.WebSocketTests.invalidResignObserver.executor": "Run",
+    "JUnit.WebSocketTests.joinAfterLeaveGame.executor": "Run",
+    "JUnit.WebSocketTests.leaveGame.executor": "Run",
+    "JUnit.WebSocketTests.makeMoveBadAuthtoken.executor": "Run",
+    "JUnit.WebSocketTests.moveAfterResign.executor": "Run",
+    "JUnit.WebSocketTests.multipleConcurrentGames.executor": "Run",
+    "JUnit.WebSocketTests.validMove.executor": "Run",
+    "JUnit.WebSocketTests.validResign.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/BYU/5.5 Spring 2025/CS240/chess",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.testRunning",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.WebSocketTests.multipleConcurrentGames">
+  <component name="RunManager" selected="JUnit.WebSocketTests">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="server" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebSocketTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.server.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.server.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -125,22 +146,6 @@
       <option name="PACKAGE_NAME" value="passoff.server.server" />
       <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
       <option name="METHOD_NAME" value="invalidResignGameOver" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="WebSocketTests.invalidResignObserver" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="passoff.server.server.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="passoff.server.server" />
-      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
-      <option name="METHOD_NAME" value="invalidResignObserver" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -196,11 +201,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.WebSocketTests" />
         <item itemvalue="JUnit.WebSocketTests.multipleConcurrentGames" />
         <item itemvalue="JUnit.WebSocketTests.joinAfterLeaveGame" />
         <item itemvalue="JUnit.WebSocketTests.leaveGame" />
         <item itemvalue="JUnit.WebSocketTests.invalidResignGameOver" />
-        <item itemvalue="JUnit.WebSocketTests.invalidResignObserver" />
       </list>
     </recent_temporary>
   </component>
@@ -235,7 +240,7 @@
       <workItem from="1749583212523" duration="1561000" />
       <workItem from="1749586293760" duration="9593000" />
       <workItem from="1749603326969" duration="15411000" />
-      <workItem from="1749665301788" duration="6089000" />
+      <workItem from="1749665301788" duration="7280000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -477,14 +482,21 @@
       <option name="project" value="LOCAL" />
       <updated>1749668459536</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Fixed issues with drawing board multiple times and sending proper notifications">
+      <option name="closed" value="true" />
+      <created>1749671738159</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1749671738159</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Made custom error messages" />
     <MESSAGE value="Fixed spacing on column headings on chess board" />
     <MESSAGE value="Implemented all ServerFacade tests, all tests pass" />
     <MESSAGE value="Improved code quality" />
@@ -509,6 +521,7 @@
     <MESSAGE value="Added ability to store gameOver variables to games" />
     <MESSAGE value="Fixed issues with accessing games" />
     <MESSAGE value="Fixed issues with accessing auth tokens and drawing the board" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed issues with accessing auth tokens and drawing the board" />
+    <MESSAGE value="Fixed issues with drawing board multiple times and sending proper notifications" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed issues with drawing board multiple times and sending proper notifications" />
   </component>
 </project>
