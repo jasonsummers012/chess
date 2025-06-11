@@ -83,10 +83,6 @@ public class ConnectionManager {
         }
     }
 
-    public void removeAll() {
-        gameConnections.clear();
-    }
-
     public void removeSession(Session session) {
         for (var gameEntry : gameConnections.entrySet()) {
             var connections = gameEntry.getValue();

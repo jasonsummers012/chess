@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Implemented closing connections on errors and close">
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed issue with leaving game, 18/18 tests pass">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/SQLGameDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/SQLGameDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -111,10 +110,17 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.WebSocketTests">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="server" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="client" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -166,45 +172,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WebSocketTests.moveAfterResign" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="passoff.server.server.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="passoff.server.server" />
-      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
-      <option name="METHOD_NAME" value="moveAfterResign" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="WebSocketTests.validResign" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="passoff.server.server.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="passoff.server.server" />
-      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
-      <option name="METHOD_NAME" value="validResign" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.WebSocketTests" />
         <item itemvalue="JUnit.WebSocketTests.joinAfterLeaveGame" />
         <item itemvalue="JUnit.WebSocketTests.invalidResignGameOver" />
-        <item itemvalue="JUnit.WebSocketTests.moveAfterResign" />
-        <item itemvalue="JUnit.WebSocketTests.validResign" />
       </list>
     </recent_temporary>
   </component>
@@ -239,7 +213,7 @@
       <workItem from="1749583212523" duration="1561000" />
       <workItem from="1749586293760" duration="9593000" />
       <workItem from="1749603326969" duration="15411000" />
-      <workItem from="1749665301788" duration="8351000" />
+      <workItem from="1749665301788" duration="8643000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -497,14 +471,21 @@
       <option name="project" value="LOCAL" />
       <updated>1749672725768</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Fixed issue with leaving game, 18/18 tests pass">
+      <option name="closed" value="true" />
+      <created>1749673774708</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1749673774708</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented all ServerFacade tests, all tests pass" />
     <MESSAGE value="Improved code quality" />
     <MESSAGE value="Fixed issue with observing games, all previous tests pass" />
     <MESSAGE value="Fixed displaying black's perspective correctly and not listing IDs" />
@@ -529,6 +510,7 @@
     <MESSAGE value="Fixed issues with accessing auth tokens and drawing the board" />
     <MESSAGE value="Fixed issues with drawing board multiple times and sending proper notifications" />
     <MESSAGE value="Implemented closing connections on errors and close" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented closing connections on errors and close" />
+    <MESSAGE value="Fixed issue with leaving game, 18/18 tests pass" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed issue with leaving game, 18/18 tests pass" />
   </component>
 </project>
