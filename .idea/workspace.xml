@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed issues with notifications being the wrong color">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ui/BoardDrawer.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/ui/BoardDrawer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,7 +258,7 @@
       <workItem from="1749698303994" duration="739000" />
       <workItem from="1749740835535" duration="4256000" />
       <workItem from="1749745605648" duration="2052000" />
-      <workItem from="1749748795253" duration="1549000" />
+      <workItem from="1749748795253" duration="5192000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -579,7 +580,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749746601844</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Fixed issues with notifications being the wrong color">
+      <option name="closed" value="true" />
+      <created>1749750656008</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1749750656008</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

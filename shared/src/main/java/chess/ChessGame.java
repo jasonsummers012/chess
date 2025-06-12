@@ -20,6 +20,11 @@ public class ChessGame {
         board.resetBoard();
     }
 
+    public ChessGame(ChessBoard board) {
+        color = TeamColor.WHITE;
+        this.board = board;
+    }
+
     /**
      * @return Which team's turn it is
      */

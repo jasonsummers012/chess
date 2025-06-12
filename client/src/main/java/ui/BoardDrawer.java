@@ -123,7 +123,7 @@ public class BoardDrawer {
             String pieceSymbol = getPieceSymbol(piece);
 
             Collection<ChessPosition> legalMoves = getLegalMoves(selectedPosition, board);
-            boolean isStartingPosition = position.equals(selectedPosition);
+            boolean isStartingPosition = position.equals(selectedPosition) && piece != null;
             boolean isLegalMove = legalMoves != null && legalMoves.contains(position);
 
             printPiece(out, pieceSymbol, isLightSquare, isStartingPosition, isLegalMove);
@@ -162,6 +162,7 @@ public class BoardDrawer {
     }
 
     private static Collection<ChessPosition> getLegalMoves(ChessPosition startPosition, ChessBoard board) {
+        ChessGame currentGame = new ChessGame(board);
         Collection<ChessPosition> legalMoves = new ArrayList<>();
         if (startPosition == null) {
             return null;
@@ -172,7 +173,9 @@ public class BoardDrawer {
         }
         Collection<ChessMove> moves = piece.pieceMoves(board, startPosition);
         for (ChessMove move : moves) {
-            legalMoves.add(move.getEndPosition());
+            if (currentGame.isValidMove(move)) {
+                legalMoves.add(move.getEndPosition());
+            }
         }
         return legalMoves;
     }
