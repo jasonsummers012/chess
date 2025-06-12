@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed issues with notifications displaying at incorrect times">
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed issues with notifications being the wrong color">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" afterDir="false" />
     </list>
@@ -256,7 +256,8 @@
       <workItem from="1749683050856" duration="3954000" />
       <workItem from="1749698303994" duration="739000" />
       <workItem from="1749740835535" duration="4256000" />
-      <workItem from="1749745605648" duration="977000" />
+      <workItem from="1749745605648" duration="2052000" />
+      <workItem from="1749748795253" duration="1549000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -570,14 +571,21 @@
       <option name="project" value="LOCAL" />
       <updated>1749744005345</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Fixed issues with notifications being the wrong color">
+      <option name="closed" value="true" />
+      <created>1749746601844</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1749746601844</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Started implementing server side of WebSocket" />
     <MESSAGE value="Fixed import problems and made progress on Server websocket skeleton" />
     <MESSAGE value="Implemented WebSocketServerFacade and other minor changes" />
     <MESSAGE value="Properly implemeted ConnectionManager and fixed constructor of WebSocketHandler" />
@@ -602,6 +610,7 @@
     <MESSAGE value="Fixed issue with user not being able to leave and rejoin" />
     <MESSAGE value="Fixed issue of rejoining a game" />
     <MESSAGE value="Fixed issues with notifications displaying at incorrect times" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed issues with notifications displaying at incorrect times" />
+    <MESSAGE value="Fixed issues with notifications being the wrong color" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed issues with notifications being the wrong color" />
   </component>
 </project>

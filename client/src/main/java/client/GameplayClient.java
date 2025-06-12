@@ -121,7 +121,7 @@ public class GameplayClient {
         }
 
         repl.setState(State.LOGGEDIN);
-        return "You left the game";
+        return "";
     }
 
     private String makeMove(ChessMove move) throws ResponseException {
@@ -131,7 +131,7 @@ public class GameplayClient {
 
     private String resign() throws ResponseException {
         webSocketFacade.resign(authToken, gameID);
-        return "You resigned the game";
+        return "";
     }
 
     private String highlightLegalMoves(ChessPosition position) {
