@@ -28,11 +28,15 @@ public class ConnectionManager {
         ConcurrentHashMap<String, Connection> connections = gameConnections.get(gameID);
         if (connections != null) {
             Connection removed = connections.remove(authToken);
-            gameConnections.remove(gameID);
+
+            if (connections.isEmpty()) {
+                gameConnections.remove(gameID);
+            }
         }
     }
 
     public void broadcast(int gameID, String excludeAuthToken, String message) throws IOException {
+
         ConcurrentHashMap<String, Connection> connections = gameConnections.get(gameID);
         if (connections == null) {
             return;
@@ -89,18 +93,20 @@ public class ConnectionManager {
     }
 
     public void removeSession(Session session) {
-
         for (var gameEntry : gameConnections.entrySet()) {
             int gameID = gameEntry.getKey();
             var connections = gameEntry.getValue();
 
             boolean removed = connections.entrySet().removeIf(entry -> {
-                return entry.getValue().session.equals(session);
+                boolean matches = entry.getValue().session.equals(session);
+                return matches;
             });
 
             if (connections.isEmpty()) {
                 gameConnections.remove(gameID);
+                System.out.println("ConnectionManager.removeSession: Removed empty game connections for game " + gameID);
             }
         }
+        System.out.println("ConnectionManager.removeSession: Session removal complete");
     }
 }
