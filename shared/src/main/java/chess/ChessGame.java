@@ -74,6 +74,11 @@ public class ChessGame {
     public boolean isValidMove(ChessMove move) {
         ChessPosition startPosition = move.getStartPosition();
         Collection<ChessMove> validMoves = validMoves(startPosition);
+
+        if (validMoves == null) {
+            return false;
+        }
+
         return validMoves.contains(move);
     }
 

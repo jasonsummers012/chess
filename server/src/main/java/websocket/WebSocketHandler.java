@@ -145,6 +145,13 @@ public class WebSocketHandler {
                 ? game.whiteUsername()
                 : game.blackUsername();
 
+        if (game.gameOver()) {
+            ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
+            errorMessage.setErrorMessage("Error: game is over");
+            session.getRemote().sendString(serializeMessage(errorMessage));
+            return;
+        }
+
         if (!chessGame.getTeamTurn().equals(playerColor)) {
             ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
             errorMessage.setErrorMessage("Error: only make moves on your turn");
@@ -159,13 +166,6 @@ public class WebSocketHandler {
             return;
         }
 
-        if (game.gameOver()) {
-            ServerMessage errorMessage = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
-            errorMessage.setErrorMessage("Error: game is over");
-            session.getRemote().sendString(serializeMessage(errorMessage));
-            return;
-        }
-
         chessGame.makeMove(move);
 
         GameData updatedGame = game.withGame(chessGame);
@@ -175,7 +175,7 @@ public class WebSocketHandler {
 
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
         notification.setMessage(username + " made the move " + move.toString());
-        connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(notification));
+        connections.broadcastToAll(command.getGameID(), serializeMessage(notification));
 
         if (chessGame.isInCheckmate(opponentColor)) {
             ServerMessage checkmateNotification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
@@ -195,26 +195,6 @@ public class WebSocketHandler {
         loadGameMessage.setGame(chessGame);
         connections.broadcastToAll(command.getGameID(), serializeMessage(loadGameMessage));
     }
-
-    /*
-    private void handleLeave(UserGameCommand command, Session session, String username, GameData game) throws IOException, DataAccessException {
-        GameService gameService = ServiceLocator.getGameService();
-        GameData updatedGame = game;
-
-        if (username.equals(game.whiteUsername())) {
-            updatedGame = game.withWhiteUsername(null);
-            gameService.updateGame(updatedGame.gameID(), updatedGame);
-        } else if (username.equals(game.blackUsername())) {
-            updatedGame = game.withBlackUsername(null);
-            gameService.updateGame(updatedGame.gameID(), updatedGame);
-        }
-        ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
-        notification.setMessage(username + " left the game");
-        connections.broadcastToAll(command.getGameID(), serializeMessage(notification));
-
-        connections.remove(command.getGameID(), command.getAuthToken());
-    }
-     */
 
     private void handleResign(UserGameCommand command, Session session, String username, GameData game) throws DataAccessException, IOException {
         if (!username.equals(game.whiteUsername()) && !username.equals(game.blackUsername())) {

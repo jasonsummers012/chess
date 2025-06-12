@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed issue with user not being able to leave and rejoin">
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/websocket/ConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/websocket/ConnectionManager.java" afterDir="false" />
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed issue of rejoining a game">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessMove.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,7 +246,9 @@
       <workItem from="1749665301788" duration="9234000" />
       <workItem from="1749677963390" duration="107000" />
       <workItem from="1749678107097" duration="3675000" />
-      <workItem from="1749683050856" duration="3516000" />
+      <workItem from="1749683050856" duration="3954000" />
+      <workItem from="1749698303994" duration="739000" />
+      <workItem from="1749740835535" duration="2600000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -532,14 +538,21 @@
       <option name="project" value="LOCAL" />
       <updated>1749686259480</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Fixed issue of rejoining a game">
+      <option name="closed" value="true" />
+      <created>1749686854934</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1749686854934</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added phase 6 starter code and dependencies" />
     <MESSAGE value="Started GameplayClient, fixed drawing board methods" />
     <MESSAGE value="Started implementing server side of WebSocket" />
     <MESSAGE value="Fixed import problems and made progress on Server websocket skeleton" />
@@ -564,6 +577,7 @@
     <MESSAGE value="Improved code quality" />
     <MESSAGE value="Ensured all previous tests passed" />
     <MESSAGE value="Fixed issue with user not being able to leave and rejoin" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed issue with user not being able to leave and rejoin" />
+    <MESSAGE value="Fixed issue of rejoining a game" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed issue of rejoining a game" />
   </component>
 </project>

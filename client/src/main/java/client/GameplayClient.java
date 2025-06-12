@@ -125,7 +125,7 @@ public class GameplayClient {
 
     private String makeMove(ChessMove move) throws ResponseException {
         webSocketFacade.makeMove(authToken, gameID, move);
-        return "You made the move: " + move;
+        return "";
     }
 
     private String resign() throws ResponseException {

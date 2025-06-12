@@ -59,10 +59,23 @@ public class ChessMove {
 
     @Override
     public String toString() {
-        return "ChessMove{" +
-                "start=" + start +
-                ", end=" + end +
-                ", promote=" + promote +
-                '}';
+        String startPos = positionToChessNotation(start);
+        String endPos = positionToChessNotation(end);
+
+        if (promote != null) {
+            return startPos + " to " + endPos + " (promote to " + promote + ")";
+        } else {
+            return startPos + " to " + endPos;
+        }
+    }
+
+    private String positionToChessNotation(ChessPosition position) {
+
+        int row = position.getRow();
+        int col = position.getColumn();
+
+        char colLetter = (char) ('a' + col - 1);
+
+        return "" + colLetter + row;
     }
 }
