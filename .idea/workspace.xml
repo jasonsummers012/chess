@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed issue of rejoining a game">
+    <list default="true" id="59fdf5eb-9926-447b-8943-25dd349f3b23" name="Changes" comment="Fixed issues with notifications displaying at incorrect times">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/client/GameplayClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/websocket/WebSocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessMove.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,86 +126,114 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main (2)">
-    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.WebSocketTests">
+    <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="client" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="client" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebSocketTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Main (2)" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="client" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="server" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="client" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="client" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ChessPieceTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="shared" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="passoff.chess.*" />
+          <option name="PATTERN" value="passoff.server.server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="passoff.chess" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.ChessPieceTests" />
+      <option name="PACKAGE_NAME" value="passoff.server.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ChessPositionTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="shared" />
+    <configuration name="WebSocketTests.invalidMoveGameOver" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="passoff.chess.*" />
+          <option name="PATTERN" value="passoff.server.server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="passoff.chess" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.ChessPositionTests" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="passoff.server.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
+      <option name="METHOD_NAME" value="invalidMoveGameOver" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebSocketTests.joinAfterLeaveGame" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.server.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.server.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
+      <option name="METHOD_NAME" value="joinAfterLeaveGame" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebSocketTests.multipleConcurrentGames" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.server.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.server.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
+      <option name="METHOD_NAME" value="multipleConcurrentGames" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebSocketTests.validMove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.server.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.server.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.server.WebSocketTests" />
+      <option name="METHOD_NAME" value="validMove" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Main (2)" />
-      <item itemvalue="Application.Main" />
-      <item itemvalue="Application.Main (1)" />
-      <item itemvalue="JUnit.ChessPieceTests" />
-      <item itemvalue="JUnit.ChessPositionTests" />
+      <item itemvalue="JUnit.WebSocketTests" />
+      <item itemvalue="JUnit.WebSocketTests.invalidMoveGameOver" />
+      <item itemvalue="JUnit.WebSocketTests.joinAfterLeaveGame" />
+      <item itemvalue="JUnit.WebSocketTests.multipleConcurrentGames" />
+      <item itemvalue="JUnit.WebSocketTests.validMove" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main (2)" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Main (1)" />
-        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.WebSocketTests" />
+        <item itemvalue="JUnit.WebSocketTests.multipleConcurrentGames" />
+        <item itemvalue="JUnit.WebSocketTests.joinAfterLeaveGame" />
+        <item itemvalue="JUnit.WebSocketTests.invalidMoveGameOver" />
+        <item itemvalue="JUnit.WebSocketTests.validMove" />
       </list>
     </recent_temporary>
   </component>
@@ -248,7 +273,7 @@
       <workItem from="1749678107097" duration="3675000" />
       <workItem from="1749683050856" duration="3954000" />
       <workItem from="1749698303994" duration="739000" />
-      <workItem from="1749740835535" duration="2600000" />
+      <workItem from="1749740835535" duration="3038000" />
     </task>
     <task id="LOCAL-00001" summary="Restructued dependencies, reloaded maven project">
       <option name="closed" value="true" />
@@ -546,14 +571,21 @@
       <option name="project" value="LOCAL" />
       <updated>1749686854934</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Fixed issues with notifications displaying at incorrect times">
+      <option name="closed" value="true" />
+      <created>1749743813871</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1749743813871</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Started GameplayClient, fixed drawing board methods" />
     <MESSAGE value="Started implementing server side of WebSocket" />
     <MESSAGE value="Fixed import problems and made progress on Server websocket skeleton" />
     <MESSAGE value="Implemented WebSocketServerFacade and other minor changes" />
@@ -578,6 +610,7 @@
     <MESSAGE value="Ensured all previous tests passed" />
     <MESSAGE value="Fixed issue with user not being able to leave and rejoin" />
     <MESSAGE value="Fixed issue of rejoining a game" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed issue of rejoining a game" />
+    <MESSAGE value="Fixed issues with notifications displaying at incorrect times" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed issues with notifications displaying at incorrect times" />
   </component>
 </project>

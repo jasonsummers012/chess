@@ -175,7 +175,7 @@ public class WebSocketHandler {
 
         ServerMessage notification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
         notification.setMessage(username + " made the move " + move.toString());
-        connections.broadcastToAll(command.getGameID(), serializeMessage(notification));
+        connections.broadcast(command.getGameID(), command.getAuthToken(), serializeMessage(notification));
 
         if (chessGame.isInCheckmate(opponentColor)) {
             ServerMessage checkmateNotification = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
