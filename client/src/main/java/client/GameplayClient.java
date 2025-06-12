@@ -84,10 +84,11 @@ public class GameplayClient {
                 case "resign" -> resign();
                 default -> help();
             };
-        } catch (ResponseException ex) {
-            return ex.getMessage();
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            return "Error: Invalid command format. Type 'help' for available commands.";
+        } catch (ResponseException | ArrayIndexOutOfBoundsException ex) {
+            ServerMessage message = new ServerMessage(ServerMessage.ServerMessageType.ERROR);
+            message.setErrorMessage(ex.getMessage());
+            handleServerMessage(message);
+            return "";
         }
     }
 
